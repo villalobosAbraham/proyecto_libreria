@@ -1,0 +1,106 @@
+/* Estilos generales */
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ccc;
+}
+
+h1, h2 {
+    font-weight: bold;
+}
+
+/* Encabezado */
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+header img {
+    display: block;
+    margin: 0 auto;
+    width: 100px;
+}
+
+.login {
+    border: 1px solid #333;
+    margin: 20px auto;
+    padding: 20px;
+    width: 300px;
+}
+
+.login h2 {
+    margin-bottom: 10px;
+}
+
+.login form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login label {
+    margin-bottom: 5px;
+}
+
+.login input {
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 100%;
+}
+
+.login #sinSesion {
+    text-align: right;
+    cursor: pointer;
+    color: chocolate;
+}
+
+.login button {
+    background-color: #333;
+    color: #fff;
+    margin-top: 10px;
+    padding: 5px 10px;
+}
+
+.registro {
+    border: 1px solid #333;
+    margin: 20px auto;
+    padding: 20px;
+    width: 300px;
+    display: none;  
+}
+
+.registro h2 {
+    margin-bottom: 10px;
+}
+
+.registro form {
+    display: flex;
+    flex-direction: column;
+}
+
+.registro label {
+    margin-bottom: 5px;
+}
+
+.registro input {
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 100%;
+}
+
+.registro button {
+    background-color: #333;
+    color: #fff;
+    margin-top: 10px;
+    padding: 5px 10px;
+}
+
+.registro #sesion {
+    text-align: right;
+    cursor: pointer;
+    color: chocolate;
+}

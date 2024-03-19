@@ -1,0 +1,61 @@
+/* Estilo general */
+body {
+    font-family: sans-serif;
+    margin: 0px;
+    padding: 10px;
+  }
+  
+  /* Encabezado */
+  .nosotros.header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .nosotros.header h1 {
+    margin: 0;
+    padding: 10px 0;
+  }
+  
+  .nosotros.header img {
+    max-width: 200px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .nosotros.header p {
+    margin: 10px 0;
+  }
+  
+  /* Contenido principal */
+  .nosotros.main {
+    padding: 20px;
+  }
+  
+  /* Sección historia */
+  .nosotros.historia {
+    margin-bottom: 20px;
+  }
+  
+  .nosotros.historia h2 {
+    margin-top: 0;
+  }
+  
+  /* Sección equipo */
+  .nosotros.equipo {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+
+  .imagen_fondo {
+    
+    width: 125px;
+  }
+
+  ul.equipo_imagenes li {
+    list-style-type: none;
+    margin: 25px;
+  }
+

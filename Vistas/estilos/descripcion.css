@@ -1,0 +1,103 @@
+/* Estilos generales */
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    font-weight: bold;
+}
+
+/* Encabezado */
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+header img {
+    display: block;
+    margin: 0 auto;
+    width: 100px;
+}
+
+/* Página del libro */
+
+.libro {
+    margin: 20px auto;
+    width: 800px;
+    display: flex;
+}
+
+.imagen {
+    width: 300px;
+}
+
+.imagen img {
+    width: 100%;
+}
+
+.informacion {
+    margin-left: 20px;
+    width: 500px;
+}
+
+.informacion h2 {
+    margin-bottom: 10px;
+}
+
+.informacion p {
+    margin-bottom: 5px;
+}
+
+.informacion button {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+}
+
+.button {
+    background-color: #601414;
+    color: #fff;
+    padding: 5px 10px;
+}
+
+.button a{
+    text-decoration: none;
+}
+
+/* Libros similares */
+
+.libros-similares {
+    margin: 20px auto;
+    width: 800px;
+}
+
+.libros-similares ul {
+    list-style: none;
+    padding: 0;
+}
+
+.libros-similares li {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+    width: 200px;
+}
+
+.libros-similares img {
+    width: 100px;
+}
+
+/* Pie de página */
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}

@@ -1,0 +1,89 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    font-weight: bold;
+}
+
+/* Encabezado */
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+header img {
+    display: block;
+    margin: 0 auto;
+    width: 100px;
+}
+
+/* Buscador */
+
+.buscador {
+    margin: 20px auto;
+    width: 500px;
+}
+
+.buscador input {
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 80%;
+}
+
+.buscador button {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+}
+
+/* Libros populares */
+
+.libros-populares {
+    margin: 20px auto;
+    width: 800px;
+}
+
+.libros-populares ul {
+    list-style: none;
+    padding: 0;
+}
+
+.libros-populares li {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+    width: 200px;
+}
+
+.libros-populares img {
+    width: 100px;
+}
+
+/* Recomendaciones */
+
+.recomendaciones {
+    margin: 20px auto;
+    width: 800px;
+}
+
+.recomendaciones ul {
+    list-style: none;
+    padding: 0;
+}
+
+.recomendaciones li {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+    width: 200px;
+}
+
+.recomendaciones img {
+    width: 100px;
+}
