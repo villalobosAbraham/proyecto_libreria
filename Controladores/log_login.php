@@ -27,9 +27,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             case "registro":
                 $correo = $datos->correo;
                 $contraseña = $datos->contraseña;
+                $nombre = $datos->nombre;
+                $apellidoPaterno = $datos->apellidoPaterno;
+                $apellidoMaterno = $datos->apellidoMaterno;
+                $idTipoUsuario = 1;
+
+                $fechaActual = date('Y-m-d');
+
+                $activo = "S";
                 $comprobarExistenciaUsuario = login($correo, $contraseña);
                 if (!$comprobarExistenciaUsuario) {
-                    $resultado = registro($username, $password);
+                    $resultado = registro($correo, $contraseña, $nombre, $apellidoPaterno, $apellidoMaterno, $idTipoUsuario, $fechaActual, $activo);
                     $_SESSION["idUsuario"] = $resultado["idUsuario"];
                     echo json_encode($resultado);
                 } else {

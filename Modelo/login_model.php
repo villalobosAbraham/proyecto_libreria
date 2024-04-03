@@ -22,7 +22,6 @@
                     idusuario, idtipousuario 
                 FROM log_usuarios 
                 WHERE email = ? AND contraseña = ?";
-                //  WHERE nombre = ? AND contraseña = ?";
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param("ss", $correo, $contraseña);
 
@@ -47,20 +46,18 @@
         return $resultado;
     }
 
-    function registro($username, $password) {
+    function registro($correo, $contraseña, $nombre, $apellidoPaterno, $apellidoMaterno, $idTipoUsuario, $fechaActual, $activo) {
         $conexion = conexion();
 
-        // Consulta SQL para verificar las credenciales en la tabla log_usuarios
-        $sql = "INSERT INTO usuario 
-                (nombre, contraseña)
+        $sql = "INSERT INTO log_usuarios 
+                (email, contraseña, nombre, apellidopaterno, apellidomaterno, idtipousuario, fecharegistro, activo)
                 VALUES
-                (?,?)
+                (?,?,?,?,?,?,?,?)
                 ";            
         $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("ss", $username, $password);
+        $stmt->bind_param("sssssiss", $correo, $contraseña, $nombre, $apellidoPaterno, $apellidoMaterno, $idTipoUsuario, $fechaActual, $activo);
 
         if ($stmt->execute()) {
-            // Si se encuentra un registro, el inicio de sesión es exitoso
             $resultado = array(
                 "success" => true, 
                 "message" => "Registro Exitoso", 

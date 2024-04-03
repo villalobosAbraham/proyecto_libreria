@@ -1,8 +1,9 @@
 <ul class="barra_sistema">
-  <li><a href="../index.php">Autores</a></li>
-  <li><a href="#servicios">Libros</a></li>
-  <li><a href="#contacto">Empleados</a></li>
-  <li><a href="../Vistas/login.php">Venta</a></li>
+  <li><a href="../sistema/iniciosistema.php">Inicio</a></li>
+  <li><a href="../Vistas/sistema/iniciosistema.php">Autores</a></li>
+  <li><a href="../Vistas/sistema/iniciosistema.php">Libros</a></li>
+  <li><a href="../Vistas/sistema/iniciosistema.php">Empleados</a></li>
+  <li><a href="../Vistas/sistema/iniciosistema.php">Inventario</a></li>
 </ul>
 
-<link rel="stylesheet" href="../layouts/barra_menu.css">
+<link rel="stylesheet" href="../sistema/layouts/barra_sistema.css">

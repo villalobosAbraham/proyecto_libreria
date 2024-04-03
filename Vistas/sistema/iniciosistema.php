@@ -1,8 +1,8 @@
 <html lang="es">
     <head>
-        <?php include '..\Vistas\sistema/layouts/barra_sistema.php'; ?>
-        <link rel="stylesheet" href="../Vistas/sistema/estilos/iniciosistema.css">
+        <?php include '../sistema/layouts/barra_sistema.php'; ?>
         <title>Principal</title>
+        <link rel="stylesheet" href="../Vistas/sistema/estilos/iniciosistema.css">
     </head>
     <body>
         <main>
@@ -10,6 +10,3 @@
         </main>
     </body>
 </html>
-<?php 
-    
-?>

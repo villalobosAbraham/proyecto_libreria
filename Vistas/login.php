@@ -35,6 +35,12 @@
             <button onclick="registrarUsuario();">Registrar Usuario:</button>
             <p id="sesion" onclick="mostrarLogin();">Iniciar Sesion</p>
         </section>
+        <section>
+            <input type="file" id="inputImagen" onchange="convertirImagen(this);" accept="image/*">
+        </section>
+        <section>
+            <div id="contenedorImagen"></div>
+        </section>
     </main>
 </body>
 </html>

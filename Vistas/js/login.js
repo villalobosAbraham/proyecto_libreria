@@ -66,7 +66,7 @@ function registrarUsuario() {
 function prepararDatosGeneralesRegistro() {
     let correo = document.getElementById("correoRegistro").value;
     let contraseña = document.getElementById("contraseñaRegistro").value;
-    let nombre = document.getElementById("nombre").value;
+    let nombre = document.getElementById("nombres").value;
     let apellidoPaterno = document.getElementById("apellidoPaterno").value;
     let apellidoMaterno = document.getElementById("apellidoMaterno").value;
 
@@ -96,4 +96,44 @@ function mostrarRegistro() {
 function mostrarLogin() {
     document.getElementById("login").style.display = "block";
     document.getElementById("registro").style.display = "none";
+}
+
+function convertirImagen(imagen) {
+    let file = imagen.files[0];
+    let reader = new FileReader();
+
+    
+    reader.readAsDataURL(file);
+    
+    reader.onload = function(event) {
+        let base64String = event.target.result;
+        console.log(base64String); // Aquí tienes la cadena codificada en base64
+        
+        let imagen = document.createElement('img');
+        imagen.src = base64String;
+    
+        // Agregar la imagen al contenedor en la página
+        let contenedor = document.getElementById('contenedorImagen');
+        contenedor.innerHTML = ''; // Limpiar el contenedor antes de agregar la imagen
+        contenedor.appendChild(imagen);
+    };
+}
+
+function base62Encode(data) {
+    const charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let result = "";
+
+    // Convertir datos binarios en un número entero
+    let num = 0;
+    for (let i = 0; i < data.length; i++) {
+        num = num * 256 + data[i];
+    }
+
+    // Convertir el número entero a Base62
+    while (num > 0) {
+        result = charset[num % 62] + result;
+        num = Math.floor(num / 62);
+    }
+
+    return result;
 }
