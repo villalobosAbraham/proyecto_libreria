@@ -1,7 +1,7 @@
 <html lang="es">
     <head>
         <?php include '..\layouts\barra.php'; ?>
-        <link rel="stylesheet" href="../Vistas/estilos/principal.css">
+        <link rel="stylesheet" href="../Vistas/estilos/carrito.css">
         <title>Principal</title>
     </head>
     <body>
@@ -55,4 +55,4 @@
     </body>
 </html>
 
-<script src="../Vistas/js/principal.js"></script>
+<script src="../Vistas/js/carrito.js"></script>

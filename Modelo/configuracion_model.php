@@ -34,23 +34,39 @@
 
         // Ejecutar la consulta
         $stmt->execute();
-        $resultado = $stmt->get_result();
-
-        // Verificar si se encontraron resultados
-        if ($usuario = $resultado->fetch_assoc()) {
-            // Si se encuentra un registro, el inicio de sesión es exitoso
-            $resultado = array(
-                "idUsuario" => $usuario["idusuario"],
-                "idTipoUsuario" => $usuario["idtipousuario"],
-            );
-        } else {
-            $resultado = false;
-        }
+        $resultado = $stmt->get_result()->fetch_all(MYSQLI_ASSOC); // Obtener todos los resultados como un array asociativo
 
         // Cerrar la conexión
         $stmt->close();
         $conexion->close();
         return $resultado;
+    }
+
+    function VENAgregarLibroCarrito($datos) {
+        $conexion = conexion();
+        $idUsuario = $_SESSION["idUsuario"];
+        $idLibro = $datos->idLibro;
+        $cantidad = 1;
+        $activo = 'S';
+
+        $sql = "INSERT INTO ven_carrodecompra
+                (idusuario, idlibro, cantidad, activo)
+                VALUES
+                ('$idUsuario', '$idLibro', '$cantidad', '$activo')";
+
+        $stmt = $conexion->prepare($sql);
+
+        return $stmt->execute(); 
+    }
+
+    function prepararInsercionLibro($datos) {
+        $insercion = array(
+            "idusuario" => $datos->idUsuario,
+            "idlibro" => $datos->idLibro,
+            "cantidad" => "1",
+            "activo" => "S",
+        );
+        return $insercion;
     }
 
 ?>

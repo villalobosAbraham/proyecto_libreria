@@ -23,7 +23,7 @@ function iniciarSesion() {
         } 
 
         if (data.idTipoUsuario == 1) {
-            window.open("../Vistas/principal.php", "_self");
+            window.open("/Vistas/principal.php", "_self");
         } else {
             window.open("../Vistas/sistema/iniciosistema.php", "_self");
         }

@@ -22,3 +22,7 @@ ul.barra {
   ul.barra li a:hover {
     background-color: #111;
   }
+
+  ul.barra li:last-child {
+    float: right;
+  }

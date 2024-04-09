@@ -48,7 +48,7 @@
     </main>
     <button class="button"><a href="principal.php">regresar</a></button>
     <footer>
-        <p>Copyright &copy; 2023 Librería digital</p>
+        <p>Copyright &copy; 2024 Librería digital</p>
     </footer>
 </body>
 </html>

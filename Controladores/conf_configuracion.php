@@ -12,10 +12,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         switch ($accion) {
             case "consultarLibros":
                 $resultado = CONFConsultarLibros();  
-                if ($resultado) {
-                    // Guardar el ID de usuario en la variable de sesión
-                    $_SESSION["idUsuario"] = $resultado["idUsuario"];
-                }
+
+                echo json_encode($resultado);
+                break;
+            case "VENAgregarLibroCarrito":
+                $datos->idUsuario = $_SESSION["idUsuario"];
+                $resultado = VENAgregarLibroCarrito($datos);  
+
                 echo json_encode($resultado);
                 break;
             default:
