@@ -29,7 +29,8 @@
                 LEFT JOIN 
                     cat_librosautores ON cat_libros.idlibro = cat_librosautores.idlibro
                 LEFT JOIN 
-                    conf_autores ON cat_librosautores.idautor = conf_autores.idautor";
+                    conf_autores ON cat_librosautores.idautor = conf_autores.idautor
+                LIMIT 3;";
         $stmt = $conexion->prepare($sql);
 
         // Ejecutar la consulta
@@ -44,7 +45,7 @@
 
     function VENAgregarLibroCarrito($datos) {
         $conexion = conexion();
-        $idUsuario = $_SESSION["idUsuario"];
+        $idUsuario = $datos->idUsuario;
         $idLibro = $datos->idLibro;
         $cantidad = 1;
         $activo = 'S';
@@ -59,14 +60,44 @@
         return $stmt->execute(); 
     }
 
-    function prepararInsercionLibro($datos) {
-        $insercion = array(
-            "idusuario" => $datos->idUsuario,
-            "idlibro" => $datos->idLibro,
-            "cantidad" => "1",
-            "activo" => "S",
-        );
-        return $insercion;
-    }
+    function VENObtenerLibrosCarritoCompra($idUsuario) {
+        $conexion = conexion();
 
+        $sql = "SELECT 
+        ven_carrodecompra.idlibro, 
+        ven_carrodecompra.cantidad,
+        cat_libros.precio, 
+        cat_libros.descuento, 
+        cat_libros.iva
+        FROM
+            ven_carrodecompra
+        LEFT JOIN
+            cat_libros ON ven_carrodecompra.idlibro = cat_libros.idlibro
+        WHERE
+            ven_carrodecompra.idusuario = ?";
+
+        // Preparar la declaración SQL
+        $stmt = mysqli_prepare($conexion, $sql);
+
+        // Vincular parámetros
+        mysqli_stmt_bind_param($stmt, "i", $idUsuario);
+
+        // Ejecutar la consulta
+        mysqli_stmt_execute($stmt);
+
+        // Obtener resultados
+        $resultado = mysqli_stmt_get_result($stmt);
+
+        if ($resultado) {
+            $librosEnCarrito = array();
+
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                $librosEnCarrito[] = $fila;
+            }
+
+            return $librosEnCarrito;
+        } else {
+            return false;
+        }
+    }
 ?>

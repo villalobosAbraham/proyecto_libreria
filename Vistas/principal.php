@@ -31,17 +31,14 @@
                     <h2>Recomendaciones para ti</h2>
                     <ul>
                         <li>
-                            <!-- <img src="imagenes/libro4.jpg" alt="Libro 4"> -->
                             <h3>Título del libro 4</h3>
                             <p>Autor del libro 4</p>
                         </li>
                         <li>
-                            <!-- <img src="imagenes/libro5.jpg" alt="Libro 5"> -->
                             <h3>Título del libro 5</h3>
                             <p>Autor del libro 5</p>
                         </li>
                         <li>
-                            <!-- <img src="imagenes/libro6.jpg" alt="Libro 6"> -->
                             <h3>Título del libro 6</h3>
                             <p>Autor del libro 6</p>
                         </li>

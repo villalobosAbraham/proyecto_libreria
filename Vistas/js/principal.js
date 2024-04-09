@@ -28,6 +28,8 @@ function obtenerLibrosPopulares() {
 }
 
 function mostrarLibrosPopulares(data) {
+    let lista = document.getElementById('listaPopulares');
+    lista.innerHTML = '';
     for (let registro of data) {
         let idLibro = registro.idlibro;
         let titulo = registro.titulo;
@@ -50,9 +52,6 @@ function mostrarLibrosPopulares(data) {
         let tituloElemento = document.createElement('h2');
         let autorElemento = document.createElement('h3');
         let fechaElemento = document.createElement('h4');
-        let precioElemento = document.createElement('h4');
-        let descuentoElemento = document.createElement('h4');
-        let ivaElemento = document.createElement('h4');
         let totalElemento = document.createElement('h4');
         
         let botonElemento = document.createElement('button');
@@ -60,16 +59,10 @@ function mostrarLibrosPopulares(data) {
         tituloElemento.textContent = titulo;
         autorElemento.textContent = completoAutor;
         fechaElemento.textContent = "Fecha de Publicacion: " + fechaPublicacion.split("-").reverse().join("/");
-        precioElemento.textContent = "Precio: " + precio;
-        descuentoElemento.textContent = "Descuento: " + descuento;
-        ivaElemento.textContent = 'IVA: ' + iva;
-        totalElemento.textContent = 'Total: ' + costoIndividual;
+        totalElemento.textContent = 'Costo: ' + costoIndividual;
 
         botonElemento.textContent = "Agregar a Carrito";
         botonElemento.setAttribute("idLibro", idLibro);
-        botonElemento.setAttribute("precio", precio);
-        botonElemento.setAttribute("descuento", descuento);
-        botonElemento.setAttribute("iva", iva);
         botonElemento.setAttribute("costoIndividual", costoIndividual);
 
         botonElemento.addEventListener('click', function() {
@@ -81,13 +74,9 @@ function mostrarLibrosPopulares(data) {
         elementoLista.appendChild(tituloElemento);
         elementoLista.appendChild(autorElemento);
         elementoLista.appendChild(fechaElemento);
-        elementoLista.appendChild(precioElemento);
-        elementoLista.appendChild(descuentoElemento);
-        elementoLista.appendChild(ivaElemento);
         elementoLista.appendChild(totalElemento);
         elementoLista.appendChild(botonElemento);
         
-        let lista = document.getElementById('listaPopulares');
         lista.appendChild(elementoLista);
     }
 }
