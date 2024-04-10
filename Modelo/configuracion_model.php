@@ -3,7 +3,7 @@
     function conexion() {
         $servername = "localhost"; // Cambia esto según tu configuración
         $username_db = "root"; // Cambia esto según tu configuración
-        $password_db = ""; // Cambia esto según tu configuración
+        $password_db = "degea200"; // Cambia esto según tu configuración
         $dbname = "libreria_proyecto"; // Cambia esto según tu configuración
     
         // Crear conexión
