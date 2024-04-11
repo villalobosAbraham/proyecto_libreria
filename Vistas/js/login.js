@@ -1,11 +1,12 @@
 function iniciarSesion() {
     let url = '../Controladores/log_login.php'; // La URL de tu controlador PHP
 
-    let data = {
-        accion: "login",
-        correo: document.getElementById("correoLogin").value,
-        contraseña: document.getElementById("contraseñaLogin").value
-    };
+    let datosGenerales = prepararDatosGeneralesInicioSesion();
+
+    if (!datosGenerales) {
+        alert("Correo o Contraseña Invalidos");
+        return;
+    }
 
     fetch(url, {
         method: 'POST',
@@ -31,6 +32,23 @@ function iniciarSesion() {
     .catch(error => {
         console.error('Error:', error);
     });
+}
+
+function prepararDatosGeneralesInicioSesion() {
+    let correo = document.getElementById("correoLogin").value;
+    let contraseña = document.getElementById("contraseñaLogin").value;
+
+    if (correo == "" || contraseña == "") {
+        return false;
+    }
+
+    let datosGenerales = {
+        accion: "login",
+        correo: correo,
+        contraseña: contraseña
+    };
+
+    return datosGenerales;
 }
 
 function registrarUsuario() {
