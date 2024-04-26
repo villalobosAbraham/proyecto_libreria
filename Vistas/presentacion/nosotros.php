@@ -38,7 +38,7 @@
             </section>
             <section class="especialidades">
                 <h2>Especialidades</h2>
-                <p> En la Librería "El Lector" encontrarás una amplia selección de libros en todos los géneros, incluyendo literatura clásica, novela contemporánea, poesía, libros infantiles y juveniles, libros de texto y mucho más. </p>
+                <p> En la Librería "El Lector" encontrarás una amplia selección de libros en todos los géneros, incluyendo literatura clásica, novela contemporánea, poesía, libros infantiles y juveniles, en especial libros academicos orientados a estudiantes. </p>
                 <p> También disponemos de una sección especializada en libros locales y regionales. </p>
             </section>
             <section class="comunidad">

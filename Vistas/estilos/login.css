@@ -14,7 +14,7 @@ h1, h2 {
 /* Encabezado */
 
 header {
-    background-color: #333;
+    background-color: #2E86C1;
     color: #fff;
     padding: 10px;
     text-align: center;
@@ -27,7 +27,7 @@ header img {
 }
 
 .login {
-    border: 1px solid #333;
+    border: 1px solid #1B4F72;
     margin: 20px auto;
     padding: 20px;
     width: 300px;
@@ -59,7 +59,7 @@ header img {
 }
 
 .login button {
-    background-color: #333;
+    background-color: #1B4F72;
     color: #fff;
     margin-top: 10px;
     padding: 5px 10px;
