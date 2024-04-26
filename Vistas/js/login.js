@@ -13,7 +13,7 @@ function iniciarSesion() {
         headers: {
         'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(datosGenerales)
     })
     .then(response => response.json())
     .then(data => {

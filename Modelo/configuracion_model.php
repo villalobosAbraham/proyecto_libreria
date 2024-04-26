@@ -63,30 +63,27 @@
     function VENObtenerLibrosCarritoCompra($idUsuario) {
         $conexion = conexion();
 
+        $idUsuario = mysqli_real_escape_string($conexion, $idUsuario); // Escapar el valor para evitar inyección SQL
+
         $sql = "SELECT 
-        ven_carrodecompra.idlibro, 
-        ven_carrodecompra.cantidad,
-        cat_libros.precio, 
-        cat_libros.descuento, 
-        cat_libros.iva
+        ven_carrodecompra.idlibro, ven_carrodecompra.cantidad,
+        cat_libros.titulo, cat_libros.precio, cat_libros.descuento, cat_libros.iva, cat_libros.portada,
+        GROUP_CONCAT(CONCAT(conf_autores.nombre, ' ', conf_autores.apellidopaterno, ' ', conf_autores.apellidomaterno) SEPARATOR '  ') AS autor
         FROM
             ven_carrodecompra
         LEFT JOIN
             cat_libros ON ven_carrodecompra.idlibro = cat_libros.idlibro
+        LEFT JOIN
+            cat_librosautores ON ven_carrodecompra.idlibro = cat_librosautores.idlibro
+        LEFT JOIN
+            conf_autores ON cat_librosautores.idautor = conf_autores.idautor
         WHERE
-            ven_carrodecompra.idusuario = ?";
+            ven_carrodecompra.idusuario = '$idUsuario'
+        GROUP BY
+            ven_carrodecompra.idlibro
+        ";
 
-        // Preparar la declaración SQL
-        $stmt = mysqli_prepare($conexion, $sql);
-
-        // Vincular parámetros
-        mysqli_stmt_bind_param($stmt, "i", $idUsuario);
-
-        // Ejecutar la consulta
-        mysqli_stmt_execute($stmt);
-
-        // Obtener resultados
-        $resultado = mysqli_stmt_get_result($stmt);
+        $resultado = mysqli_query($conexion, $sql);
 
         if ($resultado) {
             $librosEnCarrito = array();

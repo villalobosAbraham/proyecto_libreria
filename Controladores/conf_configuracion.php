@@ -22,8 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo json_encode($resultado);
                 break;
             case "VENObtenerLibrosCarritoCompra":
-                $datos->idUsuario = $_SESSION["idUsuario"];
-                $resultado = VENObtenerLibrosCarritoCompra($datos->idUsuario);  
+                $resultado = VENObtenerLibrosCarritoCompra($_SESSION["idUsuario"]);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFComprobarUsuario":
+                $resultado = isset($_SESSION["idUsuario"]);
 
                 echo json_encode($resultado);
                 break;
