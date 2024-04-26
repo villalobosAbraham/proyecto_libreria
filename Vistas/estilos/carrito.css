@@ -8,9 +8,9 @@ main {
     width: 100%;
 }
 
-h1, h2 {
+/* h1 {
     font-weight: bold;
-}
+} */
 
 button {
     background-color: #333;
@@ -27,11 +27,73 @@ button {
 }
 
 #libros {
-    width: 60%;
+    margin-left: 10%;
+    margin-top: 25px;
+    border-style: solid;
+    border-color: black;
+    width: 55%;
     overflow: auto; /* Permitir desplazamiento si el contenido se sale del contenedor */
 }
 
-#costos {
-    width: 40%;
+.divLibro {
+    display: flex;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #7F35DD;
+    padding: 10px;
+    margin: 10px;
+}
+
+.divPortadaLibro {
+    width: 20%;
+}
+
+.portadaLibro {
+    width: 100%;
+}
+
+.divDatosLibro {
+    width: 80%;
+}
+
+.tituloLibro {
+    text-align: center;
+}
+
+.autorLibro {
+    text-align: center;
+}
+
+.divPrecioLibro {
+    background-color: #7F35DD;
+    margin-left: 10%;
+    width: 60%;
+}
+
+.divPrecioLibro label {
+    display: block;
+    width: 100%;
+}
+
+.divCostoLibro {
+    background-color: blue;
+    width: 20%;
+}
+
+#pagos {
+    margin-right: 20px;
+    margin-top: 25px;
+    border-style: solid;
+    border-color: black;
+    width: 35%; 
     overflow: auto; /* Permitir desplazamiento si el contenido se sale del contenedor */
 }
+
+#pagos #tituloPagar {
+    text-align: center;    
+}
+
+#espacio {
+    width: 10%;
+}
+

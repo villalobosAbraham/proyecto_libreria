@@ -1,8 +1,39 @@
-let url = '../Controladores/conf_configuracion.php'; // La URL de tu controlador PHP
+let url = '../Controladores/conf_configuracion.php';
+ // La URL de tu controlador PHP
+
+window.addEventListener('pageshow', function(event) {
+    comprobarUsuario();
+});
 
 document.addEventListener('DOMContentLoaded', function() {
-    obtenerLibrosPopulares();
+    comprobarUsuario();
 });
+
+function comprobarUsuario() {
+    let datosGenerales = {
+        accion : "CONFComprobarUsuario",
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data) {
+            obtenerLibrosPopulares();
+        } else {
+            window.open("/Vistas/login.php", "_self");
+            return;
+        } 
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 function obtenerLibrosPopulares() {
     let datosGenerales = {

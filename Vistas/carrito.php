@@ -7,21 +7,13 @@
     <body>
         <main>
             <section id="cuerpo">
-                <div id="libros">
-                    <p>
-                        Lorem ipsum, dolor sit amet consectetur 
-                        adipisicing elit. Voluptates inventore obcaecati mollitia, 
-                        repellendus aperiam iusto consequatur dolorem non animi eaque 
-                        quas delectus nesciunt corporis modi cum? Doloribus sequi minima officia?
-                    </p>
-                </div>
-                <div id="costos">
-                    <p>
-                        Lorem ipsum, dolor sit amet consectetur 
-                        adipisicing elit. Voluptates inventore obcaecati mollitia, 
-                        repellendus aperiam iusto consequatur dolorem non animi eaque 
-                        quas delectus nesciunt corporis modi cum? Doloribus sequi minima officia?
-                    </p>
+                <div id="libros"></div>
+
+                <div id="espacio"></div>
+                
+                <div id="pagos">
+                    <h1 id="tituloPagar">Realizar Pago</h1>
+                    <div id=""></div>
                 </div>
             </section>
         </main>
@@ -32,8 +24,3 @@
 </html>
 
 <script src="../Vistas/js/carrito.js"></script>
-<!-- <section class="librosCompra">
-                        <ul id="listaBusqueda">
-    
-                        </ul>
-                    </section> -->

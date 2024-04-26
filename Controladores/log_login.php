@@ -44,11 +44,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo json_encode(false);
                 }
                 break;
-            case "logout":
-                // Eliminar todas las variables de sesión y cerrar la sesión
-                session_unset();
-                session_destroy();
-                echo json_encode(array("success" => true, "message" => "Sesión cerrada correctamente"));
+            case "CONFCerrarSesion":
+                if (session_unset() && session_destroy()) {
+                    $resultado = true;
+                } else {
+                    $resultado == false;
+                }
+                
+                echo json_encode($resultado);
                 break;
             default:
                 echo json_encode(array("error" => "Acción no válida"));
