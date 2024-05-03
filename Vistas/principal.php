@@ -1,6 +1,6 @@
 <html lang="es">
     <head>
-        <?php include '..\layouts\barra.php'; ?>
+        <?php include 'layouts\barra.php'; ?>
         <link rel="stylesheet" href="../Vistas/estilos/principal.css">
         <title>Principal</title>
     </head>
