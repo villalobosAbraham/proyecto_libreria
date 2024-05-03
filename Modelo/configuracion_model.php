@@ -68,11 +68,14 @@
         $sql = "SELECT 
         ven_carrodecompra.idlibro, ven_carrodecompra.cantidad,
         cat_libros.titulo, cat_libros.precio, cat_libros.descuento, cat_libros.iva, cat_libros.portada,
-        GROUP_CONCAT(CONCAT(conf_autores.nombre, ' ', conf_autores.apellidopaterno, ' ', conf_autores.apellidomaterno) SEPARATOR '  ') AS autor
+        GROUP_CONCAT(CONCAT(conf_autores.nombre, ' ', conf_autores.apellidopaterno, ' ', conf_autores.apellidomaterno) SEPARATOR '  ') AS autor,
+        inv_inventariolibros.cantidad AS limiteLibro
         FROM
             ven_carrodecompra
         LEFT JOIN
             cat_libros ON ven_carrodecompra.idlibro = cat_libros.idlibro
+        LEFT JOIN
+            inv_inventariolibros ON ven_carrodecompra.idlibro = inv_inventariolibros.idlibro
         LEFT JOIN
             cat_librosautores ON ven_carrodecompra.idlibro = cat_librosautores.idlibro
         LEFT JOIN

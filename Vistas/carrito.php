@@ -13,7 +13,16 @@
                 
                 <div id="pagos">
                     <h1 id="tituloPagar">Realizar Pago</h1>
-                    <div id=""></div>
+                    <h2 id="h2totalPrecioBase" class="h2Carrito">Total Precio Base: </h2>
+                    <h2 id="h2TotalPrecioBaseNumero" class="h2CarritoNumero" totalPrecioBaseAnterior=""></h2>
+                    <h2 id="h2TotalDescuento" class="h2Carrito">Total Descuento: </h2>
+                    <h2 id="h2TotalDescuentoNumero" class="h2CarritoNumero" totalDescuentoAnterior=""></h2>
+                    <h2 id="h2TotalIva" class="h2Carrito">Total I.V.A.: </h2>
+                    <h2 id="h2TotalIvaNumero" class="h2CarritoNumero" totalIvaAnterior=""></h2>
+                    <h2 id="h2CostoTotal" class="h2Carrito">Costo Total: </h2>
+                    <h2 id="h2CostoTotalNumero" class="h2CarritoNumero" totalCarritoAnterior="">Costo Total: </h2>
+                    <br>
+                    <button id="botonComprarCarrito">Realizar Compra</button>
                 </div>
             </section>
         </main>
