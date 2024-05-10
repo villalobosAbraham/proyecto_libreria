@@ -2,7 +2,7 @@
     <head>
         <?php include '../layouts/barra.php'; ?>
         <link rel="stylesheet" href="../Vistas/estilos/carrito.css">
-        <script src="https://www.sandbox.paypal.com/sdk/js?client-id=ASPtULJO0N61cesGR4RGVfFCJC8RwvZtCInYe5kcf9Yf06j2Y4u1Ik5vbuxsj1r-TsgffhFUFH6vvLFO&currency=USD"></script>
+        <script src="https://www.sandbox.paypal.com/sdk/js?client-id=ASPtULJO0N61cesGR4RGVfFCJC8RwvZtCInYe5kcf9Yf06j2Y4u1Ik5vbuxsj1r-TsgffhFUFH6vvLFO&currency=MXN"></script>
         <title>Carrito</title>
     </head>
     <body>
