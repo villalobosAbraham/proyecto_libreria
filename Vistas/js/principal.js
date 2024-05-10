@@ -1,5 +1,4 @@
 let url = '../Controladores/conf_configuracion.php';
- // La URL de tu controlador PHP
 
 window.addEventListener('pageshow', function(event) {
     comprobarUsuario();

@@ -1,6 +1,7 @@
-let url = '../Controladores/conf_configuracion.php'; // La URL de tu controlador PHP
+let url = '../Controladores/conf_configuracion.php';  
 
 document.addEventListener('DOMContentLoaded', function() {
+    cargarBotonPaypal();
     obtenerLibrosCarrito();
 });
 
@@ -29,8 +30,8 @@ function obtenerLibrosCarrito() {
 }
 
 function mostrarLibrosCarrito(libros) {
-    let lista = document.getElementById('libros');
-    lista.innerHTML = '';
+    let listaLibros = document.getElementById('libros');
+    listaLibros.innerHTML = '';
     let precioBaseAcumulado = 0;
     let descuentoAcumulado = 0;
     let ivaAcumulado = 0;
@@ -107,7 +108,7 @@ function mostrarLibrosCarrito(libros) {
         divLibro.appendChild(divPortadaLibro);
         divLibro.appendChild(divDatosLibro);
         
-        lista.appendChild(divLibro);
+        listaLibros.appendChild(divLibro);
 
         precioBaseAcumulado+=  parseFloat(libro.precio * libro.cantidad);
         descuentoAcumulado+= parseFloat(libro.descuento * libro.cantidad);
@@ -136,10 +137,10 @@ function prepararInput(input, libro, precioReal) {
     input.type = 'number';
     input.id = libro.idlibro;
     input.name = 'libro';
-    input.value = libro.cantidad; // Valor inicial
+    input.value = libro.cantidad; 
     input.min = 0; 
-    input.max = libro.limiteLibro; // Valor máximo permitido
-    input.step = 1; // Incremento/decrement
+    input.max = libro.limiteLibro;
+    input.step = 1;
 
     input.classList.add('input');
 
@@ -231,3 +232,29 @@ function mostrarCostosCarrito(precioBaseAcumulado, descuentoAcumulado, ivaAcumul
     ivaH2.setAttribute("totalIvaAnterior", ivaAcumulado);
     totalH2.setAttribute("totalCarritoAnterior", totalAcumulado);
 } 
+
+function cargarBotonPaypal() {
+    paypal.Buttons({
+        // Configuración del pago
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '10.00' // El monto del pago
+                    }
+                }]
+            });
+        },
+        // Ejecuta cuando el pago se aprueba
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                console.log(details);
+                alert('Pago completado por ' + details.payer.name.given_name);
+            });
+        },
+        // Maneja los errores del pago
+        onError: function(err) {
+            console.error(err);
+        }
+    }).render('#paypal-button-container'); // Renderiza el botón en el contenedor especificado
+}

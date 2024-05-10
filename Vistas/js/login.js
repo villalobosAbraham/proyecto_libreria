@@ -1,5 +1,5 @@
 function iniciarSesion() {
-    let url = '../Controladores/log_login.php'; // La URL de tu controlador PHP
+    let url = '../Controladores/log_login.php';
 
     let datosGenerales = prepararDatosGeneralesInicioSesion();
 
@@ -17,7 +17,6 @@ function iniciarSesion() {
     })
     .then(response => response.json())
     .then(data => {
-        // console.log(data);
         if (!data) {
             alert("Usuario o Contraseña Incorrectos");
             return;
@@ -52,7 +51,7 @@ function prepararDatosGeneralesInicioSesion() {
 }
 
 function registrarUsuario() {
-    let url = '../Controladores/log_login.php'; // La URL de tu controlador PHP
+    let url = '../Controladores/log_login.php'; 
 
     let datosGenerales = prepararDatosGeneralesRegistro();
     if (!datosGenerales) {
@@ -68,7 +67,6 @@ function registrarUsuario() {
     })
     .then(response => response.json())
     .then(data => {
-        // console.log(data);
         if (data) {
             alert("Usuario Registrado con Exito");
             location.reload();

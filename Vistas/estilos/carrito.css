@@ -17,10 +17,6 @@ button {
     color: #fff;
     padding: 5px 10px;
 }
-/* Encabezado */
-
-
-/* Buscador */
 
 #cuerpo {
     display: flex;
@@ -29,17 +25,19 @@ button {
 #libros {
     margin-left: 10%;
     margin-top: 25px;
-    border-style: solid;
-    border-color: black;
+    /* border-style: solid; */
+    /* border-color: black; */
     width: 55%;
-    overflow: auto; /* Permitir desplazamiento si el contenido se sale del contenedor */
+    overflow: auto;
 }
 
 .divLibro {
     display: flex;
+    border: 2px solid #7F35DD;
     border-style: solid;
     border-width: 1px;
-    border-color: #7F35DD;
+    border-radius: 20px;
+    /* border-color: #7F35DD; */
     padding: 10px;
     margin: 10px;
 }
@@ -70,7 +68,7 @@ button {
 }
 
 .divPrecioLibro {
-    background-color: #7F35DD;
+    /* background-color: #7F35DD; */
     margin-left: 10%;
     width: 60%;
 }
@@ -110,8 +108,10 @@ button {
     text-align: center;
     margin-right: 20px;
     margin-top: 25px;
+    border: 2px solid #584ba8;
     border-style: solid;
     border-color: black;
+    border-radius: 20px;
     width: 35%; 
     height: 80%;
     max-height: 600px;
@@ -139,4 +139,9 @@ button {
     max-height: 40px;
     padding: 0;
     margin: 0;
+}
+
+#paypal-button-container {
+    width: 80%;
+    margin-left: 10%;
 }

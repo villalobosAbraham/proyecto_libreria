@@ -1,12 +1,11 @@
 <?php
 
     function conexion() {
-        $servername = "localhost"; // Cambia esto según tu configuración
-        $username_db = "abraham"; // Cambia esto según tu configuración
-        $password_db = "Degea200"; // Cambia esto según tu configuración
-        $dbname = "libreria_proyecto"; // Cambia esto según tu configuración
+        $servername = "localhost";
+        $username_db = "root"; 
+        $password_db = ""; 
+        $dbname = "libreria_proyecto"; 
     
-        // Crear conexión
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
     
         if ($conn->connect_error) {
@@ -16,7 +15,6 @@
     }
 
     function login($correo, $contraseña) {
-        // Consulta SQL para verificar las credenciales en la tabla log_usuarios
         $conexion = conexion();
         $sql = "SELECT 
                     idusuario, idtipousuario 
@@ -25,13 +23,10 @@
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param("ss", $correo, $contraseña);
 
-        // Ejecutar la consulta
         $stmt->execute();
         $resultado = $stmt->get_result();
 
-        // Verificar si se encontraron resultados
         if ($usuario = $resultado->fetch_assoc()) {
-            // Si se encuentra un registro, el inicio de sesión es exitoso
             $resultado = array(
                 "idUsuario" => $usuario["idusuario"],
                 "idTipoUsuario" => $usuario["idtipousuario"],
@@ -40,7 +35,6 @@
             $resultado = false;
         }
 
-        // Cerrar la conexión
         $stmt->close();
         $conexion->close();
         return $resultado;
@@ -67,7 +61,6 @@
             $resultado = false;
         }
 
-        // Cerrar la conexión
         $stmt->close();
         $conexion->close();
         return $resultado;

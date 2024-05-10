@@ -1,11 +1,9 @@
-/* Estilo general */
 body {
     font-family: sans-serif;
     margin: 0px;
     padding: 10px;
   }
   
-  /* Encabezado */
   .nosotros.header {
     background-color: #333;
     color: #fff;
@@ -28,12 +26,10 @@ body {
     margin: 10px 0;
   }
   
-  /* Contenido principal */
   .nosotros.main {
     padding: 20px;
   }
   
-  /* Sección historia */
   .nosotros.historia {
     margin-bottom: 20px;
   }
@@ -42,7 +38,6 @@ body {
     margin-top: 0;
   }
   
-  /* Sección equipo */
   .nosotros.equipo {
     display: flex;
     flex-wrap: wrap;

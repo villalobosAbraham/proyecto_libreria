@@ -1,4 +1,3 @@
-/* Estilos generales */
 
 body {
     font-family: sans-serif;
@@ -9,8 +8,6 @@ body {
 h1, h2 {
     font-weight: bold;
 }
-
-/* Encabezado */
 
 header {
     background-color: #333;
@@ -25,7 +22,6 @@ header img {
     width: 100px;
 }
 
-/* Página del libro */
 
 .libro {
     margin: 20px auto;
@@ -70,8 +66,6 @@ header img {
     text-decoration: none;
 }
 
-/* Libros similares */
-
 .libros-similares {
     margin: 20px auto;
     width: 800px;
@@ -92,8 +86,6 @@ header img {
 .libros-similares img {
     width: 100px;
 }
-
-/* Pie de página */
 
 footer {
     background-color: #333;

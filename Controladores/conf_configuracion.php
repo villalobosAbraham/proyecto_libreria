@@ -1,5 +1,5 @@
 <?php
-session_start(); // Iniciar la sesión si no está iniciada
+session_start();
 
 require_once '../Modelo/configuracion_model.php';
 

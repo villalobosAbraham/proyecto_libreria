@@ -1,7 +1,7 @@
 <ul class="barra_menu">
-  <li><a href="../index.php">Nosotros</a></li>
-  <li><a href="#servicios">Servicios</a></li>
-  <li><a href="#contacto">Contacto</a></li>
+  <li><a href="../index.php">Presentacion</a></li>
+  <!-- <li><a href="#servicios">Servicios</a></li> -->
+  <!-- <li><a href="#contacto">Contacto</a></li> -->
   <li><a href="../Vistas/login.php">Iniciar Sesion</a></li>
 </ul>
 

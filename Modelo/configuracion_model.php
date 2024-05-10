@@ -1,12 +1,11 @@
 <?php
 
     function conexion() {
-        $servername = "localhost"; // Cambia esto según tu configuración
-        $username_db = "abraham"; // Cambia esto según tu configuración
-        $password_db = "Degea200"; // Cambia esto según tu configuración
-        $dbname = "libreria_proyecto"; // Cambia esto según tu configuración
+        $servername = "localhost"; 
+        $username_db = "root"; 
+        $password_db = ""; 
+        $dbname = "libreria_proyecto"; 
     
-        // Crear conexión
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
     
         if ($conn->connect_error) {
@@ -16,7 +15,6 @@
     }
 
     function CONFConsultarLibros() {
-        // Consulta SQL para verificar las credenciales en la tabla log_usuarios
         $conexion = conexion();
         $sql = "SELECT 
                     cat_libros.idlibro, cat_libros.titulo, cat_libros.precio, cat_libros.descuento, cat_libros.iva,
@@ -33,11 +31,9 @@
                 LIMIT 3;";
         $stmt = $conexion->prepare($sql);
 
-        // Ejecutar la consulta
         $stmt->execute();
-        $resultado = $stmt->get_result()->fetch_all(MYSQLI_ASSOC); // Obtener todos los resultados como un array asociativo
+        $resultado = $stmt->get_result()->fetch_all(MYSQLI_ASSOC); 
 
-        // Cerrar la conexión
         $stmt->close();
         $conexion->close();
         return $resultado;
@@ -63,7 +59,7 @@
     function VENObtenerLibrosCarritoCompra($idUsuario) {
         $conexion = conexion();
 
-        $idUsuario = mysqli_real_escape_string($conexion, $idUsuario); // Escapar el valor para evitar inyección SQL
+        $idUsuario = mysqli_real_escape_string($conexion, $idUsuario); 
 
         $sql = "SELECT 
         ven_carrodecompra.idlibro, ven_carrodecompra.cantidad,

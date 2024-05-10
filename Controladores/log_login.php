@@ -1,5 +1,5 @@
 <?php
-session_start(); // Iniciar la sesión si no está iniciada
+session_start(); 
 
 require_once '../Modelo/login_model.php';
 
@@ -16,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $contraseña = $datos->contraseña;
                     $resultado = login($correo, $contraseña);
                     if ($resultado) {
-                        // Guardar el ID de usuario en la variable de sesión
                         $_SESSION["idUsuario"] = $resultado["idUsuario"];
                     }
                     echo json_encode($resultado);

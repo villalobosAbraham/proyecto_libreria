@@ -1,7 +1,8 @@
 <html lang="es">
     <head>
-        <?php include '..\layouts\barra.php'; ?>
+        <?php include '../layouts/barra.php'; ?>
         <link rel="stylesheet" href="../Vistas/estilos/carrito.css">
+        <script src="https://www.sandbox.paypal.com/sdk/js?client-id=ASPtULJO0N61cesGR4RGVfFCJC8RwvZtCInYe5kcf9Yf06j2Y4u1Ik5vbuxsj1r-TsgffhFUFH6vvLFO&currency=USD"></script>
         <title>Carrito</title>
     </head>
     <body>
@@ -22,7 +23,9 @@
                     <h2 id="h2CostoTotal" class="h2Carrito">Costo Total: </h2>
                     <h2 id="h2CostoTotalNumero" class="h2CarritoNumero" totalCarritoAnterior="">Costo Total: </h2>
                     <br>
-                    <button id="botonComprarCarrito">Realizar Compra</button>
+                    <!-- <button id="botonComprarCarrito">Realizar Compra</button> -->
+                    <div id="paypal-button-container">
+                    </div>
                 </div>
             </section>
         </main>
