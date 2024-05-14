@@ -23,9 +23,7 @@
                     <h2 id="h2CostoTotal" class="h2Carrito">Costo Total: </h2>
                     <h2 id="h2CostoTotalNumero" class="h2CarritoNumero" totalCarritoAnterior="">Costo Total: </h2>
                     <br>
-                    <!-- <button id="botonComprarCarrito">Realizar Compra</button> -->
-                    <div id="paypal-button-container">
-                    </div>
+                    <button id="botonComprarCarrito">Realizar Compra</button>
                 </div>
             </section>
         </main>
@@ -33,6 +31,14 @@
             <p>Copyright &copy; 2024 Librería digital</p>
         </footer>
     </body>
+    <div id="myModal" class="modal">
+        <div id="modalCarrito" class="modal-content">
+            <span class="close">&times;</span>
+            <h1>Realizar Compra</h1>
+            <h2 id="totalModal"></h2>
+            <div id="paypal-button-container"></div>
+        </div>
+    </div>
 </html>
 
 <script src="../Vistas/js/carrito.js"></script>

@@ -1,7 +1,7 @@
 let url = '../Controladores/conf_configuracion.php';  
 
 document.addEventListener('DOMContentLoaded', function() {
-    cargarBotonPaypal();
+    // cargarBotonPaypal();
     obtenerLibrosCarrito();
 });
 
@@ -234,18 +234,25 @@ function mostrarCostosCarrito(precioBaseAcumulado, descuentoAcumulado, ivaAcumul
 } 
 
 function cargarBotonPaypal() {
+    let contenedorPaypal = document.getElementById("paypal-button-container");
+    contenedorPaypal.innerHTML = "";
+
+    let totalCompra = document.getElementById("h2CostoTotalNumero").getAttribute("totalCarritoAnterior");
+    let totalCarrito = document.getElementById("totalModal");
+
+    totalCarrito.innerText = "El Total de su Compra Sera de: $" + totalCompra;
     paypal.Buttons({
         // Configuración del pago
         createOrder: function(data, actions) {
             return actions.order.create({
                 purchase_units: [{
                     amount: {
-                        value: '10.00' // El monto del pago
+                        value: totalCompra // El monto del pago
                     }
                 }]
             });
         },
-        // Ejecuta cuando el pago se aprueba
+        // Ejecuta cuando el pago se apru ba
         onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
                 console.log(details);
@@ -258,3 +265,31 @@ function cargarBotonPaypal() {
         }
     }).render('#paypal-button-container'); // Renderiza el botón en el contenedor especificado
 }
+
+let modal = document.getElementById("myModal");
+
+// Obtener el botón que abre el modal
+let btn = document.getElementById("botonComprarCarrito");
+
+// Obtener el elemento span que cierra el modal
+let span = document.getElementsByClassName("close")[0];
+
+// Cuando el usuario haga clic en el botón, abrir el modal
+btn.onclick = function() {
+    cargarBotonPaypal();
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden";
+}
+
+// Cuando el usuario haga clic en el elemento span (x), cerrar el modal
+span.onclick = function() {
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+// // Cuando el usuario haga clic en cualquier parte fuera del modal, cerrar el modal
+// window.onclick = function(event) {
+//   if (event.target == modal) {
+//     modal.style.display = "none";
+//   }
+// }
