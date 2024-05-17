@@ -1,3 +1,9 @@
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Enter") {
+        iniciarSesion();
+    }
+});
+
 function iniciarSesion() {
     let url = '../Controladores/log_login.php';
 

@@ -17,16 +17,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 break;
             case "VENAgregarLibroCarrito":
                 $datos->idUsuario = $_SESSION["idUsuario"];
-                $resultado = VENAgregarLibroCarrito($datos);  
+                
+                // if (comprobarExistenciaLibroCarrito($datos)) {
 
-                echo json_encode($resultado);
+                // }
+                // $resultado = VENAgregarLibroCarrito($datos); 
+                $juan = comprobarExistenciaLibroCarrito($datos); 
+
+                echo json_encode($juan);
                 break;
             case "VENObtenerLibrosCarritoCompra":
                 $resultado = VENObtenerLibrosCarritoCompra($_SESSION["idUsuario"]);
 
                 echo json_encode($resultado);
                 break;
-            case "CONFComprobarUsuario":
+            case " ":
                 $resultado = isset($_SESSION["idUsuario"]);
 
                 echo json_encode($resultado);

@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost"; 
-        $username_db = "abraham"; 
-        $password_db = "Degea200"; 
+        $username_db = "root"; 
+        $password_db = ""; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
@@ -37,6 +37,32 @@
         $stmt->close();
         $conexion->close();
         return $resultado;
+    }
+
+    function comprobarExistenciaLibroCarrito($datos) {
+        $idUsuario = $datos->idUsuario;
+        $idLibro = $datos->idLibro;
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    cantidad
+                FROM
+                    ven_carrodecompra
+                WHERE
+                    idusuario = '$idUsuario' AND
+                    idlibro = '$idLibro'
+        ";
+
+        $resultados = mysqli_query($conexion, $sql);
+
+        if ($resultados) {
+            $resultado = mysqli_fetch_assoc($resultados);
+            return $resultado["cantidad"];
+
+            // return $librosEnCarrito;
+        } else {
+            return false;
+        }
     }
 
     function VENAgregarLibroCarrito($datos) {
