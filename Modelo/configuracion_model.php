@@ -89,24 +89,29 @@
         $idUsuario = mysqli_real_escape_string($conexion, $idUsuario); 
 
         $sql = "SELECT 
-        ven_carrodecompra.idlibro, ven_carrodecompra.cantidad,
-        cat_libros.titulo, cat_libros.precio, cat_libros.descuento, cat_libros.iva, cat_libros.portada,
+        ven_carrodecompra.idlibro,
+        SUM(ven_carrodecompra.cantidad) AS cantidad,
+        MAX(cat_libros.titulo) AS titulo,
+        MAX(cat_libros.precio) AS precio,
+        MAX(cat_libros.descuento) AS descuento,
+        MAX(cat_libros.iva) AS iva,
+        MAX(cat_libros.portada) AS portada,
         GROUP_CONCAT(CONCAT(conf_autores.nombre, ' ', conf_autores.apellidopaterno, ' ', conf_autores.apellidomaterno) SEPARATOR '  ') AS autor,
-        inv_inventariolibros.cantidad AS limiteLibro
-        FROM
-            ven_carrodecompra
-        LEFT JOIN
-            cat_libros ON ven_carrodecompra.idlibro = cat_libros.idlibro
-        LEFT JOIN
-            inv_inventariolibros ON ven_carrodecompra.idlibro = inv_inventariolibros.idlibro
-        LEFT JOIN
-            cat_librosautores ON ven_carrodecompra.idlibro = cat_librosautores.idlibro
-        LEFT JOIN
-            conf_autores ON cat_librosautores.idautor = conf_autores.idautor
-        WHERE
-            ven_carrodecompra.idusuario = '$idUsuario'
-        GROUP BY
-            ven_carrodecompra.idlibro
+        MAX(inv_inventariolibros.cantidad) AS limiteLibro
+    FROM
+        ven_carrodecompra
+    LEFT JOIN
+        cat_libros ON ven_carrodecompra.idlibro = cat_libros.idlibro
+    LEFT JOIN
+        inv_inventariolibros ON ven_carrodecompra.idlibro = inv_inventariolibros.idlibro
+    LEFT JOIN
+        cat_librosautores ON ven_carrodecompra.idlibro = cat_librosautores.idlibro
+    LEFT JOIN
+        conf_autores ON cat_librosautores.idautor = conf_autores.idautor
+    WHERE
+        ven_carrodecompra.idusuario = '$idUsuario'
+    GROUP BY
+        ven_carrodecompra.idlibro;
         ";
 
         $resultado = mysqli_query($conexion, $sql);
