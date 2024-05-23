@@ -15,23 +15,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo json_encode($resultado);
                 break;
-            case "VENAgregarLibroCarrito":
+            case "VENAgregarAumentarLibroCarrito":
                 $datos->idUsuario = $_SESSION["idUsuario"];
                 
-                // if (comprobarExistenciaLibroCarrito($datos)) {
+                $cantidadLibros = comprobarExistenciaLibroCarrito($datos);
+                if ($cantidadLibros >= 1) {
+                    $datos->cantidad = $cantidadLibros + $datos->aumento;
+                    echo json_encode(actualizarLibroCarritoCompra($datos));
+                } else {
+                    echo json_encode(agregarLibroCarrito($datos));
+                }
 
-                // }
-                // $resultado = VENAgregarLibroCarrito($datos); 
-                $juan = comprobarExistenciaLibroCarrito($datos); 
-
-                echo json_encode($juan);
                 break;
             case "VENObtenerLibrosCarritoCompra":
                 $resultado = VENObtenerLibrosCarritoCompra($_SESSION["idUsuario"]);
 
                 echo json_encode($resultado);
                 break;
-            case " ":
+            case "VENLimpiarCarritoCompra":
+                $resultado = VENLimpiarCarritoCompra($_SESSION["idUsuario"]);
+
+                echo json_encode($resultado);
+                break;
+            case "VENBorrarLibroCarrito":
+                $datos->idUsuario = $_SESSION["idUsuario"];
+                $resultado = VENBorrarLibroCarrito($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "VENActualizarCantidadCarrito":
+                $datos->idUsuario = $_SESSION["idUsuario"];
+                $resultado = VENActualizarCantidadCarrito($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFComprobarUsuario":
                 $resultado = isset($_SESSION["idUsuario"]);
 
                 echo json_encode($resultado);

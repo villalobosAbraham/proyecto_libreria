@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost"; 
-        $username_db = "root"; 
-        $password_db = ""; 
+        $username_db = "abraham"; 
+        $password_db = "Degea200"; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
@@ -40,9 +40,10 @@
     }
 
     function comprobarExistenciaLibroCarrito($datos) {
+        $conexion = conexion();
+
         $idUsuario = $datos->idUsuario;
         $idLibro = $datos->idLibro;
-        $conexion = conexion();
 
         $sql = "SELECT
                     cantidad
@@ -65,7 +66,7 @@
         }
     }
 
-    function VENAgregarLibroCarrito($datos) {
+    function agregarLibroCarrito($datos) {
         $conexion = conexion();
         $idUsuario = $datos->idUsuario;
         $idLibro = $datos->idLibro;
@@ -121,5 +122,62 @@
         } else {
             return false;
         }
+    }
+
+    function actualizarLibroCarritoCompra($datos) {
+        $conexion = conexion();
+        
+        $sql ="UPDATE 
+            ven_carrodecompra
+        SET
+            cantidad = '$datos->cantidad'
+        WHERE
+            idusuario = '$datos->idUsuario' AND
+            idlibro = '$datos->idLibro'
+        ";
+
+        return $conexion->query($sql);
+    }
+
+    function VENLimpiarCarritoCompra($idUsuario) {
+        $conexion = conexion();
+
+        $sql = "DELETE
+        FROM
+            ven_carrodecompra
+        WHERE
+            idusuario = '$idUsuario'
+        ";
+
+        return $conexion->query($sql);
+    }
+
+    function VENBorrarLibroCarrito($datos) {
+        $conexion = conexion();
+
+        $sql = "DELETE
+        FROM
+            ven_carrodecompra
+        WHERE
+            idusuario = '$datos->idUsuario' AND
+            idlibro = '$datos->idLibro'
+        ";
+
+        return $conexion->query($sql);
+    }
+
+    function VENActualizarCantidadCarrito($datos) {
+        $conexion = conexion();
+
+        $sql = "UPDATE
+            ven_carrodecompra
+        SET
+            cantidad = '$datos->cantidad'
+        WHERE
+            idusuario = '$datos->idUsuario' AND 
+            idlibro = '$datos->idLibro'
+        ";
+
+        return $conexion->query($sql);
     }
 ?>

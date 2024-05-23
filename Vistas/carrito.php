@@ -23,7 +23,7 @@
                     <h2 id="h2CostoTotal" class="h2Carrito">Costo Total: </h2>
                     <h2 id="h2CostoTotalNumero" class="h2CarritoNumero" totalCarritoAnterior="">Costo Total: </h2>
                     <br>
-                    <button id="botonComprarCarrito">Realizar Compra</button>
+                    <button id="botonComprarCarrito"> <i class="fas fa-trash-alt"></i>Realizar Compra</button>
                 </div>
             </section>
         </main>

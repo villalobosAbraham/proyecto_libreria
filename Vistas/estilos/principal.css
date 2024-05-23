@@ -109,3 +109,16 @@ header img {
 .libros-busqueda img {
     width: 100px;
 }
+
+.libroPrincipal {
+    /* padding: 5px; */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #888;
+    border-radius: 20px;
+}
+
+.botonLibroPrincipal {
+    border: 1px solid #888;
+    border-radius: 5px;
+}

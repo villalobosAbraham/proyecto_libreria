@@ -145,6 +145,8 @@ button {
     margin-left: 37%;
     margin-bottom: 2%;
     border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #paypal-button-container {
@@ -191,5 +193,22 @@ button {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.botonBorrar {
+    margin-top: 10px;
+    width: 80%;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre el ícono y el texto */
+    font-size: 12;
+    height: 20px;
+    border-radius: 15px;
 }
   

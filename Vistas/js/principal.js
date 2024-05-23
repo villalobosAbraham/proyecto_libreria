@@ -76,6 +76,7 @@ function mostrarLibrosPopulares(data) {
         let costoIndividual = precio - descuento + iva;
 
         let elementoLista = document.createElement('li');
+        elementoLista.classList.add('libroPrincipal');
 
         let imagen = document.createElement('img');
         
@@ -85,6 +86,7 @@ function mostrarLibrosPopulares(data) {
         let totalElemento = document.createElement('h4');
         
         let botonElemento = document.createElement('button');
+        botonElemento.classList.add("botonLibroPrincipal");
 
         tituloElemento.textContent = titulo;
         autorElemento.textContent = completoAutor;
@@ -137,8 +139,9 @@ function agregarLibroCarrito(boton) {
         let idLibro = boton.getAttribute('idLibro');
 
         let datosGenerales = {
-            accion : "VENAgregarLibroCarrito",
+            accion : "VENAgregarAumentarLibroCarrito",
             idLibro : idLibro,
+            aumento : 1,
         }
 
         return datosGenerales;

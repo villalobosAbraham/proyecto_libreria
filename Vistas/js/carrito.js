@@ -2,8 +2,37 @@ let url = '../Controladores/conf_configuracion.php';
 
 document.addEventListener('DOMContentLoaded', function() {
     // cargarBotonPaypal();
+    comprobarUsuario();
     obtenerLibrosCarrito();
 });
+
+window.addEventListener('pageshow', function(event) {
+    comprobarUsuario();
+});
+
+function comprobarUsuario() {
+    let datosGenerales = {
+        accion : "CONFComprobarUsuario",
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data) {
+            window.open("/Vistas/login.php", "_self");
+            return;
+        } 
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 function obtenerLibrosCarrito() {
     let datosGenerales = {
@@ -55,9 +84,11 @@ function mostrarLibrosCarrito(libros) {
         let textoPrecioReal = document.createElement('label');
         let textoCosto = document.createElement('label');
         
+        let precioReal = prepararPrecioReal(libro);
+
         let input = document.createElement('input');
         
-        let precioReal = prepararPrecioReal(libro);
+        let botonBorrar = document.createElement("button");
         
         input = prepararInput(input, libro, precioReal);
     
@@ -72,6 +103,7 @@ function mostrarLibrosCarrito(libros) {
         tituloLibro.classList.add('tituloLibro');
         autorLibro.classList.add('autorLibro');
         textoCosto.classList.add('textoCosto');
+        botonBorrar.classList.add("botonBorrar");
 
         portadaLibro.src = libro.portada;
 
@@ -82,11 +114,16 @@ function mostrarLibrosCarrito(libros) {
         textoIva.textContent = "Iva: " + libro.iva;
         textoPrecioReal.textContent = "Precio Real Individual: " + precioReal;
         textoCosto.textContent = "$" + (precioReal * libro.cantidad);
+        botonBorrar.innerText = "Borrar Libro";
 
         textoCosto.setAttribute("totalAnterior", precioReal * libro.cantidad);
 
         input.onchange = function() {
-            actualizarPrecios(input, textoCosto);
+            actualizarPrecios(input, textoCosto, libro.idLibro);
+        }
+
+        botonBorrar.onclick = function() {
+            borrarLibroCarrito(libro.idlibro);
         }
         
         divPortadaLibro.appendChild(portadaLibro);
@@ -101,6 +138,7 @@ function mostrarLibrosCarrito(libros) {
 
         divCostoLibro.appendChild(textoCosto);
         divCostoLibro.appendChild(input);
+        divCostoLibro.appendChild(botonBorrar);
 
         divDatosLibro.appendChild(divPrecioLibro);
         divDatosLibro.appendChild(divCostoLibro);
@@ -138,7 +176,7 @@ function prepararInput(input, libro, precioReal) {
     input.id = libro.idlibro;
     input.name = 'libro';
     input.value = libro.cantidad; 
-    input.min = 0; 
+    input.min = 1; 
     input.max = libro.limiteLibro;
     input.step = 1;
 
@@ -155,9 +193,58 @@ function prepararInput(input, libro, precioReal) {
     return input;
 }
 
-function actualizarPrecios(input, textoCosto) {    
+function borrarLibroCarrito(idLibro) {
+    let datosGenerales = {
+        accion : "VENBorrarLibroCarrito",
+        idLibro : idLibro
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function actualizarPrecios(input, textoCosto, idLibro) {    
     actualizarPrecioDivLibro(input, textoCosto);
     actualizarPrecioDivPagos(input);
+    // let datosGenerales = {
+    //     accion : "VENActualizarCantidadCarrito",
+    //     idLibro : idLibro,
+    //     cantidad : input.value,
+    // }
+
+    // fetch(url, {
+    //     method: 'POST',
+    //     headers: {  
+    //     'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(datosGenerales)
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //     console.log(data);
+    //     if (data) {
+    //         actualizarPrecioDivLibro(input, textoCosto);
+    //         actualizarPrecioDivPagos(input);
+    //     } else {
+    //         alert("Error al Modificar la Cantidad");
+    //         location.reload();
+    //     }
+    // })
+    // .catch(error => {
+    //     console.error('Error:', error);
+    // });
 }
 
 function actualizarPrecioDivLibro(input, textoCosto) {
@@ -256,7 +343,31 @@ function cargarBotonPaypal() {
         onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
                 console.log(details);
+
+                let payerName = details.payer.name.given_name;
+                let payerSurname = details.payer.name.surname;
+                let payerEmail = details.payer.email_address;
+    
+                // Accede a información específica del pedido
+                let orderId = details.id;
+                let purchaseAmount = details.purchase_units[0].amount.value;
+                let currencyCode = details.purchase_units[0].amount.currency_code;
+    
+                // Accede a información de la transacción
+                let transactionStatus = details.status;
+    
+                // Consola de salida con todos los detalles
+                console.log('Detalles del Pago:');
+                console.log('Nombre del Comprador: ' + payerName);
+                console.log('Apellido del Comprador: ' + payerSurname);
+                console.log('Email del Comprador: ' + payerEmail);
+                console.log('ID del Pedido: ' + orderId);
+                console.log('Monto de la Compra: ' + purchaseAmount);
+                console.log('Código de Moneda: ' + currencyCode);
+                console.log('Estado de la Transacción: ' + transactionStatus);
                 alert('Pago completado por ' + details.payer.name.given_name);
+
+                limpiarCarrito();
             });
         },
         // Maneja los errores del pago
@@ -293,3 +404,25 @@ span.onclick = function() {
 //     modal.style.display = "none";
 //   }
 // }
+
+function limpiarCarrito() {
+    let datosGenerales = {
+        accion : "VENLimpiarCarritoCompra",
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
