@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost";
-        $username_db = "abraham"; 
-        $password_db = "Degea200"; 
+        $username_db = "root"; 
+        $password_db = ""; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
@@ -64,5 +64,23 @@
         $stmt->close();
         $conexion->close();
         return $resultado;
+    }
+
+    function CONFComprobarCarrito($idUsuario) {
+        $conexion = conexion();
+
+        $sql = "SELECT 
+                    SUM(cantidad) AS total
+                FROM
+                    ven_carrodecompra
+                WHERE
+                    idusuario = '$idUsuario'
+        ";
+
+        $resultado = $conexion->query($sql);
+        $fila = $resultado->fetch_assoc();
+        $total = $fila['total'];
+
+        return $total;
     }
 ?>

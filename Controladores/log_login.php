@@ -43,6 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo json_encode(false);
                 }
                 break;
+            case "CONFComprobarCarrito":
+                $resultado = CONFComprobarCarrito($_SESSION["idUsuario"]);
+                echo json_encode($resultado);
+                break;
             case "CONFCerrarSesion":
                 if (session_unset() && session_destroy()) {
                     $resultado = true;

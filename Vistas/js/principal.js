@@ -86,16 +86,20 @@ function mostrarLibrosPopulares(data) {
         let totalElemento = document.createElement('h4');
         
         let botonElemento = document.createElement('button');
-        botonElemento.classList.add("botonLibroPrincipal");
 
+        let iconoAgregar = document.createElement('i');
+        iconoAgregar.classList.add('fa-solid', 'fa-plus'); // Agregar clases para el ícono
+        botonElemento.classList.add("botonLibroPrincipal");
+        
         tituloElemento.textContent = titulo;
         autorElemento.textContent = completoAutor;
         fechaElemento.textContent = "Fecha de Publicacion: " + fechaPublicacion.split("-").reverse().join("/");
         totalElemento.textContent = 'Costo: ' + costoIndividual;
-
-        botonElemento.textContent = "Agregar a Carrito";
+        
+        botonElemento.textContent = "Agregar a Carrito ";
         botonElemento.setAttribute("idLibro", idLibro);
         botonElemento.setAttribute("costoIndividual", costoIndividual);
+        botonElemento.appendChild(iconoAgregar);
 
         botonElemento.addEventListener('click', function() {
             agregarLibroCarrito(botonElemento);
@@ -125,9 +129,8 @@ function agregarLibroCarrito(boton) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+        comprobarCarrito();
         if (data) {
-            alert("awebo si jala");
             return;
         } 
     })

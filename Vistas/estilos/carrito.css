@@ -196,8 +196,9 @@ button {
 }
 
 .botonBorrar {
+    margin-left: auto;
     margin-top: 10px;
-    width: 80%;
+    width: fit-content;
     background-color: white;
     color: black;
     border: 2px solid black;

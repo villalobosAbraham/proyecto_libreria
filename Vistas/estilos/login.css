@@ -59,6 +59,7 @@ header img {
     color: #fff;
     margin-top: 10px;
     padding: 5px 10px;
+    border-radius: 15px;
 }
 
 .registro {
@@ -89,10 +90,11 @@ header img {
 }
 
 .registro button {
-    background-color: #333;
+    background-color: #1B4F72;
     color: #fff;
     margin-top: 10px;
     padding: 5px 10px;
+    border-radius: 15px;
 }
 
 .registro #sesion {

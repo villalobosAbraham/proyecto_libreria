@@ -1,7 +1,6 @@
 let url = '../Controladores/conf_configuracion.php';  
 
 document.addEventListener('DOMContentLoaded', function() {
-    // cargarBotonPaypal();
     comprobarUsuario();
     obtenerLibrosCarrito();
 });
@@ -89,6 +88,9 @@ function mostrarLibrosCarrito(libros) {
         let input = document.createElement('input');
         
         let botonBorrar = document.createElement("button");
+
+        let iconoBasura = document.createElement('i');
+        iconoBasura.classList.add('fa-solid', 'fa-trash'); // Agregar clases para el ícono
         
         input = prepararInput(input, libro, precioReal);
     
@@ -114,12 +116,13 @@ function mostrarLibrosCarrito(libros) {
         textoIva.textContent = "Iva: " + libro.iva;
         textoPrecioReal.textContent = "Precio Real Individual: " + precioReal;
         textoCosto.textContent = "$" + (precioReal * libro.cantidad);
-        botonBorrar.innerText = "Borrar Libro";
+        botonBorrar.appendChild(iconoBasura);
 
         textoCosto.setAttribute("totalAnterior", precioReal * libro.cantidad);
 
         input.onchange = function() {
-            actualizarPrecios(input, textoCosto, libro.idLibro);
+            console.table(libro);
+            actualizarPrecios(input, textoCosto, libro.idlibro);
         }
 
         botonBorrar.onclick = function() {
@@ -215,36 +218,39 @@ function borrarLibroCarrito(idLibro) {
     });
 }
 
-function actualizarPrecios(input, textoCosto, idLibro) {    
-    actualizarPrecioDivLibro(input, textoCosto);
-    actualizarPrecioDivPagos(input);
-    // let datosGenerales = {
-    //     accion : "VENActualizarCantidadCarrito",
-    //     idLibro : idLibro,
-    //     cantidad : input.value,
-    // }
+function actualizarPrecios(input, textoCosto, idLibro) {   
+    console.log("idLibro = " + idLibro); 
+    // actualizarPrecioDivLibro(input, textoCosto);
+    // actualizarPrecioDivPagos(input);
+    let datosGenerales = {
+        accion : "VENActualizarCantidadCarrito",
+        idLibro : idLibro,
+        cantidad : input.value,
+    }
+    console.table(datosGenerales);
 
-    // fetch(url, {
-    //     method: 'POST',
-    //     headers: {  
-    //     'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(datosGenerales)
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //     console.log(data);
-    //     if (data) {
-    //         actualizarPrecioDivLibro(input, textoCosto);
-    //         actualizarPrecioDivPagos(input);
-    //     } else {
-    //         alert("Error al Modificar la Cantidad");
-    //         location.reload();
-    //     }
-    // })
-    // .catch(error => {
-    //     console.error('Error:', error);
-    // });
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if (data) {
+            actualizarPrecioDivLibro(input, textoCosto);
+            actualizarPrecioDivPagos(input);
+            comprobarCarrito();
+        } else {
+            alert("Error al Modificar la Cantidad");
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function actualizarPrecioDivLibro(input, textoCosto) {

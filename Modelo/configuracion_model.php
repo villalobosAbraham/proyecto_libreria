@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost"; 
-        $username_db = "abraham"; 
-        $password_db = "Degea200"; 
+        $username_db = "root"; 
+        $password_db = ""; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
@@ -54,16 +54,32 @@
                     idlibro = '$idLibro'
         ";
 
+        // Ejecutar la consulta
         $resultados = mysqli_query($conexion, $sql);
 
-        if ($resultados) {
-            $resultado = mysqli_fetch_assoc($resultados);
-            return $resultado["cantidad"];
-
-            // return $librosEnCarrito;
-        } else {
-            return false;
+        // Verificar si la consulta fue exitosa
+        if (!$resultados) {
+            throw new Exception('Error en la ejecución de la consulta: ' . mysqli_error($conexion));
         }
+
+        // Obtener la fila resultante
+        $resultado = mysqli_fetch_assoc($resultados);
+
+        // Verificar si se obtuvo una fila
+        if ($resultado === null) {
+            return 0;
+        }
+
+        // Verificar si la cantidad es válida
+        $cantidad = $resultado['cantidad'];
+        if ($cantidad === null || $cantidad <= 0) {
+            return 0;
+        }
+
+        // Devolver la cantidad
+        return $cantidad;
+
+        // return $librosEnCarrito;
     }
 
     function agregarLibroCarrito($datos) {
@@ -73,7 +89,8 @@
         $cantidad = 1;
         $activo = 'S';
 
-        $sql = "INSERT INTO ven_carrodecompra
+        $sql = "INSERT INTO 
+                    ven_carrodecompra
                 (idusuario, idlibro, cantidad, activo)
                 VALUES
                 ('$idUsuario', '$idLibro', '$cantidad', '$activo')";
@@ -90,7 +107,7 @@
 
         $sql = "SELECT 
         ven_carrodecompra.idlibro,
-        SUM(ven_carrodecompra.cantidad) AS cantidad,
+        MAX(ven_carrodecompra.cantidad) AS cantidad,
         MAX(cat_libros.titulo) AS titulo,
         MAX(cat_libros.precio) AS precio,
         MAX(cat_libros.descuento) AS descuento,
@@ -98,20 +115,20 @@
         MAX(cat_libros.portada) AS portada,
         GROUP_CONCAT(CONCAT(conf_autores.nombre, ' ', conf_autores.apellidopaterno, ' ', conf_autores.apellidomaterno) SEPARATOR '  ') AS autor,
         MAX(inv_inventariolibros.cantidad) AS limiteLibro
-    FROM
-        ven_carrodecompra
-    LEFT JOIN
-        cat_libros ON ven_carrodecompra.idlibro = cat_libros.idlibro
-    LEFT JOIN
-        inv_inventariolibros ON ven_carrodecompra.idlibro = inv_inventariolibros.idlibro
-    LEFT JOIN
-        cat_librosautores ON ven_carrodecompra.idlibro = cat_librosautores.idlibro
-    LEFT JOIN
-        conf_autores ON cat_librosautores.idautor = conf_autores.idautor
-    WHERE
-        ven_carrodecompra.idusuario = '$idUsuario'
-    GROUP BY
-        ven_carrodecompra.idlibro;
+        FROM
+            ven_carrodecompra
+        LEFT JOIN
+            cat_libros ON ven_carrodecompra.idlibro = cat_libros.idlibro
+        LEFT JOIN
+            inv_inventariolibros ON ven_carrodecompra.idlibro = inv_inventariolibros.idlibro
+        LEFT JOIN
+            cat_librosautores ON ven_carrodecompra.idlibro = cat_librosautores.idlibro
+        LEFT JOIN
+            conf_autores ON cat_librosautores.idautor = conf_autores.idautor
+        WHERE
+            ven_carrodecompra.idusuario = '$idUsuario'
+        GROUP BY
+            ven_carrodecompra.idlibro;
         ";
 
         $resultado = mysqli_query($conexion, $sql);
