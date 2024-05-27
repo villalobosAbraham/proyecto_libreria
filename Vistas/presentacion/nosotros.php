@@ -7,7 +7,7 @@
     <body>
         <header class="nosotros">
             <h1>Librería "El Lector"</h1>
-            <img src="../imagenes/libro1.jpg" alt="Logotipo Librería El Lector" class="imagen_fondo">
+            <img src="../imagenes/logo.png" alt="Logotipo Librería El Lector" class="imagen_fondo">
             <p>Tu espacio para descubrir historias.</p>
         </header>
         <main class="nosotros">

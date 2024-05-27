@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <img src="../imagenes/imagen.png" alt="Logo">
+        <img src="../imagenes/logo.png" alt="Logo">
         <h1>Librería digital</h1>
     </header>
     <main>

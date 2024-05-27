@@ -51,6 +51,27 @@
             <p>Copyright &copy; 2024 Librería digital</p>
         </footer>
     </body>
+    <div id="myModal" class="modal">
+        <div id="modalDetallesLibro" class="modal-content">
+            <span class="close">&times;</span>
+            <h1 id="tituloModal"></h1>
+            <div id="divDetallesLibro">
+                <div id="divImagenLibroDetalles">
+                    <img id="imagenLibroDetalles">
+                </div>    
+                <h3 id="autoresLibro"></h3>
+                <h3 id="añoPublicacionLibro"></h3>
+                <h3 id="generoLibroDetalles"></h3>
+                <h3 id="cantidadPaginas"></h3>
+                <h3 id="idiomaLibro"></h3>
+                <h3 id="editorialLibro"></h3>
+            </div>
+            <div id="divSinopsisLibro">
+                <p id="pSinopsisLibro"></p>
+            </div>
+
+        </div>
+    </div>
 </html>
 
 <script src="../Vistas/js/principal.js"></script>

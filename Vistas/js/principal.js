@@ -68,11 +68,9 @@ function mostrarLibrosPopulares(data) {
         let iva = registro.iva;
         let fechaPublicacion = registro.fechapublicacion;
         let portada = registro.portada;
-        let nombreAutor = registro.nombre;
-        let apellidoPaternoAutor = registro.apellidopaterno;
-        let apellidoMaternoAutor = registro.apellidomaterno;
+        let autores = registro.autores
         
-        let completoAutor = nombreAutor + " " + apellidoPaternoAutor + " " + apellidoMaternoAutor;
+        let completoAutor = prepararTextoAutor(autores);
         let costoIndividual = precio - descuento + iva;
 
         let elementoLista = document.createElement('li');
@@ -85,25 +83,39 @@ function mostrarLibrosPopulares(data) {
         let fechaElemento = document.createElement('h4');
         let totalElemento = document.createElement('h4');
         
-        let botonElemento = document.createElement('button');
+        let botonAgregarCarrito = document.createElement('button');
+        let botonDetallesLibro = document.createElement('button');
 
         let iconoAgregar = document.createElement('i');
+        let iconoDetalles = document.createElement('i');
+
         iconoAgregar.classList.add('fa-solid', 'fa-plus'); // Agregar clases para el ícono
-        botonElemento.classList.add("botonLibroPrincipal");
+        iconoDetalles.classList.add('fa-solid', 'fa-info'); // Agregar clases para el ícono
+        botonAgregarCarrito.classList.add("botonLibroPrincipal");
+        botonDetallesLibro.classList.add("botonDetallesLibro");
+        autorElemento.classList.add('autorElemento');
         
         tituloElemento.textContent = titulo;
         autorElemento.textContent = completoAutor;
         fechaElemento.textContent = "Fecha de Publicacion: " + fechaPublicacion.split("-").reverse().join("/");
         totalElemento.textContent = 'Costo: ' + costoIndividual;
         
-        botonElemento.textContent = "Agregar a Carrito ";
-        botonElemento.setAttribute("idLibro", idLibro);
-        botonElemento.setAttribute("costoIndividual", costoIndividual);
-        botonElemento.appendChild(iconoAgregar);
-
-        botonElemento.addEventListener('click', function() {
-            agregarLibroCarrito(botonElemento);
+        botonAgregarCarrito.textContent = "Agregar a Carrito ";
+        botonAgregarCarrito.setAttribute("idLibro", idLibro);
+        botonAgregarCarrito.setAttribute("costoIndividual", costoIndividual);
+        botonAgregarCarrito.appendChild(iconoAgregar);
+        
+        botonAgregarCarrito.addEventListener('click', function() {
+            agregarLibroCarrito(botonAgregarCarrito);
         });
+        
+        botonDetallesLibro.textContent = "Ver Detalles ";
+        botonDetallesLibro.appendChild(iconoDetalles);
+
+        botonDetallesLibro.addEventListener('click', function() {
+            verDatellesLIbro(registro);
+        });
+
         imagen.src = portada;
         
         elementoLista.appendChild(imagen);
@@ -111,10 +123,16 @@ function mostrarLibrosPopulares(data) {
         elementoLista.appendChild(autorElemento);
         elementoLista.appendChild(fechaElemento);
         elementoLista.appendChild(totalElemento);
-        elementoLista.appendChild(botonElemento);
+        elementoLista.appendChild(botonAgregarCarrito);
+        elementoLista.appendChild(botonDetallesLibro);
         
         lista.appendChild(elementoLista);
     }
+}
+
+function prepararTextoAutor(autores) {
+    autores = autores.replace("  ", " y ");
+    return autores;
 }
 
 function agregarLibroCarrito(boton) {
@@ -138,15 +156,44 @@ function agregarLibroCarrito(boton) {
         console.error('Error:', error);
     });
 
-    function prepararDatosGeneralesAgregarCarrito(boton) {
-        let idLibro = boton.getAttribute('idLibro');
+}
+function prepararDatosGeneralesAgregarCarrito(boton) {
+    let idLibro = boton.getAttribute('idLibro');
 
-        let datosGenerales = {
-            accion : "VENAgregarAumentarLibroCarrito",
-            idLibro : idLibro,
-            aumento : 1,
-        }
-
-        return datosGenerales;
+    let datosGenerales = {
+        accion : "VENAgregarAumentarLibroCarrito",
+        idLibro : idLibro,
+        aumento : 1,
     }
+
+    return datosGenerales;
+}
+
+function verDatellesLIbro(libro) {
+    let titulo = libro.titulo;
+    let portada = libro.portada;
+    console.table(libro);
+    let autores = prepararTextoAutor(libro.autores);
+    let fechaPublicacion = libro.fechapublicacion;
+    let genero = libro.genero;
+    let paginas = libro.paginas;
+    let idioma = libro.idioma;
+    let editorial = libro.editorial;
+    let sinopsis = libro.sinopsis;
+
+    document.getElementById('tituloModal').textContent = titulo;
+    document.getElementById('autoresLibro').textContent = autores;
+    document.getElementById('añoPublicacionLibro').textContent = fechaPublicacion.split("-").reverse().join("/");
+    document.getElementById('generoLibroDetalles').textContent = genero;
+    document.getElementById('cantidadPaginas').textContent = paginas;
+    document.getElementById('idiomaLibro').textContent = idioma;
+    document.getElementById('editorialLibro').textContent = editorial;
+    document.getElementById('pSinopsisLibro').innerText = sinopsis;
+    document.getElementById('imagenLibroDetalles').src = portada;
+
+
+    let modal = document.getElementById("myModal");
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden";
+
 }
