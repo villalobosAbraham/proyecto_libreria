@@ -36,13 +36,22 @@
             <button onclick="registrarUsuario();">Registrar Usuario <i class="fa fa-user-plus"></i></button>
             <p id="sesion" onclick="mostrarLogin();">Iniciar Sesion <i class="fa fa-sign-in"> </i> </p>
         </section>
-        <section>
+        <!-- <section>
             <input type="file" id="inputImagen" onchange="convertirImagen(this);" accept="image/*">
         </section>
         <section>
             <div id="contenedorImagen"></div>
-        </section>
-    </main>
+        </section> -->
+
+        <h1>Upload Image</h1>
+    <form id="uploadForm">
+        <input type="file" id="imageInput" name="image" accept="image/*">
+        <input type="text" id="customName" name="customName" placeholder="Enter custom name">
+        <button type="submit">Upload</button>
+    </form>
+    <h2>Uploaded Image</h2>
+    <img id="uploadedImage" src="" alt="Uploaded Image" style="display:none;">
+    <button id="deleteButton" style="display:none;">Delete Image</button>
 </body>
 </html>
 

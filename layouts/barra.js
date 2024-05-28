@@ -54,7 +54,7 @@ function comprobarCarrito() {
             document.getElementById("iconoCarrito").innerText = " " + data;
         } else {
             console.log("no vale madre");
-            document.getElementById("iconoCarrito   ").innerText = "";
+            document.getElementById("iconoCarrito").innerText = "";
         }
     })
     .catch(error => {

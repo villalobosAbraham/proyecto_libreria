@@ -48,11 +48,11 @@
                     inv_inventariolibros ON cat_libros.idlibro = inv_inventariolibros.idlibro
                 LEFT JOIN 
                     cat_librosautores ON cat_libros.idlibro = cat_librosautores.idlibro
-                LEFT JOIN 
+                JOIN 
                     conf_autores ON cat_librosautores.idautor = conf_autores.idautor
                 GROUP BY
-                    cat_libros.idlibro
-                LIMIT 3;";
+                    cat_libros.idlibro";
+                // LIMIT 10;";
         $stmt = $conexion->prepare($sql);
 
         $stmt->execute();
@@ -225,5 +225,22 @@
         ";
 
         return $conexion->query($sql);
+    }
+
+    function INVRegistrarVisualizacion($datos) {
+        $conexion = conexion();
+        $idUsuario = $datos->idUsuario;
+        $idLibro = $datos->idLibro;
+        $fecha = $datos->fecha;
+
+        $sql = "INSERT INTO 
+                    inv_visualizaciones
+                (idusuario, idlibro, fecha)
+                VALUES
+                ('$idUsuario', '$idLibro', '$fecha')";
+
+        $stmt = $conexion->prepare($sql);
+
+        return $stmt->execute(); 
     }
 ?>

@@ -6,45 +6,50 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     </head>
     <body>
-        <main>
+        <main id="main">
             <section class="buscador">
                 <form action="#">
                     <input type="text" placeholder="Buscar libros">
-                    <button type="submit" onclick="obtenerLibrosPopulares();">Buscar</button>
+                    <button type="submit" onclick="obtenerLibrosPopulares();">Buscar <i class="fa fa-search"></i></button>
                 </form>
             </section>
-            <div id="busqueda">
-                <section class="libros-busqueda">
-                    <h2 id="tituloBusqueda"></h2>
-                    <ul id="listaBusqueda">
+            <div id="divContenedorFiltros">
 
-                    </ul>
-                </section>
             </div>
-            <div id="secciones">
-                <section class="libros-populares">
-                    <h2>Libros populares</h2>
-                    <ul id="listaPopulares">
+            <div id="divContenedorSecciones">
+                <div id="busqueda">
+                    <section class="libros-busqueda">
+                        <h2 id="tituloBusqueda"></h2>
+                        <ul id="listaBusqueda">
 
-                    </ul>
-                </section>
-                <section class="recomendaciones">
-                    <h2>Recomendaciones para ti</h2>
-                    <ul>
-                        <li>
-                            <h3>Título del libro 4</h3>
-                            <p>Autor del libro 4</p>
-                        </li>
-                        <li>
-                            <h3>Título del libro 5</h3>
-                            <p>Autor del libro 5</p>
-                        </li>
-                        <li>
-                            <h3>Título del libro 6</h3>
-                            <p>Autor del libro 6</p>
-                        </li>
-                    </ul>
-                </section>
+                        </ul>
+                    </section>
+                </div>
+                <div id="secciones">
+                    <section class="libros-populares">
+                        <h2>Libros populares</h2>
+                        <ul id="listaPopulares">
+                        </ul>
+                        <ul id="listaPopularesPaginacion" class="pagination"></ul>
+                    </section>
+                    <section class="recomendaciones">
+                        <h2>Recomendaciones para ti</h2>
+                        <ul>
+                            <li>
+                                <h3>Título del libro 4</h3>
+                                <p>Autor del libro 4</p>
+                            </li>
+                            <li>
+                                <h3>Título del libro 5</h3>
+                                <p>Autor del libro 5</p>
+                            </li>
+                            <li>
+                                <h3>Título del libro 6</h3>
+                                <p>Autor del libro 6</p>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
             </div>
         </main>
         <footer>
@@ -75,4 +80,4 @@
     </div>
 </html>
 
-<script src="../Vistas/js/principal.js"></script>
+<script src="/Vistas/js/principal.js"></script>

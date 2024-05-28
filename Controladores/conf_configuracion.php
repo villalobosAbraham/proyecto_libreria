@@ -49,6 +49,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo json_encode($resultado);
                 break;
+            case "INVRegistrarVisualizacion":
+                $datos->idUsuario = $_SESSION["idUsuario"];
+                $datos->fecha = date('Y-m-d');
+                $resultado = INVRegistrarVisualizacion($datos);
+
+                echo json_encode($resultado);
+                break;
             case "CONFComprobarUsuario":
                 $resultado = isset($_SESSION["idUsuario"]);
 

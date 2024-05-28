@@ -3,6 +3,7 @@
   <!-- <li><a href="#servicios">Servicios</a></li> -->
   <!-- <li><a href="#contacto">Contacto</a></li> -->
   <li><a id="linkCarrito" href="../Vistas/carrito.php">Carrito <i id="iconoCarrito" class="fa-solid fa-shopping-cart"></i></a></li>
+  <li id="barraUsuario"></li>
   <li><a onclick="cerrarSesion();"><i class="fa fa-sign-out"></i> Cerrar Sesion</a></li>
   <!-- <li><a onclick="cerrarSesion();"><i class="fa fa-user-times"></i> Cerrar Sesion</a></li> -->
 </ul>

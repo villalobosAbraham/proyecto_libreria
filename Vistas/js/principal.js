@@ -8,6 +8,7 @@ window.addEventListener('pageshow', function(event) {
 
 document.addEventListener('DOMContentLoaded', function() {
     comprobarUsuario();
+    // paginacion();
 });
 
 function comprobarUsuario() {
@@ -91,6 +92,7 @@ function mostrarLibrosPopulares(data) {
         let iconoAgregar = document.createElement('i');
         let iconoDetalles = document.createElement('i');
 
+        tituloElemento.classList.add("tituloElemento");
         iconoAgregar.classList.add('fa-solid', 'fa-plus'); // Agregar clases para el ícono
         iconoDetalles.classList.add('fa-solid', 'fa-info'); // Agregar clases para el ícono
         botonAgregarCarrito.classList.add("botonLibroPrincipal");
@@ -130,6 +132,8 @@ function mostrarLibrosPopulares(data) {
         
         lista.appendChild(elementoLista);
     }
+
+    paginacion();
 }
 
 function prepararTextoAutor(autores) {
@@ -198,6 +202,30 @@ function verDatellesLIbro(libro) {
     modal.style.display = "block";
     document.body.style.overflow = "hidden";
 
+    registrarVisualizacion(libro.idlibro);
+}
+
+function registrarVisualizacion(idLibro) {
+    let datosGenerales = {
+        accion : "INVRegistrarVisualizacion",
+        idLibro : idLibro
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data) {
+        } 
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function cerrarModalDetalles() {
@@ -205,3 +233,84 @@ function cerrarModalDetalles() {
     modal.style.display = "none";
     document.body.style.overflow = "auto";
 }
+
+
+function paginacion() {
+    let list = document.getElementById('listaPopulares');
+    let pagination = document.getElementById('listaPopularesPaginacion');
+    let items = list.getElementsByTagName('li');
+    let itemsPerPage = 3;
+    let maxPageButtons = 3; // Máximo de botones de paginación mostrados
+    let currentPage = 1;
+
+    function showPage(page) {
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        for (let i = 0; i < items.length; i++) {
+            items[i].style.display = (i >= start && i < end) ? 'block' : 'none';
+        }
+        setupPagination(page);
+    }
+
+    function setupPagination(page) {
+        const pageCount = Math.ceil(items.length / itemsPerPage);
+        pagination.innerHTML = '';
+
+        let startPage = Math.max(page - Math.floor(maxPageButtons / 2), 1);
+        let endPage = startPage + maxPageButtons - 1;
+
+        if (endPage > pageCount) {
+            endPage = pageCount;
+            startPage = Math.max(endPage - maxPageButtons + 1, 1);
+        }
+
+        if (startPage > 1) {
+            const firstPage = document.createElement('li');
+            firstPage.textContent = '1';
+            firstPage.addEventListener('click', function() {
+                currentPage = 1;
+                showPage(currentPage);
+            });
+            pagination.appendChild(firstPage);
+
+            if (startPage > 2) {
+                const dots = document.createElement('li');
+                dots.textContent = '...';
+                dots.style.pointerEvents = 'none';
+                pagination.appendChild(dots);
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const li = document.createElement('li');
+            li.textContent = i;
+            li.addEventListener('click', function() {
+                currentPage = i;
+                showPage(currentPage);
+            });
+            if (i === currentPage) {
+                li.classList.add('active');
+            }
+            pagination.appendChild(li);
+        }
+
+        if (endPage < pageCount) {
+            if (endPage < pageCount - 1) {
+                const dots = document.createElement('li');
+                dots.textContent = '...';
+                dots.style.pointerEvents = 'none';
+                pagination.appendChild(dots);
+            }
+
+            const lastPage = document.createElement('li');
+            lastPage.textContent = pageCount;
+            lastPage.addEventListener('click', function() {
+                currentPage = pageCount;
+                showPage(currentPage);
+            });
+            pagination.appendChild(lastPage);
+        }
+    }
+
+    showPage(currentPage);
+};

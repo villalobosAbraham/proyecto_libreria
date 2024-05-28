@@ -142,7 +142,7 @@ function convertirImagen(imagen) {
 }
 
 function base62Encode(data) {
-    const charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     let result = "";
 
     // Convertir datos binarios en un número entero
@@ -159,3 +159,66 @@ function base62Encode(data) {
 
     return result;
 }
+
+let uploadForm = document.getElementById('uploadForm');
+let imageInput = document.getElementById('imageInput');
+let customNameInput = document.getElementById('customName');
+let uploadedImage = document.getElementById('uploadedImage');
+let deleteButton = document.getElementById('deleteButton');
+
+let currentImageUrl = '';
+
+uploadForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    let url = '../Controladores/upload.php'; 
+
+    let formData = new FormData();
+    formData.append('image', imageInput.files[0]);
+    formData.append('customName', customNameInput.value);
+
+    fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.imageUrl) {
+            currentImageUrl = "../Controladores/" + data.imageUrl;
+            uploadedImage.src = currentImageUrl;
+            uploadedImage.style.display = 'block';
+            deleteButton.style.display = 'block';
+        } else {
+            console.error('Error uploading image.');
+        }
+    })
+    .catch(error => {
+        console.error('Error uploading image:', error);
+    });
+});
+
+deleteButton.addEventListener('click', function() {
+    let url = '../Controladores/upload.php'; 
+    if (currentImageUrl) {
+        let formData = new FormData();
+        formData.append('deleteImage', currentImageUrl);
+
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                uploadedImage.src = '';
+                uploadedImage.style.display = 'none';
+                deleteButton.style.display = 'none';
+                currentImageUrl = '';
+            } else {
+                console.error(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting image:', error);
+        });
+    }
+});

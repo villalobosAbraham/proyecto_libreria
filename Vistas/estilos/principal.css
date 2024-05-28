@@ -8,6 +8,11 @@ h1, h2 {
     font-weight: bold;
 }
 
+main {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 header {
     background-color: #333;
     color: #fff;
@@ -23,13 +28,16 @@ header img {
 
 .buscador {
     margin: 20px auto;
-    width: 500px;
+    width: 100%;
+    /* padding: 25%; */
+    padding-left: 28%;
+    /* padding-right: 12.5%; */
 }
 
 .buscador input {
     border: 1px solid #ccc;
     padding: 5px;
-    width: 80%;
+    width: 50%;
 }
 
 .buscador button {
@@ -42,7 +50,8 @@ header img {
 
 .libros-populares {
     margin: 20px auto;
-    width: 800px;
+    width: 75%;
+    text-align: center;
 }
 
 .libros-populares ul {
@@ -57,6 +66,11 @@ header img {
     margin: 10px;
     text-align: center;
     width: 200px;
+}
+
+.tituloElemento {
+    min-height: 100px;
+    vertical-align: middle;
 }
 
 .autorElemento {
@@ -166,4 +180,51 @@ header img {
 
 #pSinopsisLibro:hover {
     overflow-y: scroll;
+}
+
+.pagination {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    justify-content: center;
+    margin-top: 20px;
+}
+.pagination li {
+    width: fit-content;
+    margin: 0 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.pagination li.active {
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+.pagination li:hover:not(.active) {
+    background-color: #f1f1f1;
+}
+
+ul#listaPopulares {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+ul#listaPopulares li {
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#divContenedorFiltros {
+    width: 20%;
+}
+
+#divContenedorSecciones {
+    width: 80%;
 }
