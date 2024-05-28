@@ -22,4 +22,35 @@ ul.barra_sistema {
     background-color: #111;
   }
 
-  
+
+  /* Estilos para la barra_sistema */
+ul.barra_sistema {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #1B4F72;
+  width: 100px; /* Ancho deseado para la barra vertical */
+  position: fixed; /* Fijar la barra para que permanezca en su posición */
+  top: 0; /* Colocar la barra en la parte superior */
+  left: 0; /* Ajustar la posición lateral */
+  height: 100%; /* Hacer que la barra ocupe toda la altura de la página */
+  overflow-y: auto; /* Permitir el desplazamiento vertical si la barra es más larga que la ventana */
+}
+
+/* Estilos para cada elemento de la barra */
+ul.barra_sistema li {
+  display: block; /* Cambiar a un formato de bloque */
+  font-family: Tahoma, sans-serif;
+}
+
+ul.barra_sistema li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+ul.barra_sistema li a:hover {
+  background-color: #111;
+}
