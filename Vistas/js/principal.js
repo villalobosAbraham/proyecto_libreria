@@ -1,5 +1,7 @@
 let url = '../Controladores/conf_configuracion.php';
 
+
+
 window.addEventListener('pageshow', function(event) {
     comprobarUsuario();
 });
@@ -182,12 +184,12 @@ function verDatellesLIbro(libro) {
     let sinopsis = libro.sinopsis;
 
     document.getElementById('tituloModal').textContent = titulo;
-    document.getElementById('autoresLibro').textContent = autores;
-    document.getElementById('añoPublicacionLibro').textContent = fechaPublicacion.split("-").reverse().join("/");
-    document.getElementById('generoLibroDetalles').textContent = genero;
-    document.getElementById('cantidadPaginas').textContent = paginas;
-    document.getElementById('idiomaLibro').textContent = idioma;
-    document.getElementById('editorialLibro').textContent = editorial;
+    document.getElementById('autoresLibro').textContent = "Autor(es): " + autores;
+    document.getElementById('añoPublicacionLibro').textContent = "Fecha de Publicacion: " + fechaPublicacion.split("-").reverse().join("/");
+    document.getElementById('generoLibroDetalles').textContent = "Genero: " + genero;
+    document.getElementById('cantidadPaginas').textContent = "Cantidad de Paginas: " + paginas;
+    document.getElementById('idiomaLibro').textContent = "Idioma del Libro: " + idioma;
+    document.getElementById('editorialLibro').textContent = "Editorial: " + editorial;
     document.getElementById('pSinopsisLibro').innerText = sinopsis;
     document.getElementById('imagenLibroDetalles').src = portada;
 
@@ -196,4 +198,10 @@ function verDatellesLIbro(libro) {
     modal.style.display = "block";
     document.body.style.overflow = "hidden";
 
+}
+
+function cerrarModalDetalles() {
+    let modal = document.getElementById("myModal");
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
 }

@@ -53,24 +53,25 @@
     </body>
     <div id="myModal" class="modal">
         <div id="modalDetallesLibro" class="modal-content">
-            <span class="close">&times;</span>
+            <span id="cerrarModalDetalles" class="close" onclick="cerrarModalDetalles()">&times;</span>
             <h1 id="tituloModal"></h1>
             <div id="divDetallesLibro">
                 <div id="divImagenLibroDetalles">
                     <img id="imagenLibroDetalles">
                 </div>    
-                <h3 id="autoresLibro"></h3>
-                <h3 id="añoPublicacionLibro"></h3>
-                <h3 id="generoLibroDetalles"></h3>
-                <h3 id="cantidadPaginas"></h3>
-                <h3 id="idiomaLibro"></h3>
-                <h3 id="editorialLibro"></h3>
+                <h5 id="autoresLibro"></h5>
+                <h5 id="añoPublicacionLibro"></h5>
+                <h5 id="generoLibroDetalles"></h5>
+                <h5 id="cantidadPaginas"></h5>
+                <h5 id="idiomaLibro"></h5>
+                <h5 id="editorialLibro"></h5>
             </div>
             <div id="divSinopsisLibro">
                 <p id="pSinopsisLibro"></p>
             </div>
 
         </div>
+        <p></p>
     </div>
 </html>
 
