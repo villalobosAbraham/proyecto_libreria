@@ -1,5 +1,5 @@
 function cerrarSesion() {
-    let url = '../Controladores/log_login.php';
+    let url = '/Controladores/log_login.php';
     let datosGenerales = {
         accion: "CONFCerrarSesion",
     };
