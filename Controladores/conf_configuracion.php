@@ -15,6 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo json_encode($resultado);
                 break;
+            case "CONFObtenerLibrosPopulares":
+                $resultado = obtenerListaLibrosPopulares();  
+
+                echo json_encode($resultado);
+                break;
             case "VENAgregarAumentarLibroCarrito":
                 $datos->idUsuario = $_SESSION["idUsuario"];
                 
@@ -53,6 +58,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $datos->idUsuario = $_SESSION["idUsuario"];
                 $datos->fecha = date('Y-m-d');
                 $resultado = INVRegistrarVisualizacion($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFObtenerGenerosFiltros":
+                $resultado = CONFObtenerGenerosFiltros();
 
                 echo json_encode($resultado);
                 break;

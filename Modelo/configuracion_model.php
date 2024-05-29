@@ -63,6 +63,30 @@
         return $resultado;
     }
 
+    function obtenerListaLibrosPopulares() {
+        $conexion = conexion();
+
+        $sql = "SELECT DISTINCT 
+                    idlibro
+                FROM
+                    inv_visualizaciones
+                ORDER BY 
+                    fecha DESC
+                LIMIT 10
+        ";
+    }
+
+    function CONFObtenerLibrosPopulares() {
+        $conexion = conexion();
+
+        $sql = "SELECT
+
+        ";
+
+
+        return true;
+    }
+
     function comprobarExistenciaLibroCarrito($datos) {
         $conexion = conexion();
 
@@ -242,5 +266,24 @@
         $stmt = $conexion->prepare($sql);
 
         return $stmt->execute(); 
+    }
+
+    function CONFObtenerGenerosFiltros() {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    idgenero, genero
+                FROM
+                    conf_genero
+                WHERE
+                    activo = 'S'   
+                ";
+
+        $stmt = $conexion->prepare($sql);
+
+        $stmt->execute();
+        $resultado = $stmt->get_result()->fetch_all(MYSQLI_ASSOC); 
+
+        return $resultado;
     }
 ?>

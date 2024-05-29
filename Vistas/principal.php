@@ -14,7 +14,8 @@
                 </form>
             </section>
             <div id="divContenedorFiltros">
-
+                <h3 id="h2Filtros">Filtro Genero </h3>
+                <ul id="listaFiltros"></ul>
             </div>
             <div id="divContenedorSecciones">
                 <div id="busqueda">

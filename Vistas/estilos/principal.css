@@ -50,7 +50,7 @@ header img {
 
 .libros-populares {
     margin: 20px auto;
-    width: 75%;
+    width: 90%;
     text-align: center;
 }
 
@@ -222,9 +222,26 @@ ul#listaPopulares li {
 }
 
 #divContenedorFiltros {
-    width: 20%;
+    text-align: center;
+    width: 15%;
 }
 
 #divContenedorSecciones {
-    width: 80%;
+    width: 85%;
+}
+
+#listaFiltros {
+    list-style-type: none;
+    list-style: none;
+    padding: 0;
+    margin-left: 25%;
+}
+
+#listaFiltros li {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 40px;
+    text-align: center;
+    /* padding-left: 35%; */
+    /* text-align: center; */
 }

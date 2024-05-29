@@ -107,7 +107,7 @@ function mostrarLibrosCarrito(libros) {
         textoCosto.classList.add('textoCosto');
         botonBorrar.classList.add("botonBorrar");
 
-        portadaLibro.src = libro.portada;
+        portadaLibro.src = "../Controladores/" + libro.portada;
 
         tituloLibro.textContent = libro.titulo;
         autorLibro.textContent = prepararTextoAutor(libro.autor);

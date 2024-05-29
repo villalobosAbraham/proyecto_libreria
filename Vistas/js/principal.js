@@ -8,6 +8,8 @@ window.addEventListener('pageshow', function(event) {
 
 document.addEventListener('DOMContentLoaded', function() {
     comprobarUsuario();
+    obtenerLibrosPopulares();
+    obtenerFiltros();
     // paginacion();
 });
 
@@ -25,12 +27,12 @@ function comprobarUsuario() {
     })
     .then(response => response.json())
     .then(data => {
-        if (data) {
-            obtenerLibrosPopulares();
-        } else {
+        if (!data) {
             window.open("/Vistas/login.php", "_self");
-            return;
-        } 
+            // return true;
+        } //else {
+        //     return false;;
+        // } 
     })
     .catch(error => {
         console.error('Error:', error);
@@ -40,6 +42,7 @@ function comprobarUsuario() {
 function obtenerLibrosPopulares() {
     let datosGenerales = {
         accion : "consultarLibros",
+        // accion : "CONFObtenerLibrosPopulares",
     }
 
     fetch(url, {
@@ -120,7 +123,7 @@ function mostrarLibrosPopulares(data) {
             verDatellesLIbro(registro);
         });
 
-        imagen.src = portada;
+        imagen.src = "../Controladores/" + portada;
         
         elementoLista.appendChild(imagen);
         elementoLista.appendChild(tituloElemento);
@@ -195,7 +198,7 @@ function verDatellesLIbro(libro) {
     document.getElementById('idiomaLibro').textContent = "Idioma del Libro: " + idioma;
     document.getElementById('editorialLibro').textContent = "Editorial: " + editorial;
     document.getElementById('pSinopsisLibro').innerText = sinopsis;
-    document.getElementById('imagenLibroDetalles').src = portada;
+    document.getElementById('imagenLibroDetalles').src =  "../Controladores/" + portada;;
 
 
     let modal = document.getElementById("myModal");
@@ -233,7 +236,6 @@ function cerrarModalDetalles() {
     modal.style.display = "none";
     document.body.style.overflow = "auto";
 }
-
 
 function paginacion() {
     let list = document.getElementById('listaPopulares');
@@ -314,3 +316,60 @@ function paginacion() {
 
     showPage(currentPage);
 };
+
+function obtenerFiltros() {
+    let datosGenerales = {
+        accion : "CONFObtenerGenerosFiltros",
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data) {
+            mostrarFiltros(data);
+        } 
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function mostrarFiltros(generos) {
+    let lista = document.getElementById("listaFiltros");
+    for(let genero of generos) {
+        let listItem = document.createElement('li');
+        let h2Genero = prepararH2GeneroFiltro(genero.genero);
+
+        // Crear el checkbox
+        let checkboxGenero = prepararCheckBoxGeneroFiltro(genero.idgenero);
+
+        // Añadir h3 y checkbox al li
+        listItem.appendChild(h2Genero);
+        listItem.appendChild(checkboxGenero);
+
+        // Añadir el li a la lista
+        lista.appendChild(listItem);
+    }
+}
+
+function prepararH2GeneroFiltro(genero) {
+    let h2Genero = document.createElement('h3');
+    h2Genero.textContent = genero;
+
+    return h2Genero;
+}
+
+function prepararCheckBoxGeneroFiltro(idGenero) {
+    let checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.name = 'boxFiltro';
+    checkbox.value = idGenero;
+
+    return checkbox;
+}
