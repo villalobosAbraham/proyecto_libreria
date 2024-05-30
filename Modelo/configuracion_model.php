@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost"; 
-        $username_db = "abraham"; 
-        $password_db = "Degea200"; 
+        $username_db = "root"; 
+        $password_db = ""; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
@@ -453,5 +453,127 @@
         $stmt->close();
         $conexion->close();
         return $resultado;
+    }
+
+
+    function comprobarDiferenciaCarritoInventario($idUsuario) {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    ven_carrodecompra.idusuario, ven_carrodecompra.idlibro, ven_carrodecompra.cantidad,
+
+                    inv_inventariolibros.cantidad AS stock
+                FROM
+                    ven_carrodecompra
+                LEFT JOIN 
+                    inv_inventariolibros ON ven_carrodecompra.idlibro = inv_inventariolibros.idlibro
+                WHERE
+                    ven_carrodecompra.cantidad > inv_inventariolibros.cantidad
+                ";
+        $resultado = mysqli_query($conexion, $sql);
+
+        if (mysqli_num_rows($resultado) < 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function registrarVentaMaestra($datos) {
+        $conexion = conexion();
+
+        $sql = "INSERT INTO
+                    ven_ventam
+                    (fecha, hora, idusuariocompra, idvendedor, importe, descuento, iva, total, idestadoentrega, idordenpaypal)
+                VALUES
+                    ('$datos->fecha', '$datos->hora', '$datos->idUsuario', '0', '$datos->importeMaestro', '$datos->descuentoMaestro', '$datos->ivaMaestro', '$datos->totalMaestro', '1', '$datos->idOrdenPaypal')
+                ";
+        $stmt = $conexion->prepare($sql);
+
+        return $stmt->execute(); 
+    }
+
+    function obtenerIdVentaMaestra($datos) {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    idventa
+                FROM
+                    ven_ventam
+                WHERE
+                    fecha = '$datos->fecha' AND
+                    hora = '$datos->hora' AND
+                    idusuariocompra = '$datos->idUsuario'
+        ";
+
+        // Ejecutar la consulta
+        $resultados = mysqli_query($conexion, $sql);
+
+        // Obtener la fila resultante
+        $resultado = mysqli_fetch_assoc($resultados);
+
+        // Verificar si la cantidad es válida
+        return $resultado['idventa'];
+    }
+
+    function registrarVentasDetalle($idVenta, $datosCarrito) {
+        $conexion = conexion();
+
+        $sql = "INSERT INTO 
+                    ven_ventad
+                    (idventa, idlibro, cantidad, precio, descuento, iva, total)
+                VALUES
+                    (?,?,?,?,?,?,?)
+                ";
+
+        $stmt = $conexion->prepare($sql);
+        foreach ($datosCarrito as $libro) {
+            $idLibro = $libro["idlibro"];
+            $cantidad = $libro["cantidad"];
+            $precio = $libro["precio"];
+            $descuento = $libro["descuento"];
+            $iva = $libro["iva"];
+            $total = ($precio - $descuento + $iva) * $cantidad;
+            
+            $stmt->bind_param("iiidddd", $idVenta, $idLibro, $cantidad, $precio, $descuento, $iva, $total);
+            if (!$stmt->execute()) {
+                $stmt->close();
+                $conexion->close();
+                return false;
+            } 
+        }
+
+        $stmt->close();
+        $conexion->close();
+        return true;
+    }
+
+    function salidaInventarioVenta($datosCarrito) {
+        $conexion = conexion();
+
+        $sql = "UPDATE
+                    inv_inventariolibros
+                SET
+                    cantidad = cantidad - ?
+                WHERE
+                    idlibro = ?
+                ";
+
+        $stmt = $conexion->prepare($sql);
+        foreach ($datosCarrito as $libro) {
+            $idLibro = $libro["idlibro"];
+            $cantidad = $libro["cantidad"];
+            
+            $stmt->bind_param("ii", $cantidad, $idLibro);
+            if (!$stmt->execute()) {
+                $stmt->close();
+                $conexion->close();
+                return false;
+            } 
+        }
+
+        $stmt->close();
+        $conexion->close();
+        return true;
     }
 ?>

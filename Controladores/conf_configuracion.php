@@ -2,7 +2,7 @@
 session_start();
 
 require_once '../Modelo/configuracion_model.php';
-
+date_default_timezone_set('America/Mazatlan'); // Cambia esto por tu zona horaria
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $datos = json_decode(file_get_contents('php://input'));
@@ -82,6 +82,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $resultado = CONFFiltrarLibros($datos);
 
                 echo json_encode($resultado);
+                break;
+            case "VENRegistrarVenta":
+                $datos->idUsuario = $_SESSION["idUsuario"];
+                $datos->fecha = date('Y-m-d');
+                $datos->hora = date('H:i:s');
+
+
+                $diferencia = comprobarDiferenciaCarritoInventario($_SESSION["idUsuario"]);
+                if (!$diferencia) {
+                    echo json_encode($diferencia);
+                    break;
+                }
+                $datosCarrito = VENObtenerLibrosCarritoCompra($_SESSION["idUsuario"]);
+
+                if (!registrarVentaMaestra($datos)) {
+                    echo json_encode(false);
+                    break;
+                }
+                
+                $idVenta = obtenerIdVentaMaestra($datos);
+                if (!registrarVentasDetalle($idVenta, $datosCarrito)) {
+                    echo json_encode(false);
+                    break;
+                } else if (!salidaInventarioVenta($datosCarrito)) {
+                    echo json_encode(false);
+                    break;
+                } else if(!VENLimpiarCarritoCompra($datos->idUsuario)) {
+                    echo json_encode(false);
+                    break;
+                }
+                
+                echo json_encode(true);
                 break;
             case "CONFComprobarUsuario":
                 $resultado = isset($_SESSION["idUsuario"]);

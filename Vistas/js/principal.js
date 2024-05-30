@@ -113,6 +113,7 @@ function mostrarLibros(listaDatos, listaPaginacion, data) {
         
         botonAgregarCarrito.addEventListener('click', function() {
             agregarLibroCarrito(botonAgregarCarrito);
+            registrarVisualizacion(idLibro);
         });
         
         botonDetallesLibro.textContent = "Ver Detalles ";

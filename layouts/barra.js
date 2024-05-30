@@ -205,7 +205,7 @@ function prepararDatosGeneralesGuardarInformacionUsuarioModal() {
     let regexTelefono = /^\d{10}$/;
     let regexFecha = /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
 
-    if (!regexTelefono.test(telefono) || !regexFecha.test(fechaNacimiento)) {
+    if (!regexTelefono.test(telefono) || !regexFecha.test(fechaNacimiento) || !regexCorreo.test(correo)) {
     // if (!regexCorreo.test(correo) || !regexTelefono.test(telefono)) {
         return false;
     }

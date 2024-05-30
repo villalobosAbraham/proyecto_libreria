@@ -47,7 +47,6 @@ function obtenerLibrosCarrito() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         if (data) {
             mostrarLibrosCarrito(data);
         } 
@@ -219,9 +218,6 @@ function borrarLibroCarrito(idLibro) {
 }
 
 function actualizarPrecios(input, textoCosto, idLibro) {   
-    console.log("idLibro = " + idLibro); 
-    // actualizarPrecioDivLibro(input, textoCosto);
-    // actualizarPrecioDivPagos(input);
     let datosGenerales = {
         accion : "VENActualizarCantidadCarrito",
         idLibro : idLibro,
@@ -238,7 +234,6 @@ function actualizarPrecios(input, textoCosto, idLibro) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         if (data) {
             actualizarPrecioDivLibro(input, textoCosto);
             actualizarPrecioDivPagos(input);
@@ -348,7 +343,6 @@ function cargarBotonPaypal() {
         // Ejecuta cuando el pago se apru ba
         onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
-                console.log(details);
 
                 let payerName = details.payer.name.given_name;
                 let payerSurname = details.payer.name.surname;
@@ -371,9 +365,8 @@ function cargarBotonPaypal() {
                 console.log('Monto de la Compra: ' + purchaseAmount);
                 console.log('Código de Moneda: ' + currencyCode);
                 console.log('Estado de la Transacción: ' + transactionStatus);
-                alert('Pago completado por ' + details.payer.name.given_name);
-
-                limpiarCarrito();
+                // alert('Pago completado por ' + details.payer.name.given_name);
+                registrarVenta(orderId);
             });
         },
         // Maneja los errores del pago
@@ -425,10 +418,83 @@ function limpiarCarrito() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
-        location.reload();
+        if(data) {
+            mensajeFunciono("Compra Realizada Correctamente");
+            setTimeout(() => {
+                location.reload();
+            }, 5000);
+        }
     })
     .catch(error => {
         console.error('Error:', error);
     });
+}
+
+function borrarCarrito() {
+    let datosGenerales = {
+        accion : "VENLimpiarCarritoCompra",
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data) {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function registrarVenta(idOrdenPaypal) {
+    let datosGenerales = prepararDatosGeneralesRegistrarVenta(idOrdenPaypal);
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if(data) {
+            mensajeFunciono("Venta Realizada Correctamente");
+            setTimeout(() => {
+                location.reload();
+            }, 5000);
+        } else {
+            mensajeError("Inventario Insuficiente, Se Borrara el Carrito");
+            borrarCarrito();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function prepararDatosGeneralesRegistrarVenta(idOrdenPaypal) {
+    let importeMaestro = $("#h2TotalPrecioBaseNumero").attr("totalpreciobaseanterior");
+    let descuentoMaestro = $("#h2TotalDescuentoNumero").attr("totaldescuentoanterior");
+    let ivaMaestro = $("#h2TotalIvaNumero").attr("totalivaanterior");
+    let totalMaestro = $("#h2CostoTotalNumero").attr("totalcarritoanterior");
+
+    let datosGenerales = {
+        accion : "VENRegistrarVenta",
+        idOrdenPaypal : idOrdenPaypal,
+        importeMaestro : importeMaestro,
+        descuentoMaestro : descuentoMaestro,
+        ivaMaestro : ivaMaestro,
+        totalMaestro : totalMaestro,
+    }
+
+    return datosGenerales;
 }
