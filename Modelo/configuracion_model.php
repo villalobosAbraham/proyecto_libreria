@@ -121,12 +121,14 @@
     function obtenerListaIdsLibrosPopulares() {
         $conexion = conexion();
 
-        $sql = "SELECT DISTINCT 
-                    idlibro
-                FROM
-                    inv_visualizaciones
-                ORDER BY 
-                    fecha DESC
+        $sql = "SELECT idlibro
+                FROM (
+                    SELECT idlibro, fecha
+                    FROM inv_visualizaciones
+                    ORDER BY fecha DESC
+                ) as subquery
+                GROUP BY idlibro
+                ORDER BY MAX(fecha) DESC
                 LIMIT 10
         ";
 
