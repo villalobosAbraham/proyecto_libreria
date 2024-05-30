@@ -2,6 +2,6 @@ main {
     display: flex;
     justify-content: center; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
-    height: 5vh; /* Ajusta la altura al 100% del viewport */
+    height: 5vh; /* Ajusta la altura del viewport */
     font-family: Tahoma, sans-serif; /* Cambia la fuente del texto */
 }

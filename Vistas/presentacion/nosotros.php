@@ -13,7 +13,7 @@
         <main class="nosotros">
             <section class="historia">
                 <h2>Nuestra historia</h2>
-                <p> La Librería "El Lector" nació en el año 2010 con el sueño de crear un espacio acogedor donde los amantes de la lectura pudieran encontrar una amplia variedad de libros y compartir su pasión por la literatura. </p>
+                <p> Esta página web fue desarrollada por un pequeño equipo como forma de proyecto para poner a flote un negocio local dedicado a la venta de libros. </p>
                 <p> Desde nuestros inicios, nos hemos esforzado por ofrecer un servicio personalizado y una atención al cliente de calidad. </p>
             </section>
             <section class="equipo">
@@ -21,30 +21,30 @@
                 <ul class="equipo_imagenes">
                     <li>
                         <img src="../imagenes/fondo.jpg" alt="Foto del empleado 1" class="imagen_fondo">
-                        <h3>Ana García</h3>
-                        <p>Propietaria</p>
+                        <h3>Cabanillas Cota José Antonio</h3>
+                        <p>Administrador del proyecto</p>
                     </li>
                     <li>
                         <img src="../imagenes/fondo.jpg" alt="Foto del empleado 2" class="imagen_fondo">
-                        <h3>Juan López</h3>
-                        <p>Librero</p>
+                        <h3>Villalobos Fonseca jesús Abraham </h3>
+                        <p>Programador FULLSTACK</p>
                     </li>
                     <li>
                         <img src="../imagenes/fondo.jpg" alt="Foto del empleado 3" class="imagen_fondo">
-                        <h3>María Pérez</h3>
-                        <p>Responsable de eventos</p>
+                        <h3>Gutierrez Alvarez José carlos</h3>
+                        <p>programador FRONTEND</p>
                     </li>
                 </ul>
             </section>
             <section class="especialidades">
                 <h2>Especialidades</h2>
-                <p> En la Librería "El Lector" encontrarás una amplia selección de libros en todos los géneros, incluyendo literatura clásica, novela contemporánea, poesía, libros infantiles y juveniles, en especial libros academicos orientados a estudiantes. </p>
+                <p> En la Librería "El Lector" encontrarás una amplia selección de libros incluyendo literatura clásica, aventura y juveniles. </p>
                 <p> También disponemos de una sección especializada en libros locales y regionales. </p>
             </section>
             <section class="comunidad">
                 <h2>Comunidad</h2>
                 <p> La Librería "El Lector" está comprometida con la comunidad local. </p>
-                <p> Organizamos regularmente eventos como presentaciones de libros, talleres de escritura, clubs de lectura y cuentacuentos para niños. </p>
+                <p> Organizamos regularmente . </p>
             </section>
         </main>
         <footer class="nosotros">
@@ -52,12 +52,6 @@
             <ul>
                 <li>
                     <a href="#">Contacto</a>
-                </li>
-                <li>
-                    <a href="#">Aviso legal</a>
-                </li>
-                <li>
-                    <a href="#">Política de privacidad</a>
                 </li>
             </ul>
         </footer>

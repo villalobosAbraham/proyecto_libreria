@@ -29,11 +29,11 @@ ul.barra_sistema {
   margin: 0;
   padding: 0;
   background-color: #1B4F72;
-  width: 100px; /* Ancho deseado para la barra vertical */
+  width: 100px; 
   position: fixed; /* Fijar la barra para que permanezca en su posición */
-  top: 0; /* Colocar la barra en la parte superior */
-  left: 0; /* Ajustar la posición lateral */
-  height: 100%; /* Hacer que la barra ocupe toda la altura de la página */
+  top: 0; 
+  left: 0; 
+  height: 100%; 
   overflow-y: auto; /* Permitir el desplazamiento vertical si la barra es más larga que la ventana */
 }
 
@@ -53,4 +53,9 @@ ul.barra_sistema li a {
 
 ul.barra_sistema li a:hover {
   background-color: #111;
+}
+
+/* Cambiar el cursor al pasar sobre el enlace de cerrar sesión */
+ul.barra_sistema li a[onclick] {
+  cursor: pointer;
 }
