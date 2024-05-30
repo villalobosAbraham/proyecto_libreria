@@ -44,14 +44,15 @@
             <section class="comunidad">
                 <h2>Comunidad</h2>
                 <p> La Librería "El Lector" está comprometida con la comunidad local. </p>
-                <p> Organizamos regularmente . </p>
+                <p> Actualizaremos regularmente nuestro catalogo según las preferencias de nuestros usuarios . </p>
             </section>
         </main>
         <footer class="nosotros">
             <p> Librería "El Lector" - Todos los derechos reservados. </p>
             <ul>
                 <li>
-                    <a href="#">Contacto</a>
+                <h2>Contatco</h2>
+                <p> Telefono: 6681945592 </p>
                 </li>
             </ul>
         </footer>
