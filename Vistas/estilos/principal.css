@@ -48,19 +48,19 @@ header img {
     cursor: pointer;
 }
 
-.libros-populares {
+.seccionLibros {
     margin: 20px auto;
     width: 90%;
     text-align: center;
 }
 
-.libros-populares ul {
+.seccionLibros ul {
     list-style-type: none;
     list-style: none;
     padding: 0;
 }
 
-.libros-populares li {
+.seccionLibros li {
     /* min-height: 476px; */
     display: inline-block;
     margin: 10px;
@@ -77,11 +77,11 @@ header img {
     min-height: 70px;
 }
 
-.libros-populares img {
+.seccionLibros img {
     width: 100px;
 }
 
-.libros-populares button {
+.seccionLibros button {
     background-color: #1B4F72;
     color: #fff;
     /* padding: 5px 10px; */
@@ -207,7 +207,7 @@ header img {
     background-color: #f1f1f1;
 }
 
-ul#listaPopulares {
+/* ul#listaPopulares {
     padding: 0;
     list-style: none;
     display: flex;
@@ -215,6 +215,20 @@ ul#listaPopulares {
     justify-content: center;
 }
 ul#listaPopulares li {
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+} */
+
+ul.listaLibros {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+ul.listaLibros li {
     margin: 10px;
     padding: 20px;
     border: 1px solid #ddd;
@@ -244,4 +258,8 @@ ul#listaPopulares li {
     text-align: center;
     /* padding-left: 35%; */
     /* text-align: center; */
+}
+
+#busqueda {
+    display: none;
 }

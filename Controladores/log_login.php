@@ -47,6 +47,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $resultado = CONFComprobarCarrito($_SESSION["idUsuario"]);
                 echo json_encode($resultado);
                 break;
+            case "CONFObtenerUsuarioBarra":
+                $resultado = CONFObtenerUsuarioBarra($_SESSION["idUsuario"]);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFGuardarInformacionUsuarioModal":
+                $datos->idUsuario = $_SESSION["idUsuario"];
+                $resultado = CONFGuardarInformacionUsuarioModal($datos);
+
+                echo json_encode($resultado);
+                break;
             case "CONFCerrarSesion":
                 if (session_unset() && session_destroy()) {
                     $resultado = true;

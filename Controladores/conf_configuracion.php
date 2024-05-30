@@ -10,15 +10,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $accion = $datos->accion;
         
         switch ($accion) {
-            case "consultarLibros":
-                $resultado = CONFConsultarLibros();  
+            // case "consultarLibros":
+            //     $resultado = CONFConsultarLibros();  
 
-                echo json_encode($resultado);
-                break;
+            //     echo json_encode($resultado);
+            //     break;
             case "CONFObtenerLibrosPopulares":
-                $resultado = obtenerListaLibrosPopulares();  
+                $listaIdsLibros = obtenerListaIdsLibrosPopulares();  
+                $listaLibros = implode(',', $listaIdsLibros);
+                $resultados = obtenerLibrosArrayIds($listaLibros);
 
-                echo json_encode($resultado);
+                echo json_encode($resultados);
+                break;
+            case "CONFObtenerLibrosRecomendados":
+                $listaIdsLibros = obtenerListaIdsLibrosRecomendados();  
+                
+                $listaLibros = implode(',', $listaIdsLibros);
+                $resultados = obtenerLibrosArrayGenero($listaLibros);
+
+                echo json_encode($resultados);
                 break;
             case "VENAgregarAumentarLibroCarrito":
                 $datos->idUsuario = $_SESSION["idUsuario"];
@@ -63,6 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 break;
             case "CONFObtenerGenerosFiltros":
                 $resultado = CONFObtenerGenerosFiltros();
+
+                echo json_encode($resultado);
+                break;
+            case "CONFFiltrarLibros":
+                $datos->generos = implode(',', $datos->generos);
+                // echo json_encode(empty($datos->generos));
+                $resultado = CONFFiltrarLibros($datos);
 
                 echo json_encode($resultado);
                 break;

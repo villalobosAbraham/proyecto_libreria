@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost";
-        $username_db = "root"; 
-        $password_db = ""; 
+        $username_db = "abraham"; 
+        $password_db = "Degea200"; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
@@ -42,14 +42,15 @@
 
     function registro($correo, $contraseña, $nombre, $apellidoPaterno, $apellidoMaterno, $idTipoUsuario, $fechaActual, $activo) {
         $conexion = conexion();
+        $FECHA_DEFAUlT = "0001-01-01";
 
         $sql = "INSERT INTO log_usuarios 
-                (email, contraseña, nombre, apellidopaterno, apellidomaterno, idtipousuario, fecharegistro, activo)
+                (email, contraseña, nombre, apellidopaterno, apellidomaterno, idtipousuario, fecharegistro, telefono, fechanacimiento, activo)
                 VALUES
                 (?,?,?,?,?,?,?,?)
                 ";            
         $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("sssssiss", $correo, $contraseña, $nombre, $apellidoPaterno, $apellidoMaterno, $idTipoUsuario, $fechaActual, $activo);
+        $stmt->bind_param("sssssissss", $correo, $contraseña, $nombre, $apellidoPaterno, $apellidoMaterno, $idTipoUsuario, $fechaActual, $FECHA_DEFAUlT, $FECHA_DEFAUlT, $activo);
 
         if ($stmt->execute()) {
             $resultado = array(
@@ -82,5 +83,40 @@
         $total = $fila['total'];
 
         return $total;
+    }
+
+    function CONFObtenerUsuarioBarra($idUsuario) {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    nombre, apellidopaterno, apellidomaterno, email, telefono, fechanacimiento
+                FROM
+                    log_usuarios
+                WHERE
+                    idusuario = '$idUsuario'
+                ";
+
+        $resultados = mysqli_query($conexion, $sql);
+
+        return mysqli_fetch_assoc($resultados);
+    }
+
+    function CONFGuardarInformacionUsuarioModal($datos) {
+        $conexion = conexion();
+
+        $sql = "UPDATE
+                    log_usuarios
+                SET
+                    email = '$datos->correo',
+                    nombre = '$datos->nombre',
+                    apellidomaterno = '$datos->apellidoMaterno',
+                    apellidopaterno = '$datos->apellidoPaterno',
+                    telefono = '$datos->telefono',
+                    fechanacimiento = '$datos->fechaNacimiento'
+                WHERE
+                    idusuario = '$datos->idUsuario'
+                ";
+
+        return $conexion->query($sql);
     }
 ?>

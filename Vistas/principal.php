@@ -3,14 +3,13 @@
         <?php include '../layouts/barra.php'; ?>
         <link rel="stylesheet" href="../Vistas/estilos/principal.css">
         <title>Principal</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     </head>
     <body>
         <main id="main">
             <section class="buscador">
                 <form action="#">
-                    <input type="text" placeholder="Buscar libros">
-                    <button type="submit" onclick="obtenerLibrosPopulares();">Buscar <i class="fa fa-search"></i></button>
+                    <input id="inputBuscarLibro" type="text" placeholder="Buscar libros">
+                    <button type="submit" onclick="filtrarLibros();">Buscar <i class="fa fa-search"></i></button>
                 </form>
             </section>
             <div id="divContenedorFiltros">
@@ -19,36 +18,23 @@
             </div>
             <div id="divContenedorSecciones">
                 <div id="busqueda">
-                    <section class="libros-busqueda">
-                        <h2 id="tituloBusqueda"></h2>
-                        <ul id="listaBusqueda">
-
-                        </ul>
+                    <section class="seccionLibros">
+                        <h2>Libros Filtrados</h2>
+                        <ul id="listaBusqueda" class="listaLibros"></ul>
+                        <ul id="listaBusquedaPaginacion" class="pagination"></ul>
                     </section>
                 </div>
                 <div id="secciones">
-                    <section class="libros-populares">
+                    <section class="seccionLibros">
                         <h2>Libros populares</h2>
-                        <ul id="listaPopulares">
-                        </ul>
+                        <ul id="listaPopulares" class="listaLibros"></ul>
                         <ul id="listaPopularesPaginacion" class="pagination"></ul>
                     </section>
-                    <section class="recomendaciones">
+                    <br>
+                    <section class="seccionLibros">
                         <h2>Recomendaciones para ti</h2>
-                        <ul>
-                            <li>
-                                <h3>Título del libro 4</h3>
-                                <p>Autor del libro 4</p>
-                            </li>
-                            <li>
-                                <h3>Título del libro 5</h3>
-                                <p>Autor del libro 5</p>
-                            </li>
-                            <li>
-                                <h3>Título del libro 6</h3>
-                                <p>Autor del libro 6</p>
-                            </li>
-                        </ul>
+                        <ul id="listaRecomendaciones" class="listaLibros"></ul>
+                        <ul id="listaRecomendacionesPaginacion" class="pagination"></ul>
                     </section>
                 </div>
             </div>

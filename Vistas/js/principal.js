@@ -9,8 +9,8 @@ window.addEventListener('pageshow', function(event) {
 document.addEventListener('DOMContentLoaded', function() {
     comprobarUsuario();
     obtenerLibrosPopulares();
+    obtenerLibrosRecomendados();
     obtenerFiltros();
-    // paginacion();
 });
 
 function comprobarUsuario() {
@@ -41,8 +41,7 @@ function comprobarUsuario() {
 
 function obtenerLibrosPopulares() {
     let datosGenerales = {
-        accion : "consultarLibros",
-        // accion : "CONFObtenerLibrosPopulares",
+        accion : "CONFObtenerLibrosPopulares",
     }
 
     fetch(url, {
@@ -55,7 +54,7 @@ function obtenerLibrosPopulares() {
     .then(response => response.json())
     .then(data => {
         if (data) {
-            mostrarLibrosPopulares(data);
+            mostrarLibros("listaPopulares", "listaPopularesPaginacion", data);
         } 
     })
     .catch(error => {
@@ -63,8 +62,8 @@ function obtenerLibrosPopulares() {
     });
 }
 
-function mostrarLibrosPopulares(data) {
-    let lista = document.getElementById('listaPopulares');
+function mostrarLibros(listaDatos, listaPaginacion, data) {
+    let lista = document.getElementById(listaDatos);
     lista.innerHTML = '';
     for (let registro of data) {
         let idLibro = registro.idlibro;
@@ -136,12 +135,35 @@ function mostrarLibrosPopulares(data) {
         lista.appendChild(elementoLista);
     }
 
-    paginacion();
+    paginacion(listaDatos, listaPaginacion);
 }
 
 function prepararTextoAutor(autores) {
     autores = autores.replace("  ", " y ");
     return autores;
+}
+
+function obtenerLibrosRecomendados() {
+    let datosGenerales = {
+        accion : "CONFObtenerLibrosRecomendados",
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data) {
+            mostrarLibros("listaRecomendaciones", "listaRecomendacionesPaginacion", data);
+        } 
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function agregarLibroCarrito(boton) {
@@ -237,11 +259,11 @@ function cerrarModalDetalles() {
     document.body.style.overflow = "auto";
 }
 
-function paginacion() {
-    let list = document.getElementById('listaPopulares');
-    let pagination = document.getElementById('listaPopularesPaginacion');
+function paginacion(listaBase, listaPaginacion) {
+    let list = document.getElementById(listaBase);
+    let pagination = document.getElementById(listaPaginacion);
     let items = list.getElementsByTagName('li');
-    let itemsPerPage = 3;
+    let itemsPerPage = 4;
     let maxPageButtons = 3; // Máximo de botones de paginación mostrados
     let currentPage = 1;
 
@@ -372,4 +394,46 @@ function prepararCheckBoxGeneroFiltro(idGenero) {
     checkbox.value = idGenero;
 
     return checkbox;
+}
+
+function filtrarLibros() {
+    let datosGenerales = prepararDatosGeneralesFiltrarLibros();
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.length > 0) {
+            mostrarLibros("listaBusqueda", "listaBusquedaPaginacion", data);
+            $("#busqueda").css("display", "block");
+        } else {
+            mensajeError("Libros no Coincidentes");
+            $("#busqueda").css("display", "none");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function prepararDatosGeneralesFiltrarLibros() {
+    let libro = document.getElementById("inputBuscarLibro").value;
+    let checkboxes = document.querySelectorAll('input[name="boxFiltro"]:checked');
+    
+    let generos = Array.from(checkboxes).map(cb => cb.value);
+    console.log(generos);
+
+    let datosGenerales = {
+        accion : "CONFFiltrarLibros",
+        libro : libro,
+        generos : generos,
+    }
+
+    return datosGenerales;
+
 }
