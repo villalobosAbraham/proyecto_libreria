@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost";
-        $username_db = "root"; 
-        $password_db = ""; 
+        $username_db = "abraham"; 
+        $password_db = "Degea200"; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);

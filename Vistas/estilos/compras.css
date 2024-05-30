@@ -1,0 +1,73 @@
+header {
+    text-align: center;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#divTablaCompras {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tablaCompras {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+    padding: 10px;
+}
+
+.tablaCompras thead th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 15px;
+}
+
+.tablaCompras tbody td {
+    padding: 12px 15px;
+}
+
+.tablaCompras tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.tablaCompras tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.tablaCompras tbody tr:hover {
+    background-color: #ddd;
+}
+
+.tablaCompras.dataTable thead th,
+.tablaCompras.dataTable tbody td {
+    padding: 12px 15px !important;
+}
+
+.tablaCompras.dataTable thead th {
+    background-color: #4CAF50 !important;
+    color: white !important;
+}
+
+.tablaCompras.dataTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2 !important;
+}
+
+.tablaCompras.dataTable tbody tr:nth-child(odd) {
+    background-color: #ffffff !important;
+}
+
+.tablaCompras.dataTable tbody tr:hover {
+    background-color: #ddd !important;
+}
+
+.dt-end {
+    margin-bottom: 5px;
+    float: right;
+}

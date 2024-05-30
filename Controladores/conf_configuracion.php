@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $diferencia = comprobarDiferenciaCarritoInventario($_SESSION["idUsuario"]);
                 if (!$diferencia) {
-                    echo json_encode($diferencia);
+                    echo json_encode(false);
                     break;
                 }
                 $datosCarrito = VENObtenerLibrosCarritoCompra($_SESSION["idUsuario"]);
@@ -117,6 +117,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 break;
             case "CONFComprobarUsuario":
                 $resultado = isset($_SESSION["idUsuario"]);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFObtenerLibros":
+                $resultado = CONFObtenerLibros();
+
+                echo json_encode($resultado);
+                break;
+            case "CONFObtenerComprasUsuario":
+                $resultado = CONFObtenerComprasUsuario($_SESSION["idUsuario"]);
 
                 echo json_encode($resultado);
                 break;

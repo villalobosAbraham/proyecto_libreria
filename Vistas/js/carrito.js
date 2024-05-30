@@ -349,7 +349,7 @@ function cargarBotonPaypal() {
                 let payerEmail = details.payer.email_address;
     
                 // Accede a información específica del pedido
-                let orderId = details.id;
+                let orderId = details.purchase_units[0].payments.captures[0].id;
                 let purchaseAmount = details.purchase_units[0].amount.value;
                 let currencyCode = details.purchase_units[0].amount.currency_code;
     

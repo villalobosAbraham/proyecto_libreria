@@ -1,5 +1,6 @@
 <ul class="barra">
-  <li><a href="../Vistas/principal.php">Inicio <i class="fa fa-home"></i></a></li>
+  <li><a href="../Vistas/principal.php">Inicio <i class="fa-solid fa-home"></i></a></li>
+  <li><a id="linkCompras" href="../Vistas/compras.php">Mis Compras <i id="iconoCompras" class="fa-solid fa-book"></i></a></li>
   <li><a id="linkCarrito" href="../Vistas/carrito.php">Carrito <i id="iconoCarrito" class="fa-solid fa-shopping-cart"></i></a></li>
   <li class="align-right"><a onclick="cerrarSesion();"><i class="fa fa-sign-out"></i> Cerrar Sesion</a></li>
   <li id="barraUsuario" class="align-right"><a onclick="abrirModalUsuario();"><i class="fa fa-user-circle" id="iconoUsuario"></i></a></li>
@@ -48,4 +49,5 @@
 <link rel="stylesheet" href="../layouts/barra.css">
 <script src="../sweetalert2.all.min.js"></script>
 <script src="../jquery-3.7.1.min.js"></script>
+<script src="../dataTables.min.js"></script>
 <script src="../layouts/barra.js"></script>

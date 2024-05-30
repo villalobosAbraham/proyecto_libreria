@@ -201,7 +201,7 @@ function prepararDatosGeneralesGuardarInformacionUsuarioModal() {
     let fechaNacimiento = $("#fechaUsuario").val();
     console.log(fechaNacimiento);
 
-    let regexCorreo = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\.)(?=.*@)[A-Za-z\d.@]{8,}$/;
+    let regexCorreo = /^(?=.*[a-z])(?=.*\d)(?=.*\.)(?=.*@)[A-Za-z\d.@]{8,}$/;
     let regexTelefono = /^\d{10}$/;
     let regexFecha = /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
 

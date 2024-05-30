@@ -8,8 +8,8 @@
         <main id="main">
             <section class="buscador">
                 <form action="#">
-                    <input id="inputBuscarLibro" type="text" placeholder="Buscar libros">
-                    <button type="submit" onclick="filtrarLibros();">Buscar <i class="fa fa-search"></i></button>
+                    <input id="inputBuscarLibro" type="search" placeholder="Buscar libros">
+                    <button onclick="filtrarLibros();">Buscar <i class="fa fa-search"></i></button>
                 </form>
             </section>
             <div id="divContenedorFiltros">
@@ -43,28 +43,26 @@
             <p>Copyright &copy; 2024 Librería digital</p>
         </footer>
     </body>
-    <div id="myModal" class="modal">
-        <div id="modalDetallesLibro" class="modal-content">
-            <span id="cerrarModalDetalles" class="close" onclick="cerrarModalDetalles()">&times;</span>
-            <h1 id="tituloModal"></h1>
-            <div id="divDetallesLibro">
-                <div id="divImagenLibroDetalles">
-                    <img id="imagenLibroDetalles">
-                </div>    
-                <h5 id="autoresLibro"></h5>
-                <h5 id="añoPublicacionLibro"></h5>
-                <h5 id="generoLibroDetalles"></h5>
-                <h5 id="cantidadPaginas"></h5>
-                <h5 id="idiomaLibro"></h5>
-                <h5 id="editorialLibro"></h5>
-            </div>
-            <div id="divSinopsisLibro">
-                <p id="pSinopsisLibro"></p>
-            </div>
-
-        </div>
-        <p></p>
-    </div>
 </html>
+<div id="myModal" class="modal">
+    <div id="modalDetallesLibro" class="modal-content">
+        <span id="cerrarModalDetalles" class="close" onclick="cerrarModalDetalles()">&times;</span>
+        <h1 id="tituloModal"></h1>
+        <div id="divDetallesLibro">
+            <div id="divImagenLibroDetalles">
+                <img id="imagenLibroDetalles">
+            </div>    
+            <h5 id="autoresLibro"></h5>
+            <h5 id="añoPublicacionLibro"></h5>
+            <h5 id="generoLibroDetalles"></h5>
+            <h5 id="cantidadPaginas"></h5>
+            <h5 id="idiomaLibro"></h5>
+            <h5 id="editorialLibro"></h5>
+        </div>
+        <div id="divSinopsisLibro">
+            <p id="pSinopsisLibro"></p>
+        </div>
+    </div>
+</div>
 
 <script src="/Vistas/js/principal.js"></script>

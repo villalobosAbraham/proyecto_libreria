@@ -3,7 +3,7 @@ let url = '../Controladores/conf_configuracion.php';
 
 
 window.addEventListener('pageshow', function(event) {
-    comprobarUsuario();
+    // comprobarUsuario();
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -427,7 +427,6 @@ function prepararDatosGeneralesFiltrarLibros() {
     let checkboxes = document.querySelectorAll('input[name="boxFiltro"]:checked');
     
     let generos = Array.from(checkboxes).map(cb => cb.value);
-    console.log(generos);
 
     let datosGenerales = {
         accion : "CONFFiltrarLibros",
