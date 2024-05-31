@@ -71,10 +71,7 @@ function comprobarUsuario() {
     .then(data => {
         if (!data) {
             window.open("/Vistas/login.php", "_self");
-            // return true;
-        } //else {
-        //     return false;;
-        // } 
+        }
     })
     .catch(error => {
         console.error('Error:', error);

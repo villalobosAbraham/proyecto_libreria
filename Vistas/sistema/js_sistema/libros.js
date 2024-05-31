@@ -23,6 +23,12 @@ $('#tablaLibros').DataTable({
 $(document).ready(function() {
     obtenerLibros();
     rellenarModal();
+    comprobarUsuario();
+    obtenerUsuarioBarra();
+});
+
+window.addEventListener('pageshow', function(event) {
+    comprobarUsuario();
 });
 
 function obtenerLibros() {
@@ -140,8 +146,22 @@ function inhabilitarLibro() {
     let idLibro = $('input[name="opcionLibro"]:checked').attr('idLibro');
 
     let datosGenerales = prepararDatosGeneralesDeshabilitarLibro();
+    if (!datosGenerales) {
+        mensajeError("Libro no Seleccionado");
+        return;
+    }
 }
 
 function prepararDatosGeneralesDeshabilitarLibro() {
+    let seleccionado = $('input[name="opcionLibro"]:checked');
+    if (seleccionado.length <= 0) {
+        return false;
+    }
+
     let idLibro = $('input[name="opcionLibro"]:checked').attr('idLibro');
+
+    let datosGenerales = {
+        accion : "CONFDeshabilitarLibro",
+        idLibro : idLibro
+    }
 }
