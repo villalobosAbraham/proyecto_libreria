@@ -26,21 +26,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             case "registro":
                 $correo = $datos->correo;
                 $contraseña = $datos->contraseña;
-                $nombre = $datos->nombre;
-                $apellidoPaterno = $datos->apellidoPaterno;
-                $apellidoMaterno = $datos->apellidoMaterno;
-                $idTipoUsuario = 1;
 
-                $fechaActual = date('Y-m-d');
+                $datos->idTipoUsuario = 1;
+                $datos->activo = "S";
+                $datos->fechaActual = date('Y-m-d');
 
-                $activo = "S";
                 $comprobarExistenciaUsuario = login($correo, $contraseña);
                 if (!$comprobarExistenciaUsuario) {
-                    $resultado = registro($correo, $contraseña, $nombre, $apellidoPaterno, $apellidoMaterno, $idTipoUsuario, $fechaActual, $activo);
-                    $_SESSION["idUsuario"] = $resultado["idUsuario"];
+                    $resultado = registro($datos);
                     echo json_encode($resultado);
                 } else {
-                    echo json_encode(false);
+                    echo json_encode("Usuario Existente");
                 }
                 break;
             case "CONFComprobarCarrito":

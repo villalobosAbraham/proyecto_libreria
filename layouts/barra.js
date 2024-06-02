@@ -21,6 +21,11 @@ function mensajeFunciono(mensaje) {
 document.addEventListener("DOMContentLoaded", function() {
     comprobarCarrito();
     obtenerUsuarioBarra();
+
+    let barra = document.querySelector('.barra');
+    let modal = document.querySelector('.modalUsuario');
+    let barraAltura = barra.offsetHeight; 
+    modal.style.paddingTop = barraAltura + 'px';
 });
 
 function cerrarSesion() {
@@ -201,7 +206,7 @@ function prepararDatosGeneralesGuardarInformacionUsuarioModal() {
     let fechaNacimiento = $("#fechaUsuario").val();
     console.log(fechaNacimiento);
 
-    let regexCorreo = /^(?=.*[a-z])(?=.*\d)(?=.*\.)(?=.*@)[A-Za-z\d.@]{8,}$/;
+    let regexCorreo = /^(?=.*[A-Za-z])[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     let regexTelefono = /^\d{10}$/;
     let regexFecha = /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
 

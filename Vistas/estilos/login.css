@@ -102,3 +102,26 @@ header img {
     cursor: pointer;
     color: chocolate;
 }
+
+.circle-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #28a745;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.circle-button:hover {
+    background-color: #218838;
+}
+.circle-button i {
+    font-size: 20px;
+}

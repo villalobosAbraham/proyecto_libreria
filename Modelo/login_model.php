@@ -40,26 +40,21 @@
         return $resultado;
     }
 
-    function registro($correo, $contraseña, $nombre, $apellidoPaterno, $apellidoMaterno, $idTipoUsuario, $fechaActual, $activo) {
+    function registro($datos) {
         $conexion = conexion();
-        $FECHA_DEFAUlT = "0001-01-01";
 
         $sql = "INSERT INTO log_usuarios 
                 (email, contraseña, nombre, apellidopaterno, apellidomaterno, idtipousuario, fecharegistro, telefono, fechanacimiento, activo)
                 VALUES
-                (?,?,?,?,?,?,?,?)
+                (?,?,?,?,?,?,?,?,?,?)
                 ";            
         $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("sssssissss", $correo, $contraseña, $nombre, $apellidoPaterno, $apellidoMaterno, $idTipoUsuario, $fechaActual, $FECHA_DEFAUlT, $FECHA_DEFAUlT, $activo);
+        $stmt->bind_param("ssssssssss", $datos->correo, $datos->contraseña, $datos->nombre, $datos->apellidoPaterno, $datos->apellidoMaterno, $datos->idTipoUsuario, $datos->fechaActual, $datos->telefono, $datos->fechaNacimiento, $datos->activo);
 
         if ($stmt->execute()) {
-            $resultado = array(
-                "success" => true, 
-                "message" => "Registro Exitoso", 
-                "user_id" => 1
-            );
+            $resultado = true;
         } else {
-            $resultado = false;
+            $resultado = "Fallo al Registrar Usuario";
         }
 
         $stmt->close();

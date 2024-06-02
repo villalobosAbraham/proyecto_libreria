@@ -33,17 +33,18 @@
             <input type="text" id="apellidoPaterno">
             <label >Apellido Materno:</label>
             <input type="text" id="apellidoMaterno">
+            <label >Telefono:</label>
+            <input type="text" id="telefono">
+            <label >Fecha de Nacimiento </label>
+            <input type="date" id="fechaUsuario">
             <button onclick="registrarUsuario();">Registrar Usuario <i class="fa fa-user-plus"></i></button>
             <p id="sesion" onclick="mostrarLogin();">Iniciar Sesion <i class="fa fa-sign-in"> </i> </p>
         </section>
-        <!-- <section>
-            <input type="file" id="inputImagen" onchange="convertirImagen(this);" accept="image/*">
-        </section>
-        <section>
-            <div id="contenedorImagen"></div>
-        </section> -->
-
-        <h1>Upload Image</h1>
+    </main>
+    <button class="circle-button" onclick="irPresentacion();">
+        <i class="fa fa-arrow-left"></i>
+    </button>
+    <!-- <h1>Upload Image</h1>
     <form id="uploadForm">
         <input type="file" id="imageInput" name="image" accept="image/*">
         <input type="text" id="customName" name="customName" placeholder="Enter custom name">
@@ -51,10 +52,8 @@
     </form>
     <h2>Uploaded Image</h2>
     <img id="uploadedImage" src="" alt="Uploaded Image" style="display:none;">
-    <button id="deleteButton" style="display:none;">Delete Image</button>
+    <button id="deleteButton" style="display:none;">Delete Image</button> -->
 </body>
 </html>
-
-<script src="../Vistas/js/login.js">
-    
-</script>
+<script src="../sweetalert2.all.min.js"></script>
+<script src="../Vistas/js/login.js"></script>

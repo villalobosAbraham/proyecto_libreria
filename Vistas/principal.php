@@ -7,13 +7,12 @@
     <body>
         <main id="main">
             <section class="buscador">
-                <form action="#">
-                    <input id="inputBuscarLibro" type="search" placeholder="Buscar libros">
-                    <button onclick="filtrarLibros();">Buscar <i class="fa fa-search"></i></button>
-                </form>
+                <input id="inputBuscarLibro" type="search" placeholder="Buscar libros">
+                <button onclick="filtrarLibros();">Buscar <i class="fa fa-search"></i></button>
             </section>
             <div id="divContenedorFiltros">
-                <h3 id="h2Filtros">Filtro Genero </h3>
+                <h3 id="h2Filtros">Filtro Género </h3>
+                <button id="eliminarFiltro" onclick="limpiarFiltros()">Limpiar Filtros <i class="fa fa-ban"></i></button>
                 <ul id="listaFiltros"></ul>
             </div>
             <div id="divContenedorSecciones">
@@ -26,13 +25,13 @@
                 </div>
                 <div id="secciones">
                     <section class="seccionLibros">
-                        <h2>Libros populares</h2>
+                        <h2>Libros Populares</h2>
                         <ul id="listaPopulares" class="listaLibros"></ul>
                         <ul id="listaPopularesPaginacion" class="pagination"></ul>
                     </section>
                     <br>
                     <section class="seccionLibros">
-                        <h2>Recomendaciones para ti</h2>
+                        <h2>Recomendaciones Para Ti</h2>
                         <ul id="listaRecomendaciones" class="listaLibros"></ul>
                         <ul id="listaRecomendacionesPaginacion" class="pagination"></ul>
                     </section>

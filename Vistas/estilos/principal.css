@@ -48,6 +48,14 @@ header img {
     cursor: pointer;
 }
 
+#eliminarFiltro {
+    background-color: #1B4F72;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
 .seccionLibros {
     margin: 20px auto;
     width: 90%;
@@ -68,17 +76,28 @@ header img {
     width: 200px;
 }
 
+.libroPrincipal {
+    /* padding: 5px; */
+    padding-top: 10px;
+    padding-bottom: 5px;
+    border: 1px solid #888;
+    border-radius: 20px;
+}
+
 .tituloElemento {
-    min-height: 100px;
+    height: min-content;
     vertical-align: middle;
 }
 
 .autorElemento {
-    min-height: 70px;
+    /* min-height: 70px; */
+    height: min-content;
+    /* height: 20%; */
 }
 
 .seccionLibros img {
     width: 100px;
+    height: 150px;
 }
 
 .seccionLibros button {
@@ -86,14 +105,6 @@ header img {
     color: #fff;
     /* padding: 5px 10px; */
     cursor: pointer;
-}
-
-.libroPrincipal {
-    /* padding: 5px; */
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border: 1px solid #888;
-    border-radius: 20px;
 }
 
 .botonLibroPrincipal {
@@ -236,8 +247,12 @@ ul.listaLibros li {
 }
 
 #divContenedorFiltros {
+    background-color: #c3cfe5;
     text-align: center;
-    width: 15%;
+    width: 14%;
+    height: fit-content;
+    margin-left: 2px;
+    border-radius: 6px;
 }
 
 #divContenedorSecciones {
@@ -248,7 +263,8 @@ ul.listaLibros li {
     list-style-type: none;
     list-style: none;
     padding: 0;
-    margin-left: 25%;
+    margin-left: 5%;
+    vertical-align: middle;
 }
 
 #listaFiltros li {
@@ -262,4 +278,8 @@ ul.listaLibros li {
 
 #busqueda {
     display: none;
+}
+
+#inputBuscarLibro {
+    border-radius: 4px;
 }

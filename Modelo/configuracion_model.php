@@ -369,11 +369,19 @@
         $conexion = conexion();
 
         $sql = "SELECT
-                    idgenero, genero
+                    MAX(conf_genero.idgenero) AS idgenero,
+                    MAX(conf_genero.genero) AS genero,
+                    COUNT(inv_inventariolibros.cantidad) AS cantidad
                 FROM
                     conf_genero
+                JOIN 
+                    cat_libros ON conf_genero.idgenero = cat_libros.idgeneroprincipal
+                LEFT JOIN 
+                    inv_inventariolibros ON cat_libros.idlibro = inv_inventariolibros.idlibro 
                 WHERE
-                    activo = 'S'   
+                    conf_genero.activo = 'S'
+                GROUP BY
+                    idgenero  
                 ";
 
         $stmt = $conexion->prepare($sql);

@@ -17,6 +17,10 @@ $('#tablaCompras').DataTable({
 $(document).ready(function() {
     comprobarUsuario();
     obtenerCompras();
+    let barra = document.querySelector('.barra');
+    let main = document.querySelector('body');
+    let barraAltura = barra.offsetHeight; 
+    main.style.paddingTop = barraAltura + 'px';
 });
 
 function comprobarUsuario() {

@@ -1,6 +1,10 @@
 let url = '../Controladores/conf_configuracion.php';  
 
 document.addEventListener('DOMContentLoaded', function() {
+    let barra = document.querySelector('.barra');
+    let main = document.querySelector('main');
+    let barraAltura = barra.offsetHeight; 
+    main.style.paddingTop = barraAltura + 'px';
     comprobarUsuario();
     obtenerLibrosCarrito();
 });

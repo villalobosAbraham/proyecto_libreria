@@ -1,12 +1,21 @@
 let url = '../Controladores/conf_configuracion.php';
 
-
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Enter") {
+        filtrarLibros();
+    }
+});
 
 window.addEventListener('pageshow', function(event) {
-    // comprobarUsuario();
+    comprobarUsuario();
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    let barra = document.querySelector('.barra');
+    let main = document.querySelector('main');
+    let barraAltura = barra.offsetHeight; 
+    main.style.paddingTop = barraAltura + 'px';
+
     comprobarUsuario();
     obtenerLibrosPopulares();
     obtenerLibrosRecomendados();
@@ -83,10 +92,10 @@ function mostrarLibros(listaDatos, listaPaginacion, data) {
 
         let imagen = document.createElement('img');
         
-        let tituloElemento = document.createElement('h2');
-        let autorElemento = document.createElement('h3');
-        let fechaElemento = document.createElement('h4');
-        let totalElemento = document.createElement('h4');
+        let tituloElemento = document.createElement('h3');
+        let autorElemento = document.createElement('h4');
+        let fechaElemento = document.createElement('h5');
+        let totalElemento = document.createElement('h5');
         
         let botonAgregarCarrito = document.createElement('button');
         let botonDetallesLibro = document.createElement('button');
@@ -104,7 +113,7 @@ function mostrarLibros(listaDatos, listaPaginacion, data) {
         tituloElemento.textContent = titulo;
         autorElemento.textContent = completoAutor;
         fechaElemento.textContent = "Fecha de Publicacion: " + fechaPublicacion.split("-").reverse().join("/");
-        totalElemento.textContent = 'Costo: ' + costoIndividual;
+        totalElemento.textContent = 'Costo: $' + costoIndividual + " M.X.N";
         
         botonAgregarCarrito.textContent = "Agregar a Carrito ";
         botonAgregarCarrito.setAttribute("idLibro", idLibro);
@@ -124,6 +133,7 @@ function mostrarLibros(listaDatos, listaPaginacion, data) {
         });
 
         imagen.src = "../Controladores/" + portada;
+        imagen.alt = "Imagen " + titulo;
         
         elementoLista.appendChild(imagen);
         elementoLista.appendChild(tituloElemento);
@@ -181,7 +191,7 @@ function agregarLibroCarrito(boton) {
     .then(data => {
         comprobarCarrito();
         if (data) {
-            return;
+            mensajeFunciono("Libro Agregado Correctamente");
         } 
     })
     .catch(error => {
@@ -227,6 +237,11 @@ function verDatellesLIbro(libro) {
     let modal = document.getElementById("myModal");
     modal.style.display = "block";
     document.body.style.overflow = "hidden";
+
+    let barra = document.querySelector('.barra');
+    // let main = document.querySelector('main');
+    let barraAltura = barra.offsetHeight; 
+    modal.style.paddingTop = barraAltura + 'px';
 
     registrarVisualizacion(libro.idlibro);
 }
@@ -367,7 +382,8 @@ function mostrarFiltros(generos) {
     let lista = document.getElementById("listaFiltros");
     for(let genero of generos) {
         let listItem = document.createElement('li');
-        let h2Genero = prepararH2GeneroFiltro(genero.genero);
+        let h2Genero = prepararH3GeneroFiltro(genero.genero);
+        let h6GeneroCantidad = prepararH6GeneroFiltro(genero.cantidad);
 
         // Crear el checkbox
         let checkboxGenero = prepararCheckBoxGeneroFiltro(genero.idgenero);
@@ -375,13 +391,18 @@ function mostrarFiltros(generos) {
         // Añadir h3 y checkbox al li
         listItem.appendChild(h2Genero);
         listItem.appendChild(checkboxGenero);
+        listItem.appendChild(h6GeneroCantidad);
 
         // Añadir el li a la lista
         lista.appendChild(listItem);
     }
+
+    $('input[name="boxFiltro"]').on('change', function() {
+        filtrarLibros();
+    });
 }
 
-function prepararH2GeneroFiltro(genero) {
+function prepararH3GeneroFiltro(genero) {
     let h2Genero = document.createElement('h3');
     h2Genero.textContent = genero;
 
@@ -395,6 +416,13 @@ function prepararCheckBoxGeneroFiltro(idGenero) {
     checkbox.value = idGenero;
 
     return checkbox;
+}
+
+function prepararH6GeneroFiltro(cantidad) {
+    let h2Genero = document.createElement('h6');
+    h2Genero.textContent = "(" + cantidad + ")";
+
+    return h2Genero;
 }
 
 function filtrarLibros() {
@@ -436,4 +464,9 @@ function prepararDatosGeneralesFiltrarLibros() {
 
     return datosGenerales;
 
+}
+
+function limpiarFiltros() {
+    $('input[name="boxFiltro"]').prop('checked', false);
+    $("#busqueda").css("display", "none");
 }
