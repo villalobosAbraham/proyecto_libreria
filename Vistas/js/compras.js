@@ -1,7 +1,17 @@
 let url = '../Controladores/conf_configuracion.php';
 
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        if ($("#myModal").css("display") == "block") {
+            $("#myModal").css("display", "none");
+        }
+    }
+});
+
 $('#tablaCompras').DataTable({
     paging: true,        // Activa la paginación
+    pageLength : 10,
+    lengthChange : false,
     searching: true,     // Activa el cuadro de búsqueda
     ordering: true,      // Activa el ordenamiento de columnas
     info: true,         // Muestra información sobre la tabla
@@ -16,6 +26,8 @@ $('#tablaCompras').DataTable({
 });
 $('#tablaDetallesCompra').DataTable({
     paging: true,        // Activa la paginación
+    pageLength : 10,
+    lengthChange : false,
     searching: true,     // Activa el cuadro de búsqueda
     ordering: true,      // Activa el ordenamiento de columnas
     info: true,         // Muestra información sobre la tabla

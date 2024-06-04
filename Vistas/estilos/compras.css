@@ -67,6 +67,13 @@ main {
     float: right;
 }
 
+.dt-paging-button {
+    background-color: #73ded6;
+    border-radius: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
 
 
 .botonDetallesCompra {

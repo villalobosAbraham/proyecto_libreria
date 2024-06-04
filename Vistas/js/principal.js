@@ -3,6 +3,10 @@ let url = '../Controladores/conf_configuracion.php';
 document.addEventListener('keydown', function(event) {
     if (event.key === "Enter") {
         filtrarLibros();
+    } else if (event.key === 'Escape') {
+        if ($("#myModal").css("display") == "block") {
+            $("#myModal").css("display", "none");
+        }
     }
 });
 
