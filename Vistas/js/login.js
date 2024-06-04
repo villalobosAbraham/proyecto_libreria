@@ -20,7 +20,11 @@ function mensajeFunciono(mensaje) {
 
 document.addEventListener('keydown', function(event) {
     if (event.key === "Enter") {
-        iniciarSesion();
+        if ($("#registro").css("display") == "none") {
+            iniciarSesion();
+        } else {
+            registrarUsuario();
+        }
     }
 });
 
@@ -30,7 +34,7 @@ function iniciarSesion() {
     let datosGenerales = prepararDatosGeneralesInicioSesion();
 
     if (!datosGenerales) {
-        alert("Correo o Contraseña Invalidos");
+        mensajeError("Correo o Contraseña Invalidos");
         return;
     }
 
@@ -44,7 +48,7 @@ function iniciarSesion() {
     .then(response => response.json())
     .then(data => {
         if (!data) {
-            alert("Usuario o Contraseña Incorrectos");
+            mensajeError("Perfil Inexistente o Deshabilitado");
             return;
         } 
 
@@ -118,7 +122,7 @@ function prepararDatosGeneralesRegistro() {
     let telefono = document.getElementById("telefono").value;
     let fechaNacimiento = document.getElementById("fechaUsuario").value;
 
-    let vacio = "";
+    let regexContraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
     let regexCorreo = /^(?=.*[A-Za-z])[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     let regexTelefono = /^\d{10}$/;
     let regexFecha = /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
@@ -126,13 +130,13 @@ function prepararDatosGeneralesRegistro() {
 
     if (!regexCorreo.test(correo)) {
         return "Correo Invalido";
-    } else if(contraseña == vacio) {
-        return "Contraseña Invalida";
+    } else if(!regexContraseña.test(contraseña)) {
+        return "Contraseña Invalida<br>Obligatorio:<br>1 Mayúscula<br>1 Minúscula<br>1 Número<br>Mínimo 8 Carácteres";
     } else if(!regxNombreApellido.test(nombre)) {
         return "Nombre Invalido";
     } else if(!regxNombreApellido.test(apellidoPaterno)) {
         return "Apellido Paterno Invalido";
-    } else if(apellidoMaterno != vacio && !regxNombreApellido.test(apellidoMaterno)) {
+    } else if(apellidoMaterno != "" && !regxNombreApellido.test(apellidoMaterno)) {
         return "Apellido Materno Invalido";
     } else if(!regexTelefono.test(telefono)) {
         return "Telefono Invalido";

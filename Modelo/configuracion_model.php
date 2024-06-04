@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost"; 
-        $username_db = "abraham"; 
-        $password_db = "Degea200"; 
+        $username_db = "root"; 
+        $password_db = ""; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
@@ -51,7 +51,8 @@
                 JOIN 
                     conf_autores ON cat_librosautores.idautor = conf_autores.idautor
                 WHERE 
-                    cat_libros.idlibro IN ($listaLibros)
+                    cat_libros.idlibro IN ($listaLibros) AND
+                    cat_libros.activo = 'S'
                 GROUP BY
                     cat_libros.idlibro";
         $stmt = $conexion->prepare($sql);
@@ -101,7 +102,8 @@
                 JOIN 
                     conf_autores ON cat_librosautores.idautor = conf_autores.idautor
                 WHERE 
-                    cat_libros.idgeneroprincipal IN ($listaLibros)
+                    cat_libros.idgeneroprincipal IN ($listaLibros) AND
+                    cat_libros.activo = 'S'
                 GROUP BY
                     cat_libros.idlibro
                 ORDER BY 
@@ -123,9 +125,20 @@
 
         $sql = "SELECT idlibro
                 FROM (
-                    SELECT idlibro, fecha
-                    FROM inv_visualizaciones
-                    ORDER BY fecha DESC
+                    SELECT 
+                        inv_visualizaciones.idlibro, inv_visualizaciones.fecha
+                    FROM 
+                        inv_visualizaciones
+                    JOIN
+                        cat_libros ON inv_visualizaciones.idlibro = cat_libros.idlibro
+                    LEFT JOIN
+                        inv_inventariolibros ON inv_visualizaciones.idlibro = inv_inventariolibros.idlibro
+                    WHERE
+                        cat_libros.activo = 'S' AND
+                        inv_inventariolibros.cantidad > 0 AND
+                        inv_inventariolibros.cantidad IS NOT NULL
+                    ORDER BY 
+                        fecha DESC
                 ) as subquery
                 GROUP BY idlibro
                 ORDER BY MAX(fecha) DESC
@@ -152,7 +165,7 @@
         return $idLibros;
     }
 
-    function obtenerListaIdsLibrosRecomendados() {
+    function obtenerListaIdsLibrosRecomendados($idUsuario) {
         $conexion = conexion();
 
         $sql = "SELECT DISTINCT 
@@ -161,6 +174,14 @@
                     inv_visualizaciones
                 JOIN
                     cat_libros ON inv_visualizaciones.idlibro = cat_libros.idlibro
+                LEFT JOIN
+                    inv_inventariolibros ON inv_visualizaciones.idlibro = inv_inventariolibros.idlibro
+                WHERE
+                    inv_visualizaciones.idusuario = '$idUsuario' AND
+                    cat_libros.activo = 'S' AND
+                    inv_inventariolibros.cantidad > '0' AND
+                    inv_inventariolibros.cantidad IS NOT NULL
+                ORDER BY inv_visualizaciones.fecha DESC
                 LIMIT 5;
         ";
 
@@ -170,8 +191,29 @@
         $idLibros = array();
 
         // Verificar si hay resultados
-        if ($resultados->num_rows > 0) {
+        if ($resultados->num_rows == 5) {
             // Recorrer los resultados y almacenarlos en el array
+            while($row = $resultados->fetch_assoc()) {
+                $idLibros[] = $row['idgeneroprincipal'];
+            }
+        } else {
+            $sql = "SELECT DISTINCT 
+                    cat_libros.idgeneroprincipal
+                FROM
+                    inv_visualizaciones
+                JOIN
+                    cat_libros ON inv_visualizaciones.idlibro = cat_libros.idlibro
+                LEFT JOIN
+                    inv_inventariolibros ON inv_visualizaciones.idlibro = inv_inventariolibros.idlibro
+                WHERE
+                    cat_libros.activo = 'S' AND
+                    inv_inventariolibros.cantidad > '0' AND
+                    inv_inventariolibros.cantidad IS NOT NULL
+                ORDER BY inv_visualizaciones.fecha DESC
+                LIMIT 5;
+            ";
+            $resultados = $conexion->query($sql);
+
             while($row = $resultados->fetch_assoc()) {
                 $idLibros[] = $row['idgeneroprincipal'];
             }
@@ -191,40 +233,28 @@
         $idLibro = $datos->idLibro;
 
         $sql = "SELECT
-                    cantidad
-                FROM
-                    ven_carrodecompra
-                WHERE
-                    idusuario = '$idUsuario' AND
-                    idlibro = '$idLibro'
+                ven_carrodecompra.cantidad, ven_carrodecompra.idlibro,
+
+                inv_inventariolibros.cantidad AS stock
+            FROM
+                ven_carrodecompra
+            JOIN
+                inv_inventariolibros ON ven_carrodecompra.idlibro = inv_inventariolibros.idlibro
+            WHERE
+                ven_carrodecompra.idusuario = '$idUsuario' AND
+                ven_carrodecompra.idlibro = '$idLibro'
         ";
 
         // Ejecutar la consulta
         $resultados = mysqli_query($conexion, $sql);
-
-        // Verificar si la consulta fue exitosa
-        if (!$resultados) {
-            throw new Exception('Error en la ejecución de la consulta: ' . mysqli_error($conexion));
-        }
-
-        // Obtener la fila resultante
         $resultado = mysqli_fetch_assoc($resultados);
 
-        // Verificar si se obtuvo una fila
-        if ($resultado === null) {
-            return 0;
-        }
-
-        // Verificar si la cantidad es válida
-        $cantidad = $resultado['cantidad'];
-        if ($cantidad === null || $cantidad <= 0) {
-            return 0;
+        if (!$resultado || $resultado == null) {
+            return false;
         }
 
         // Devolver la cantidad
-        return $cantidad;
-
-        // return $librosEnCarrito;
+        return $resultado;
     }
 
     function agregarLibroCarrito($datos) {
@@ -251,30 +281,30 @@
         $idUsuario = mysqli_real_escape_string($conexion, $idUsuario); 
 
         $sql = "SELECT 
-        ven_carrodecompra.idlibro,
-        MAX(ven_carrodecompra.cantidad) AS cantidad,
-        MAX(cat_libros.titulo) AS titulo,
-        MAX(cat_libros.precio) AS precio,
-        MAX(cat_libros.descuento) AS descuento,
-        MAX(cat_libros.iva) AS iva,
-        MAX(cat_libros.portada) AS portada,
-        GROUP_CONCAT(CONCAT(conf_autores.nombre, ' ', conf_autores.apellidopaterno, ' ', conf_autores.apellidomaterno) SEPARATOR '  ') AS autor,
-        MAX(inv_inventariolibros.cantidad) AS limiteLibro
-        FROM
-            ven_carrodecompra
-        LEFT JOIN
-            cat_libros ON ven_carrodecompra.idlibro = cat_libros.idlibro
-        LEFT JOIN
-            inv_inventariolibros ON ven_carrodecompra.idlibro = inv_inventariolibros.idlibro
-        LEFT JOIN
-            cat_librosautores ON ven_carrodecompra.idlibro = cat_librosautores.idlibro
-        LEFT JOIN
-            conf_autores ON cat_librosautores.idautor = conf_autores.idautor
-        WHERE
-            ven_carrodecompra.idusuario = '$idUsuario'
-        GROUP BY
-            ven_carrodecompra.idlibro;
-        ";
+            ven_carrodecompra.idlibro,
+            MAX(ven_carrodecompra.cantidad) AS cantidad,
+            MAX(cat_libros.titulo) AS titulo,
+            MAX(cat_libros.precio) AS precio,
+            MAX(cat_libros.descuento) AS descuento,
+            MAX(cat_libros.iva) AS iva,
+            MAX(cat_libros.portada) AS portada,
+            GROUP_CONCAT(CONCAT(conf_autores.nombre, ' ', conf_autores.apellidopaterno, ' ', conf_autores.apellidomaterno) SEPARATOR '  ') AS autor,
+            MAX(inv_inventariolibros.cantidad) AS limiteLibro
+            FROM
+                ven_carrodecompra
+            LEFT JOIN
+                cat_libros ON ven_carrodecompra.idlibro = cat_libros.idlibro
+            LEFT JOIN
+                inv_inventariolibros ON ven_carrodecompra.idlibro = inv_inventariolibros.idlibro
+            LEFT JOIN
+                cat_librosautores ON ven_carrodecompra.idlibro = cat_librosautores.idlibro
+            LEFT JOIN
+                conf_autores ON cat_librosautores.idautor = conf_autores.idautor
+            WHERE
+                ven_carrodecompra.idusuario = '$idUsuario'
+            GROUP BY
+                ven_carrodecompra.idlibro;
+            ";
 
         $resultado = mysqli_query($conexion, $sql);
 
@@ -374,7 +404,7 @@
                     COUNT(inv_inventariolibros.cantidad) AS cantidad
                 FROM
                     conf_genero
-                JOIN 
+                LEFT JOIN 
                     cat_libros ON conf_genero.idgenero = cat_libros.idgeneroprincipal
                 LEFT JOIN 
                     inv_inventariolibros ON cat_libros.idlibro = inv_inventariolibros.idlibro 
@@ -423,7 +453,7 @@
             cat_idioma ON cat_libros.ididioma = cat_idioma.ididioma
         JOIN 
             cat_editoriales ON cat_libros.ideditorial = cat_editoriales.ideditorial
-        LEFT JOIN
+        JOIN
             inv_inventariolibros ON cat_libros.idlibro = inv_inventariolibros.idlibro
         JOIN 
             cat_librosautores ON cat_libros.idlibro = cat_librosautores.idlibro
@@ -432,20 +462,39 @@
         ";
 
         if(empty($libro) && empty($generos)) {
-
+            $sql .= "WHERE 
+            cat_libros.activo = 'S' AND
+            inv_inventariolibros.cantidad > '0' AND
+            inv_inventariolibros.cantidad is not null AND
+            inv_inventariolibros.activo = 'S'";
         } else if (!empty($libro) && !empty($generos)) {
-            $sql .= "WHERE cat_libros.idgeneroprincipal IN ($generos)
-            OR (LOWER(cat_libros.titulo) LIKE LOWER('%$libro%') 
+            $sql .= "WHERE 
+            cat_libros.activo = 'S' AND
+            (inv_inventariolibros.cantidad > '0' AND
+            inv_inventariolibros.cantidad is not null AND
+            inv_inventariolibros.activo = 'S') AND 
+            (cat_libros.idgeneroprincipal IN ($generos)
+            OR LOWER(cat_libros.titulo) LIKE LOWER('%$libro%') 
+            OR LOWER(conf_autores.nombre) LIKE LOWER('%$libro%') 
+            OR LOWER(conf_autores.apellidopaterno) LIKE LOWER('%$libro%') 
+            OR LOWER(conf_autores.apellidomaterno) LIKE LOWER('%$libro%'))";
+        } else if(empty($libro)) {
+            $sql .= "WHERE 
+            cat_libros.activo = 'S' AND
+            inv_inventariolibros.cantidad > '0' AND
+            inv_inventariolibros.cantidad is not null AND
+            inv_inventariolibros.activo = 'S' AND 
+            cat_libros.idgeneroprincipal IN ($generos)";
+        } else if(empty($generos)) {
+            $sql .= "WHERE 
+                cat_libros.activo = 'S' AND
+                (inv_inventariolibros.cantidad > '0' AND
+                inv_inventariolibros.cantidad is not null AND
+                inv_inventariolibros.activo = 'S') AND     
+                (LOWER(cat_libros.titulo) LIKE LOWER('%$libro%') 
                 OR LOWER(conf_autores.nombre) LIKE LOWER('%$libro%') 
                 OR LOWER(conf_autores.apellidopaterno) LIKE LOWER('%$libro%') 
                 OR LOWER(conf_autores.apellidomaterno) LIKE LOWER('%$libro%'))";
-        } else if(empty($libro)) {
-            $sql .= "WHERE cat_libros.idgeneroprincipal IN ($generos)";
-        } else if(empty($generos)) {
-            $sql .= "WHERE LOWER(cat_libros.titulo) LIKE LOWER('%$libro%') 
-                OR LOWER(conf_autores.nombre) LIKE LOWER('%$libro%') 
-                OR LOWER(conf_autores.apellidopaterno) LIKE LOWER('%$libro%') 
-                OR LOWER(conf_autores.apellidomaterno) LIKE LOWER('%$libro%')";
         }
 
         // Finaliza la consulta
@@ -476,11 +525,12 @@
                 LEFT JOIN 
                     inv_inventariolibros ON ven_carrodecompra.idlibro = inv_inventariolibros.idlibro
                 WHERE
+                    ven_carrodecompra.idusuario = '$idUsuario' AND
                     ven_carrodecompra.cantidad > inv_inventariolibros.cantidad
                 ";
-        $resultado = mysqli_query($conexion, $sql);
+        $resultados = mysqli_query($conexion, $sql);
 
-        if (mysqli_num_rows($resultado) < 1) {
+        if (mysqli_num_rows($resultados) < 1) {
             return true;
         } else {
             return false;
@@ -597,7 +647,7 @@
                 FROM
                     ven_ventam
                 LEFT JOIN
-                    log_usuarios ON ven_ventam.idusuariocompra = log_usuarios.idusuario
+                    log_usuarios ON ven_ventam.idvendedor = log_usuarios.idusuario
                 LEFT JOIN
                     conf_estadoentrega ON ven_ventam.idestadoentrega = conf_estadoentrega.idestadoentrega
                 WHERE
@@ -656,5 +706,25 @@
         $stmt->close();
         $conexion->close();
         return $resultado;
+    }
+
+    function CONFObtenerDetallesVenta($idVenta) {
+        $conexion = conexion();
+        $sql = "SELECT
+                    ven_ventad.idlibro, ven_ventad.cantidad, ven_ventad.precio, ven_ventad.descuento, ven_ventad.iva, ven_ventad.total,
+
+                    cat_libros.titulo, cat_libros.portada
+                FROM
+                    ven_ventad
+                JOIN 
+                    cat_libros ON ven_ventad.idlibro = cat_libros.idlibro
+                WHERE
+                    ven_ventad.idventa = '$idVenta'
+        ";
+
+        $stmt = $conexion->prepare($sql);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 ?>

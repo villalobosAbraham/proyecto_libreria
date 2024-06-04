@@ -23,7 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo json_encode($resultados);
                 break;
             case "CONFObtenerLibrosRecomendados":
-                $listaIdsLibros = obtenerListaIdsLibrosRecomendados();  
+                $idUsuario = $_SESSION["idUsuario"];
+                $listaIdsLibros = obtenerListaIdsLibrosRecomendados($idUsuario);  
                 
                 $listaLibros = implode(',', $listaIdsLibros);
                 $resultados = obtenerLibrosArrayGenero($listaLibros);
@@ -33,12 +34,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             case "VENAgregarAumentarLibroCarrito":
                 $datos->idUsuario = $_SESSION["idUsuario"];
                 
-                $cantidadLibros = comprobarExistenciaLibroCarrito($datos);
-                if ($cantidadLibros >= 1) {
-                    $datos->cantidad = $cantidadLibros + $datos->aumento;
-                    echo json_encode(actualizarLibroCarritoCompra($datos));
-                } else {
+                $libro = comprobarExistenciaLibroCarrito($datos);
+                
+                if (!$libro) {
                     echo json_encode(agregarLibroCarrito($datos));
+                } else {
+                    $cantidadLibro = $libro["cantidad"];
+                    $cantidadStock = $libro["stock"];
+                    // print_r($cantidadStock . " | " . $cantidadLibro . " " . $datos->aumento);
+                    if ($cantidadStock < ($cantidadLibro + $datos->aumento)) {
+                        echo json_encode(false);
+                        break;
+                    }
+                    $datos->cantidad = $cantidadLibro + $datos->aumento;
+                    echo json_encode(actualizarLibroCarritoCompra($datos));
                 }
 
                 break;
@@ -90,29 +99,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                 $diferencia = comprobarDiferenciaCarritoInventario($_SESSION["idUsuario"]);
+                // print_r("diferencia: " . $diferencia. " | ");
                 if (!$diferencia) {
                     echo json_encode(false);
                     break;
                 }
                 $datosCarrito = VENObtenerLibrosCarritoCompra($_SESSION["idUsuario"]);
-
+                // print_r("datos Carrito: " . $datosCarrito. " | ");
                 if (!registrarVentaMaestra($datos)) {
                     echo json_encode(false);
                     break;
                 }
                 
                 $idVenta = obtenerIdVentaMaestra($datos);
+                // print_r("Id Venta: " . $idVenta. " | ");
                 if (!registrarVentasDetalle($idVenta, $datosCarrito)) {
+                    // print_r("Registro de venta: " . registrarVentasDetalle($idVenta, $datosCarrito). " | ");
                     echo json_encode(false);
                     break;
                 } else if (!salidaInventarioVenta($datosCarrito)) {
+                    // print_r("Salida de Inventario: " . salidaInventarioVenta($datosCarrito). " | ");
                     echo json_encode(false);
                     break;
                 } else if(!VENLimpiarCarritoCompra($datos->idUsuario)) {
+                    // print_r("Limpieza de Carrito: " . VENLimpiarCarritoCompra($datos->idUsuario). " | ");
                     echo json_encode(false);
                     break;
                 }
-                
+                // print_r("Todo al vergazo");
                 echo json_encode(true);
                 break;
             case "CONFComprobarUsuario":
@@ -122,6 +136,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 break;
             case "CONFObtenerLibros":
                 $resultado = CONFObtenerLibros();
+
+                echo json_encode($resultado);
+                break;
+            case "CONFObtenerDetallesVenta":
+                $resultado = CONFObtenerDetallesVenta($datos->idVenta);
 
                 echo json_encode($resultado);
                 break;

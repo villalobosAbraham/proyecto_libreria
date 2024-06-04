@@ -19,6 +19,7 @@
                             <th>Empleado Entrego</th>
                             <th>Total de Pago</th>
                             <th>Id Pago Paypal</th>
+                            <th></th>
                         </tr>
                     </thead>
                 </table>
@@ -29,23 +30,21 @@
         </footer>
     </body>
 </html>
-<div id="myModal" class="modal">
-    <div id="modalDetallesLibro" class="modal-content">
+<div id="myModal" class="modal" style="display: none;">
+    <div id="modalDetallesCompra" class="modal-content">
         <span id="cerrarModalDetalles" class="close" onclick="cerrarModalDetalles()">&times;</span>
-        <h1 id="tituloModal"></h1>
-        <div id="divDetallesLibro">
-            <div id="divImagenLibroDetalles">
-                <img id="imagenLibroDetalles">
-            </div>    
-            <h5 id="autoresLibro"></h5>
-            <h5 id="añoPublicacionLibro"></h5>
-            <h5 id="generoLibroDetalles"></h5>
-            <h5 id="cantidadPaginas"></h5>
-            <h5 id="idiomaLibro"></h5>
-            <h5 id="editorialLibro"></h5>
-        </div>
-        <div id="divSinopsisLibro">
-            <p id="pSinopsisLibro"></p>
+        <h1 id="tituloModal" style="text-align: center;">Detalles de Compra</h1>
+        <div style="min-width: 100%";>
+            <table id="tablaDetallesCompra" class="tablaCompras">
+                <thead>
+                    <tr>
+                        <th>Libro</th>
+                        <th>Costo Individual</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>

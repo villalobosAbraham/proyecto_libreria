@@ -19,7 +19,7 @@ function mensajeFunciono(mensaje) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    comprobarCarrito();
+    comprobarCarritoCantidad();
     obtenerUsuarioBarra();
 
     let barra = document.querySelector('.barra');
@@ -55,11 +55,11 @@ function cerrarSesion() {
     });
 }
 
-function comprobarCarrito() {
+function comprobarCarritoCantidad() {
     let url = "../Controladores/log_login.php";
 
     let datosGenerales = {
-        accion : "CONFComprobarCarrito"
+        accion : "CONFComprobarCarritoCantidad"
     }
 
     fetch(url, {
@@ -169,8 +169,8 @@ function llenarModalUsuario(usuario) {
 function guardarInformacionUsuarioModal() {
     let url = "../Controladores/log_login.php";
     let datosGenerales = prepararDatosGeneralesGuardarInformacionUsuarioModal();
-    if (!datosGenerales) {
-        mensajeError("Datos Invalidos");
+    if (typeof datosGenerales === 'string') {
+        mensajeError(datosGenerales);
         return;
     }
 
@@ -204,18 +204,28 @@ function prepararDatosGeneralesGuardarInformacionUsuarioModal() {
     let correo = $("#correoUsuario").val();
     let telefono = $("#telefonoUsuario").val();
     let fechaNacimiento = $("#fechaUsuario").val();
-    console.log(fechaNacimiento);
 
+    // let regexContraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
     let regexCorreo = /^(?=.*[A-Za-z])[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     let regexTelefono = /^\d{10}$/;
     let regexFecha = /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+    let regxNombreApellido = /^[A-Za-z]{3,}$/;
 
-    if (!regexTelefono.test(telefono) || !regexFecha.test(fechaNacimiento) || !regexCorreo.test(correo)) {
-    // if (!regexCorreo.test(correo) || !regexTelefono.test(telefono)) {
-        return false;
+    if (!regexCorreo.test(correo)) {
+        return "Correo Invalido";
+    // } else if(!regexContraseña.test(contraseña)) {
+    //     return "Contraseña Invalida<br>Obligatorio:<br>1 Mayúscula<br>1 Minúscula<br>1 Número<br>Mínimo 8 Carácteres";
+    } else if(!regxNombreApellido.test(nombre)) {
+        return "Nombre Invalido";
+    } else if(!regxNombreApellido.test(apellidoPaterno)) {
+        return "Apellido Paterno Invalido";
+    } else if(apellidoMaterno != "" && !regxNombreApellido.test(apellidoMaterno)) {
+        return "Apellido Materno Invalido";
+    } else if(!regexTelefono.test(telefono)) {
+        return "Telefono Invalido";
+    } else if(!regexFecha.test(fechaNacimiento)) {
+        return "Fecha Invalida";
     }
-
-    // fechaNacimiento = fechaNacimiento.split("/").reverse().join("-")
 
     let datosGenerales = {
         accion : "CONFGuardarInformacionUsuarioModal",

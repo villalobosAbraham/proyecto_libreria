@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost";
-        $username_db = "abraham"; 
-        $password_db = "Degea200"; 
+        $username_db = "root"; 
+        $password_db = ""; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
@@ -19,7 +19,12 @@
         $sql = "SELECT 
                     idusuario, idtipousuario 
                 FROM log_usuarios 
-                WHERE email = ? AND contraseña = ?";
+                WHERE 
+                    email = ? AND 
+                    contraseña = ? AND
+                    activo = 'S'
+                    ";
+                    
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param("ss", $correo, $contraseña);
 
@@ -62,7 +67,7 @@
         return $resultado;
     }
 
-    function CONFComprobarCarrito($idUsuario) {
+    function CONFComprobarCarritoCantidad($idUsuario) {
         $conexion = conexion();
 
         $sql = "SELECT 

@@ -8,9 +8,22 @@ $('#tablaCompras').DataTable({
     columnDefs: [
         {"width": "15%", "targets": 0},
         {"width": "10%", "targets": 1},
-        {"width": "40%", "targets": 2},
+        {"width": "30%", "targets": 2},
         {"width": "10%", "targets": 3},
         {"width": "25%", "targets": 4},
+        {"width": "10%", "targets": 5},
+    ],
+});
+$('#tablaDetallesCompra').DataTable({
+    paging: true,        // Activa la paginación
+    searching: true,     // Activa el cuadro de búsqueda
+    ordering: true,      // Activa el ordenamiento de columnas
+    info: true,         // Muestra información sobre la tabla
+    columnDefs: [
+        {"width": "25%", "targets": 0},
+        {"width": "25%", "targets": 1},
+        {"width": "25%", "targets": 2},
+        {"width": "25%", "targets": 3},
     ],
 });
 
@@ -79,9 +92,13 @@ function mostrarCompras(data) {
     data.forEach(function(registro) {
         let idVenta = registro.idventa;
         let fecha = registro.fecha;
-        let empleado = registro.nombre + " " + registro.apellidopaterno + "" + registro.apellidomaterno;
+        let empleado = "Sin Entregar";
+        if (registro.idvendedor != 0) {
+            empleado = registro.nombre + " " + registro.apellidopaterno + "" + registro.apellidomaterno;
+        }
         let total = registro.total;
         let idPaypal = registro.idordenpaypal;
+        let boton = prepararBotonDetalles(idVenta);
 
         tabla.row.add([
             idVenta,
@@ -89,7 +106,77 @@ function mostrarCompras(data) {
             empleado,
             total,
             idPaypal,
-            "pene"
+            boton
+        ]).draw();
+    });
+}
+
+function cerrarModalDetalles() {
+    let modal = document.getElementById("myModal");
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+function prepararBotonDetalles(idVenta) {
+    let boton = document.createElement("button");
+    boton.textContent = "Ver Detalles ";
+    boton.addEventListener('click', function() {
+        verDetallesLibro(idVenta);
+    });
+    boton.classList.add("botonDetallesCompra")
+    let iconoDetalles = document.createElement('i');
+    iconoDetalles.classList.add('fa-solid', 'fa-info');
+    boton.appendChild(iconoDetalles);
+    return boton;
+}
+
+function verDetallesLibro(idVenta) {
+    let datosGenerales = {
+        accion : "CONFObtenerDetallesVenta",
+        idVenta : idVenta,
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.length > 0) {
+            mostrarLibrosVenta(data);
+            let modal = document.getElementById("myModal");
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden";
+        } else {
+            mensajeError("Error al Obtener Los Detalles");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function mostrarLibrosVenta(libros) {
+    let tabla = $("#tablaDetallesCompra").DataTable();
+    tabla.clear().draw();
+
+    libros.forEach(function(libro) {
+        let titulo = libro.titulo;
+        let precioBase = parseFloat(libro.precio);
+        let descuentoBase = parseFloat(libro.descuento);
+        let ivaBase = parseFloat(libro.iva);
+        let costo = precioBase - descuentoBase + ivaBase;
+        let cantidad = libro.cantidad;
+        let total = libro.total;
+
+        tabla.row.add([
+            titulo,
+            "$" + costo + " M.X.N.",
+            cantidad + " Unidad(es)",
+            "$" + total +  "M.X.N.",
         ]).draw();
     });
 }

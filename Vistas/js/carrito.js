@@ -1,5 +1,15 @@
 let url = '../Controladores/conf_configuracion.php';  
 
+function mensajeInformacion(mensaje) {
+    Swal.fire({
+        position: "top-end",
+        icon: "info",
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 3000
+      });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     let barra = document.querySelector('.barra');
     let main = document.querySelector('main');
@@ -124,7 +134,6 @@ function mostrarLibrosCarrito(libros) {
         textoCosto.setAttribute("totalAnterior", precioReal * libro.cantidad);
 
         input.onchange = function() {
-            console.table(libro);
             actualizarPrecios(input, textoCosto, libro.idlibro);
         }
 
@@ -227,7 +236,6 @@ function actualizarPrecios(input, textoCosto, idLibro) {
         idLibro : idLibro,
         cantidad : input.value,
     }
-    console.table(datosGenerales);
 
     fetch(url, {
         method: 'POST',
@@ -241,9 +249,9 @@ function actualizarPrecios(input, textoCosto, idLibro) {
         if (data) {
             actualizarPrecioDivLibro(input, textoCosto);
             actualizarPrecioDivPagos(input);
-            comprobarCarrito();
+            comprobarCarritoCantidad();
         } else {
-            alert("Error al Modificar la Cantidad");
+            mensajeError("Error al Modificar la Cantidad");
             location.reload();
         }
     })
@@ -360,16 +368,6 @@ function cargarBotonPaypal() {
                 // Accede a información de la transacción
                 let transactionStatus = details.status;
     
-                // Consola de salida con todos los detalles
-                console.log('Detalles del Pago:');
-                console.log('Nombre del Comprador: ' + payerName);
-                console.log('Apellido del Comprador: ' + payerSurname);
-                console.log('Email del Comprador: ' + payerEmail);
-                console.log('ID del Pedido: ' + orderId);
-                console.log('Monto de la Compra: ' + purchaseAmount);
-                console.log('Código de Moneda: ' + currencyCode);
-                console.log('Estado de la Transacción: ' + transactionStatus);
-                // alert('Pago completado por ' + details.payer.name.given_name);
                 registrarVenta(orderId);
             });
         },
@@ -393,6 +391,11 @@ btn.onclick = function() {
     cargarBotonPaypal();
     modal.style.display = "block";
     document.body.style.overflow = "hidden";
+    setTimeout(() => {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+        mensajeInformacion("Cerrado por Seguridad");
+    }, 2000);
 }
 
 // Cuando el usuario haga clic en el elemento span (x), cerrar el modal
@@ -400,7 +403,6 @@ span.onclick = function() {
     modal.style.display = "none";
     document.body.style.overflow = "auto";
 }
-
 // // Cuando el usuario haga clic en cualquier parte fuera del modal, cerrar el modal
 // window.onclick = function(event) {
 //   if (event.target == modal) {
@@ -469,7 +471,6 @@ function registrarVenta(idOrdenPaypal) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         if(data) {
             mensajeFunciono("Venta Realizada Correctamente");
             setTimeout(() => {

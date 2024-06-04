@@ -189,10 +189,12 @@ function agregarLibroCarrito(boton) {
     })
     .then(response => response.json())
     .then(data => {
-        comprobarCarrito();
+        comprobarCarritoCantidad();
         if (data) {
             mensajeFunciono("Libro Agregado Correctamente");
-        } 
+        } else {
+            mensajeError("Limite Alcanzado");
+        }
     })
     .catch(error => {
         console.error('Error:', error);
@@ -214,7 +216,6 @@ function prepararDatosGeneralesAgregarCarrito(boton) {
 function verDatellesLIbro(libro) {
     let titulo = libro.titulo;
     let portada = libro.portada;
-    console.table(libro);
     let autores = prepararTextoAutor(libro.autores);
     let fechaPublicacion = libro.fechapublicacion;
     let genero = libro.genero;
@@ -441,7 +442,7 @@ function filtrarLibros() {
             mostrarLibros("listaBusqueda", "listaBusquedaPaginacion", data);
             $("#busqueda").css("display", "block");
         } else {
-            mensajeError("Libros no Coincidentes");
+            mensajeError("Libros no Coincidentes <br>/<br>Sin Inventario");
             $("#busqueda").css("display", "none");
         }
     })
