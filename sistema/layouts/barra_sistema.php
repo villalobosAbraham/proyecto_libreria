@@ -53,7 +53,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 <link rel="stylesheet" href="/sistema/layouts/barra_sistema.css">
 
-<script src="./layouts/barra_sistema.js"></script>
+<script src="layouts/Barra_sistema.js"></script>
 <script src="/sweetalert2.all.min.js"></script>
 <script src="/jquery-3.7.1.min.js"></script>
 <script src="/dataTables.min.js"></script>
