@@ -169,7 +169,8 @@
         $conexion = conexion();
 
         $sql = "SELECT DISTINCT 
-                    cat_libros.idgeneroprincipal
+                    cat_libros.idgeneroprincipal,
+                    inv_visualizaciones.fecha
                 FROM
                     inv_visualizaciones
                 JOIN

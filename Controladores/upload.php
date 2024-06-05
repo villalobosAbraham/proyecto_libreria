@@ -30,11 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $uploadOk = 0;
         }
 
-        // Permitir ciertos formatos de archivo
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
-        }
+        // // Permitir ciertos formatos de archivo
+        // if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+        //     echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        //     $uploadOk = 0;
+        // }
 
         // Verificar si $uploadOk es 0 debido a un error
         if ($uploadOk == 0) {
