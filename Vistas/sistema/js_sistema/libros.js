@@ -139,11 +139,10 @@ function cerrarModalLibro() {
     if (imagenRuta) {
         borrarImagenSubida();
     }
-    limpiarModalLibro();
-
     let modal = document.getElementById("modalLibro");
     modal.style.display = "none";
     document.body.style.overflow = "auto";
+    limpiarModalLibro();
 }
 
 function limpiarModalLibro() {
@@ -160,6 +159,7 @@ function limpiarModalLibro() {
     $("#nombreLibro").val("").text("");
     $("#fechaLibro").val("");
     $("#sinopsis").val("");
+    $("#precioBaseLibro").val("0").trigger("change");
 
     inicializarAutores();
     inicializarGeneros();
@@ -392,11 +392,15 @@ function confirmarDatosParaImagen() {
     let paginasLibro = $("#paginasLibro").val();
     let sinopsis = $('#sinopsis').val();
     let imagen = $("#imageInput")[0];
+    let precioBase = parseFloat($("#precioBaseLibro").val());
+    let ivaLibro = parseFloat($("#ivaLibro").val());
+    let descuentoLibro = parseFloat($("#descuentoLibro").val());
+    let totalLibro = parseFloat($("#totalLibro").val());
 
     let regexTitulo = /^[A-Za-z\s]{3,}$/;
     let regexFecha = /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
     let regexPaginas = /^\d{1,4}$/;
-    let regexSinopsis = /^[A-Za-zÁ-ÿ\s]{30,}$/;
+    let regexSinopsis = /^[A-Za-zÁ-ÿ0-9\s.,;:!?'"()\-]{30,}$/;
 
     if (!regexTitulo.test(titulo)) {
         return "Titulo Invalido, Minimo 3 carácteres";
@@ -414,6 +418,8 @@ function confirmarDatosParaImagen() {
         return "Fecha Invalida";
     } else if(!regexSinopsis.test(sinopsis)) {
         return "Sinopsis Invalida, Solo Texto y Minimo 30 Carácteres";
+    } else if(precioBase <= 0 || descuentoLibro > precioBase) {
+        return "Ingrese Costos Validos";
     } else if(imagen.files.length === 0) {
         return "Imagen Sin Cargar";
     }
@@ -484,7 +490,7 @@ function fechaHoyFormateadaCadena() {
 
 function abrirModalConfirmarAgregar() {
     Swal.fire({
-        title: "Estas Segurp?",
+        title: "Estas Seguro?",
         text: "Confirmar Agregar Libro",
         icon: "warning",
         showCancelButton: true,
@@ -501,6 +507,11 @@ function abrirModalConfirmarAgregar() {
 function agregarLibro() {
     let datosGenerales = prepararDatosGeneralesAgregarLibro();
 
+    if (!datosGenerales) {
+        mensajeError("Datos Incompletos, Rellenar Completamente");
+        return;
+    }
+
     fetch(url, {
         method: 'POST',
         headers: {  
@@ -511,16 +522,15 @@ function agregarLibro() {
     .then(response => response.json())
     .then(data => {
         if (data) {
-            let idioma = $("<option>").attr("value", "-1").text("Seleccionar idioma");
-            $("#idiomaLibro").empty().append(idioma);
-            data.forEach(function(registro) {
-                let idIdioma = registro.ididioma;
-                let nombreIdioma = registro.idioma;
-                idioma = $("<option>").attr("value", idIdioma).text(nombreIdioma)
-                $("#idiomaLibro").append(idioma);
-            });
+            mensajeFunciono("Libro Agregado Correctamente");
+            limpiarModalLibro();
+
+            let modal = document.getElementById("modalLibro");
+            modal.style.display = "none";
+            document.body.style.overflow = "auto"
+
         } else { 
-            mensajeError("Fallo al Obtener Editoriales, Se Recomienda Recargar");
+            mensajeError("Fallo al Agregar el Libro");
         }
     })
     .catch(error => {
@@ -531,26 +541,80 @@ function agregarLibro() {
 function prepararDatosGeneralesAgregarLibro() {
     let titulo = $("#nombreLibro").val();
     let fechaPublicacion = $("#fechaLibro").val();
-    let autor = $("#autorLibro").find(":selected").val();
-    let genero = $("#generoLibro").find(":selected").val();
-    let editorial = $("#editorialLibro").find(":selected").val();
-    let idioma = $("#idiomaLibro").find(":selected").val();
+    let idAutor = $("#autorLibro").find(":selected").val();
+    let idGenero = $("#generoLibro").find(":selected").val();
+    let idEditorial = $("#editorialLibro").find(":selected").val();
+    let idIdioma = $("#idiomaLibro").find(":selected").val();
     let paginasLibro = $("#paginasLibro").val();
     let sinopsis = $('#sinopsis').val();
-    let imagen = document.getElementById('uploadedImage').getAttribute("urlImagen");
+    let precioBase = parseFloat($("#precioBaseLibro").val());
+    let ivaLibro = parseFloat($("#ivaLibro").val());
+    let descuentoLibro = parseFloat($("#descuentoLibro").val());
+    let totalLibro = parseFloat($("#totalLibro").val());
+    let portada = document.getElementById('uploadedImage').getAttribute("urlImagen");
+
+    let regexTitulo = /^[A-Za-z\s]{3,}$/;
+    let regexFecha = /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+    let regexSinopsis = /^[A-Za-zÁ-ÿ0-9\s.,;:!?'"()\-]{30,}$/;
+    let regexPaginas = /^\d{1,4}$/;
+
+    if (idAutor == "-1" || idGenero == "-1" || idEditorial == "-1" || idIdioma == "-1") {
+        return false;
+    } else if(!regexTitulo.test(titulo) || !regexFecha.test(fechaPublicacion) || !regexSinopsis.test(sinopsis)) {
+        return false;
+    } else if(!comprobarCostosAgregarLibro()) {
+        return false;
+    } else if(portada == "") {
+        return false;
+    } else if (!regexPaginas.test(paginasLibro) || paginasLibro <= 0) {
+        return false;
+    }
 
     let datosGenerales = {
         accion : "CONFAgregarLibroCatalogo",
         titulo : titulo,
         fechaPublicacion : fechaPublicacion,
-        autor : autor,
-        genero : genero,
-        editorial : editorial,
-        idioma : idioma,
+        idAutor : idAutor,
+        idGenero : idGenero,
+        idEditorial : idEditorial,
+        idIdioma : idIdioma,
         paginasLibro : paginasLibro,
         sinopsis : sinopsis,
-        imagen : imagen,
+        precioBase : precioBase,
+        ivaLibro : ivaLibro,
+        descuentoLibro : descuentoLibro,
+        totalLibro : totalLibro,
+        portada : portada,
     };
 
     return datosGenerales;
+}
+
+function comprobarCostosAgregarLibro() {
+    let precioBaseLibro = $("#precioBaseLibro").val();
+    let descuentoLibro = $("#descuentoLibro").val();
+    let regexNumeros = /^\d{1,4}(\.\d+)?$/;
+    if (!comprobarFloat(precioBaseLibro) || !comprobarFloat(descuentoLibro) || !regexNumeros.test(precioBaseLibro) || !regexNumeros.test(descuentoLibro)) {
+        $("#precioBaseLibro, #descuentoLibro, #ivaLibro, #totalLibro").val("0");
+        return false;
+    }
+    if (descuentoLibro > precioBaseLibro) {
+        $("#descuentoLibro").val("0");
+        return false;;
+    }
+    precioBaseLibro = parseFloat(precioBaseLibro);
+    descuentoLibro = parseFloat(descuentoLibro);
+
+    let iva = (precioBaseLibro - descuentoLibro) * 0.16;
+    let total = precioBaseLibro - descuentoLibro + iva;
+
+    $("#ivaLibro").val(iva.toFixed(2));
+    $("#totalLibro").val(total.toFixed(2));
+
+    return true;
+}
+
+function comprobarFloat(numero) {
+    let float = parseFloat(numero);
+    return !isNaN(float) && isFinite(float);
 }

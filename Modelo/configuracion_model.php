@@ -799,10 +799,45 @@
     function CONFAgregarLibroCatalogo($datos) {
         $conexion = conexion();
 
-        $sql = "INSERT INTO 
-
+        $sql = "INSERT INTO cat_libros
+                    (titulo, precio, descuento, iva, idgeneroprincipal, fechapublicacion, portada, sinopsis, fecharegistro, paginas, ididioma, ideditorial, activo)
+                VALUES
+                    ('$datos->titulo', '$datos->precioBase', '$datos->descuentoLibro', '$datos->ivaLibro', '$datos->idGenero', '$datos->fechaPublicacion', '$datos->portada', '$datos->sinopsis', '$datos->fechahoy', '$datos->paginasLibro', '$datos->idIdioma', '$datos->idEditorial', 'S')
             ";
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute(); 
+        $idLibro = obtenerIdLibroInsercion($datos);
 
-        return 0;
+        $sql = "INSERT INTO cat_librosautores
+                    (idlibro, idautor)
+                VALUES
+                    ('$idLibro', '$datos->idAutor')
+                ";
+        $stmt = $conexion->prepare($sql);
+
+        return $stmt->execute(); 
+    }
+
+    function obtenerIdLibroInsercion($datos) {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    idlibro
+                FROM
+                    cat_libros
+                WHERE
+                    titulo = '$datos->titulo' AND
+                    precio = '$datos->precioBase' AND
+                    idgeneroprincipal = '$datos->idGenero' AND
+                    ididioma = '$datos->idIdioma' AND
+                    ideditorial = '$datos->idEditorial'
+                ";
+
+        $stmt = $conexion->prepare($sql);
+
+        $stmt->execute();
+        $resultados = $stmt->get_result();
+        $registro = $resultados->fetch_assoc();
+        return $registro["idlibro"];
     }
 ?>

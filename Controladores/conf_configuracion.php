@@ -170,6 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo json_encode($resultado);
                 break;
             case "CONFAgregarLibroCatalogo":
+                $datos->fechahoy = date('Y-m-d');
                 $resultado = CONFAgregarLibroCatalogo($datos);
 
                 echo json_encode($resultado);

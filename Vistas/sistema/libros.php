@@ -84,14 +84,28 @@
         <label class="label-control">Sinopsis Libro: </label>
         <textarea id="sinopsis" class="textarea-control"></textarea>
       </div>
+      
+      <div class="row">
+        <label class="label-control">Precio Base: </label>
+        <input type="number" id="precioBaseLibro" class="input-control" placeholder="Precio Base" value="0" onchange="comprobarCostosAgregarLibro()">  
+        <label class="label-control">Descuento: </label>
+        <input type="number" id="descuentoLibro" class="input-control" placeholder="Descuento" value="0" onchange="comprobarCostosAgregarLibro()">  
+      </div>
+      
+      <div class="row">
+        <label class="label-control">Iva: </label>
+        <input type="text" id="ivaLibro" class="input-control" placeholder="Iva" disabled>  
+        <label class="label-control">Total: </label>
+        <input type="text" id="totalLibro" class="input-control" placeholder="Total" disabled>  
+      </div>
 
       <h3 style="width: 100%;">CARGAR PORTADA</h3>
       <div class="row">
         <input type="file" id="imageInput" name="image" accept="image/*">
-          <!-- <button type="submit">Subir</button> -->
-          <button id="botonSubirImagen" class="botonPrimario" onclick="subirImagen()">Subir <i class="fa fa-upload"></i></button>
-          <img id="uploadedImage"  alt="Uploaded Image" style="display: none;">
-          <button id="deleteButton" class="botonPrimario" onclick="borrarImagenSubida()" style="display:none;">Borrar Imagen</button>
+        <!-- <button type="submit">Subir</button> -->
+        <button id="botonSubirImagen" class="botonPrimario" onclick="subirImagen()">Subir <i class="fa fa-upload"></i></button>
+        <img id="uploadedImage"  alt="Uploaded Image" style="display: none;">
+        <button id="deleteButton" class="botonPrimario" onclick="borrarImagenSubida()" style="display:none;">Borrar Imagen</button>
       </div>
     </div>
   

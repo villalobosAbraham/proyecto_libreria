@@ -115,8 +115,8 @@ main {
     padding: 20px;
     border: 1px solid #888;
     width: 50%;
-    height: 90%;
-    max-height: 90%;
+    height: 80%;
+    max-height: 80%;
     overflow: auto;
     display: flex;
     flex-wrap: wrap;
