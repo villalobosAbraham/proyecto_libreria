@@ -55,7 +55,7 @@ function iniciarSesion() {
         if (data.idTipoUsuario == 1) {
             window.open("/Vistas/principal.php", "_self");
         } else {
-            window.open("../Vistas/sistema/iniciosistema.php", "_self");
+            window.open("/sistema/iniciosistema.php", "_self");
         }
     })
     .catch(error => {
@@ -168,68 +168,68 @@ function mostrarLogin() {
     document.getElementById("registro").style.display = "none";
 }
 
-let uploadForm = document.getElementById('uploadForm');
-let imageInput = document.getElementById('imageInput');
-let customNameInput = document.getElementById('customName');
-let uploadedImage = document.getElementById('uploadedImage');
-let deleteButton = document.getElementById('deleteButton');
+// let uploadForm = document.getElementById('uploadForm');
+// let imageInput = document.getElementById('imageInput');
+// let customNameInput = document.getElementById('customName');
+// let uploadedImage = document.getElementById('uploadedImage');
+// let deleteButton = document.getElementById('deleteButton');
 
-let currentImageUrl = '';
+// let currentImageUrl = '';
 
-uploadForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-    let url = '../Controladores/upload.php'; 
+// uploadForm.addEventListener('submit', function(event) {
+//     event.preventDefault();
+//     let url = '../Controladores/upload.php'; 
 
-    let formData = new FormData();
-    formData.append('image', imageInput.files[0]);
-    formData.append('customName', customNameInput.value);
+//     let formData = new FormData();
+//     formData.append('image', imageInput.files[0]);
+//     formData.append('customName', customNameInput.value);
 
-    fetch(url, {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.imageUrl) {
-            currentImageUrl = "../Controladores/" + data.imageUrl;
-            uploadedImage.src = currentImageUrl;
-            uploadedImage.style.display = 'block';
-            deleteButton.style.display = 'block';
-        } else {
-            console.error('Error uploading image.');
-        }
-    })
-    .catch(error => {
-        console.error('Error uploading image:', error);
-    });
-});
+//     fetch(url, {
+//         method: 'POST',
+//         body: formData
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.imageUrl) {
+//             currentImageUrl = "../Controladores/" + data.imageUrl;
+//             uploadedImage.src = currentImageUrl;
+//             uploadedImage.style.display = 'block';
+//             deleteButton.style.display = 'block';
+//         } else {
+//             console.error('Error uploading image.');
+//         }
+//     })
+//     .catch(error => {
+//         console.error('Error uploading image:', error);
+//     });
+// });
 
-deleteButton.addEventListener('click', function() {
-    let url = '../Controladores/upload.php'; 
-    if (currentImageUrl) {
-        let formData = new FormData();
-        formData.append('deleteImage', currentImageUrl);
+// deleteButton.addEventListener('click', function() {
+//     let url = '../Controladores/upload.php'; 
+//     if (currentImageUrl) {
+//         let formData = new FormData();
+//         formData.append('deleteImage', currentImageUrl);
 
-        fetch(url, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                uploadedImage.src = '';
-                uploadedImage.style.display = 'none';
-                deleteButton.style.display = 'none';
-                currentImageUrl = '';
-            } else {
-                console.error(data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error deleting image:', error);
-        });
-    }
-});
+//         fetch(url, {
+//             method: 'POST',
+//             body: formData
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.status === 'success') {
+//                 uploadedImage.src = '';
+//                 uploadedImage.style.display = 'none';
+//                 deleteButton.style.display = 'none';
+//                 currentImageUrl = '';
+//             } else {
+//                 console.error(data.message);
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error deleting image:', error);
+//         });
+//     }
+// });
 
 function irPresentacion() {
     window.open("/index.php", "_self");

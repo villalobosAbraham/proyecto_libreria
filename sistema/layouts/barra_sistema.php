@@ -1,11 +1,11 @@
 <ul class="barra_sistema">
-    <li><a href="/Vistas/sistema/iniciosistema.php">Inicio <i class="fa-solid fa-home"></i></a></li>
-    <li><a href="/Vistas/sistema/autores.php">Autores <i class="fa fa-pencil"></i></a></li>
-    <li><a href="/Vistas/sistema/libros.php">Libros <i class="fa fa-book"></i></a></li>
-    <li><a href="/Vistas/sistema/inventario.php">Inventario <i class="fa fa-archive"></i></a></li>
-    <li><a href="/Vistas/sistema/empleados.php">Empleados <i class="fa fa-users"></i></a></li>
-    <li><a href="/Vistas/sistema/usuarios.php">Clientes <i class="fa fa-users"></i></a></li>
-    <li><a href="/Vistas/sistema/ventas.php">Ventas <i class="fa-solid fa-shopping-cart"></i></a></li>
+    <li><a href="/sistema/iniciosistema.php">Inicio <i class="fa-solid fa-home"></i></a></li>
+    <li><a href="/sistema/autores.php">Autores <i class="fa fa-pencil"></i></a></li>
+    <li><a href="/sistema/libros.php">Libros <i class="fa fa-book"></i></a></li>
+    <li><a href="/sistema/inventario.php">Inventario <i class="fa fa-archive"></i></a></li>
+    <li><a href="/sistema/empleados.php">Empleados <i class="fa fa-users"></i></a></li>
+    <li><a href="/sistema/usuarios.php">Clientes <i class="fa fa-users"></i></a></li>
+    <li><a href="/sistema/ventas.php">Ventas <i class="fa-solid fa-shopping-cart"></i></a></li>
     <li class="align-right"><a onclick="cerrarSesion();"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
     <li id="barraUsuario" class="align-right"><a onclick="abrirModalUsuario();"><i class="fa fa-user-circle" id="iconoUsuario"></i></a></li>
 </ul>
@@ -51,9 +51,9 @@
 </div>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-<link rel="stylesheet" href="/Vistas/sistema/layouts/barra_sistema.css">
+<link rel="stylesheet" href="/sistema/layouts/barra_sistema.css">
 
-<script src="/Vistas/sistema/layouts/barra_sistema.js"></script>
+<script src="/sistema/layouts/barra_sistema.js"></script>
 <script src="/sweetalert2.all.min.js"></script>
 <script src="/jquery-3.7.1.min.js"></script>
 <script src="/dataTables.min.js"></script>
