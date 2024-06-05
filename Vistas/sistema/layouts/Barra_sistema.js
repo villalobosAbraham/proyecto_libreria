@@ -18,9 +18,26 @@ function mensajeFunciono(mensaje) {
       });
 }
 
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        if ($("#modalUsuario").css("display") == "block") {
+            $("#modalUsuario").css("display", "none");
+        }
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     comprobarUsuario();
     obtenerUsuarioBarra();
+
+    let barra = document.querySelector('.barra_sistema');
+    let main = document.querySelector('main');
+    let modal = document.querySelector('.modalUsuario');
+
+    let barraAltura = parseFloat(barra.offsetHeight) + 5; 
+    main.style.paddingTop = barraAltura + 'px';
+    modal.style.paddingTop = barraAltura + 'px';
+    comprobarUsuario();
 });
 
 window.addEventListener('pageshow', function(event) {

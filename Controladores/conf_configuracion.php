@@ -149,6 +149,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo json_encode($resultado);
                 break;
+            case "CONFObtenerAutoresActivos":
+                $resultado = CONFObtenerAutoresActivos();
+
+                echo json_encode($resultado);
+                break;
+            case "CONFObtenerGenerosActivos":
+                $resultado = CONFObtenerGenerosActivos();
+
+                echo json_encode($resultado);
+                break;
+            case "CONFObtenerEditorialesActivos":
+                $resultado = CONFObtenerEditorialesActivos();
+
+                echo json_encode($resultado);
+                break;
+            case "CONFObtenerIdiomasActivos":
+                $resultado = CONFObtenerIdiomasActivos();
+
+                echo json_encode($resultado);
+                break;
+            case "CONFAgregarLibroCatalogo":
+                $resultado = CONFAgregarLibroCatalogo($datos);
+
+                echo json_encode($resultado);
+                break;
             default:
                 echo json_encode(array("error" => "Acción no válida"));
         }

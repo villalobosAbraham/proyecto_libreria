@@ -1,4 +1,5 @@
 header {
+    padding-top: 10px;
     padding-left: 10px; 
     padding-right: 10px;
     border-bottom: 1px dashed #111;
@@ -87,6 +88,13 @@ main {
     float: right;
 }
 
+.dt-paging-button {
+    background-color: #73ded6;
+    border-radius: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
 .modalLibro {
     display: none;
     position: fixed;
@@ -107,17 +115,25 @@ main {
     padding: 20px;
     border: 1px solid #888;
     width: 50%;
+    height: 90%;
+    max-height: 90%;
     overflow: auto;
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 5%;
+    border-radius: 10px;
 }
   
 #tituloModalLibro {
+    height: fit-content;
+    max-height: fit-content;
     width: 100%;
     color: white;
 }
-  
+
 .headerModal {
+    height: fit-content;
+    max-height: fit-content;
     width: 100%;
     background-color: #1B4F72;
     border-radius: 15px;
@@ -179,4 +195,30 @@ main {
     margin-right: 5px;
     width: 15%;
     max-width: 15%;
+}
+
+.textarea-control {
+    height: 80px;
+    max-height: 110px;
+    margin-top: 5px;
+    margin-right: 5px;
+    width: 80%;
+    max-width: 80%;
+}
+
+#uploadedImage {
+    width: 20%;
+    max-width: 100px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+#deleteButton {
+    height: fit-content;
+    margin-left: 3px;
+}
+
+#botonSubirImagen {
+    height: fit-content;
+    margin-left: 50px;
 }

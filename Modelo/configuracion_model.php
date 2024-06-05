@@ -727,4 +727,82 @@
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
+    function CONFObtenerAutoresActivos() {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    idautor, nombre, apellidopaterno, apellidomaterno
+                FROM
+                    conf_autores
+                WHERE
+                    activo = 'S'
+        ";
+
+        $stmt = $conexion->prepare($sql);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC); 
+    }
+
+    function CONFObtenerGenerosActivos() {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    idgenero, genero
+                FROM
+                    conf_genero
+                WHERE
+                    activo = 'S'
+        ";
+
+        $stmt = $conexion->prepare($sql);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC); 
+    }
+
+    function CONFObtenerEditorialesActivos() {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    ideditorial, editorial
+                FROM
+                    cat_editoriales
+                WHERE
+                    activo = 'S'
+        ";
+
+        $stmt = $conexion->prepare($sql);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC); 
+    }
+
+    function CONFObtenerIdiomasActivos() {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    ididioma, idioma
+                FROM
+                    cat_idioma
+                WHERE
+                    activo = 'S'
+        ";
+
+        $stmt = $conexion->prepare($sql);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC); 
+    }
+
+    function CONFAgregarLibroCatalogo($datos) {
+        $conexion = conexion();
+
+        $sql = "INSERT INTO 
+
+            ";
+
+        return 0;
+    }
 ?>

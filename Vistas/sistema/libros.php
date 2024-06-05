@@ -12,8 +12,9 @@
         <br>
         <main>
             <div class="row">
-                <button class="botonPrimario" onclick="abrirModalAgregarCarrito();">Agregar Libro </button>
-                <button id="inhabilitarLibro" class="botonPrimario">Inhabilitar Libro</button>
+                <button class="botonPrimario" onclick="abrirModalAgregarCarrito();">Agregar Libro <i class="fa fa-plus"></i></button>
+                <button class="botonPrimario" onclick="abrirModalConfirmarDeshabilitar();">Inhabilitar Libro <i class="fa fa-ban"></i></button>
+                <button class="botonPrimario" onclick="abrirModalConfirmarHabilitar();">Habilitar Libro <i class="fa fa-check"></i></button>
             </div>
             <div style="width: 95%; margin-left: 1%;">
                 <table id="tablaLibros" class="tablaLibros">
@@ -55,35 +56,48 @@
       </div>
 
       <div class="row">
-        <label class="label-control" id="">Genero: </label>
+        <label class="label-control">Género: </label>
         <select id="generoLibro" class="input-control">
-            <option value="-1">Seleccionar Genero</option>
+            <option value="-1">Seleccionar Género</option>
         </select>
-        <label class="label-control" id="">Editorial: </label>
+        <label class="label-control">Editorial: </label>
         <select id="editorialLibro" class="input-control">
             <option value="-1">Seleccionar Editorial</option>
-            <option value="">pene</option>
         </select>
       </div>
 
       <div class="row">
-        <label class="label-control" id="">Idioma: </label>
+        <label class="label-control">Idioma: </label>
         <select id="idiomaLibro" class="input-control">
             <option value="-1">Seleccionar Idioma</option>
         </select>
-        <label class="label-control" id="">Paginas </label>
+        <label class="label-control">Paginas </label>
         <input type="text" id="paginasLibro" class="input-control" placeholder="Paginas ">
       </div>
 
       <div class="row">
-        <label class="label-control" id="">Fecha Publicacion: </label>
+        <label class="label-control">Fecha Publicacion: </label>
         <input type="date" id="fechaLibro" class="input-control">
+      </div>
+      
+      <div class="row">
+        <label class="label-control">Sinopsis Libro: </label>
+        <textarea id="sinopsis" class="textarea-control"></textarea>
+      </div>
+
+      <h3 style="width: 100%;">CARGAR PORTADA</h3>
+      <div class="row">
+        <input type="file" id="imageInput" name="image" accept="image/*">
+          <!-- <button type="submit">Subir</button> -->
+          <button id="botonSubirImagen" class="botonPrimario" onclick="subirImagen()">Subir <i class="fa fa-upload"></i></button>
+          <img id="uploadedImage"  alt="Uploaded Image" style="display: none;">
+          <button id="deleteButton" class="botonPrimario" onclick="borrarImagenSubida()" style="display:none;">Borrar Imagen</button>
       </div>
     </div>
   
     <footer class="footerModal">
       <button id="cerrarModalUsaurio" class="botonFooterModalUsuario" onclick="cerrarModalLibro()"><i class="fa fa-times-circle"></i> Cerrar</button>
-      <button id="agregarLibro" class="botonFooterModalUsuario" onclick="agregarLibro()"><i class="fa fa-plus"></i> Guardar Informacion</button>
+      <button id="agregarLibro" class="botonFooterModalUsuario" onclick="abrirModalConfirmarAgregar()"><i class="fa fa-plus"></i> Guardar Informacion</button>
     </footer>
   </section>
 </div>

@@ -44,15 +44,6 @@
     <button class="circle-button" onclick="irPresentacion();">
         <i class="fa fa-arrow-left"></i>
     </button>
-    <!-- <h1>Upload Image</h1>
-    <form id="uploadForm">
-        <input type="file" id="imageInput" name="image" accept="image/*">
-        <input type="text" id="customName" name="customName" placeholder="Enter custom name">
-        <button type="submit">Upload</button>
-    </form>
-    <h2>Uploaded Image</h2>
-    <img id="uploadedImage" src="" alt="Uploaded Image" style="display:none;">
-    <button id="deleteButton" style="display:none;">Delete Image</button> -->
 </body>
 </html>
 <script src="../sweetalert2.all.min.js"></script>

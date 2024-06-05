@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['deleteImage'])) {
         $fileToDelete = $_POST['deleteImage'];
         if (file_exists($fileToDelete)) {
-            print_r($fileToDelete);
+            // print_r($fileToDelete);
             if (unlink($fileToDelete)) {
                 echo json_encode(["status" => "success"]);
             } else {

@@ -395,7 +395,7 @@ btn.onclick = function() {
         modal.style.display = "none";
         document.body.style.overflow = "auto";
         mensajeInformacion("Cerrado por Seguridad");
-    }, 2000);
+    }, 4000);
 }
 
 // Cuando el usuario haga clic en el elemento span (x), cerrar el modal
