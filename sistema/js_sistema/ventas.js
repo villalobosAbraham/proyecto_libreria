@@ -126,7 +126,7 @@ function prepararBotonDetalles(idVenta, estado) {
     // Verificar si el estado es "Recogido" y crear el botón de "Entregar"
     if (estado != "Recogido") {
         let botonEntregar = document.createElement("button");
-        botonEntregar.textContent = "Entregar";
+        botonEntregar.textContent = "Entregar ";
         botonEntregar.addEventListener('click', function() {
             confirmarEntregarVenta(idVenta);
         });
@@ -134,7 +134,7 @@ function prepararBotonDetalles(idVenta, estado) {
 
         // Crear el icono para el botón de "Entregar"
         let iconoEntregar = document.createElement('i');
-        iconoEntregar.classList.add('fa-solid', 'fa-info');
+        iconoEntregar.classList.add('fa-solid', 'fa-handshake');
         botonEntregar.appendChild(iconoEntregar);
 
         // Añadir el botón de "Entregar" al contenedor
