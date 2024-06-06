@@ -167,32 +167,6 @@ function limpiarModalLibro() {
     inicializarIdioma();
 }
 
-function inhabilitarLibro() {
-    let idLibro = $('input[name="opcionLibro"]:checked').attr('idLibro');
-
-    let datosGenerales = prepararDatosGeneralesDeshabilitarLibro();
-    if (!datosGenerales) {
-        mensajeError("Libro no Seleccionado");
-        return;
-    }
-}
-
-function prepararDatosGeneralesDeshabilitarLibro() {
-    let seleccionado = $('input[name="opcionLibro"]:checked');
-    if (seleccionado.length <= 0) {
-        return false;
-    }
-
-    let idLibro = $('input[name="opcionLibro"]:checked').attr('idLibro');
-
-    let datosGenerales = {
-        accion : "CONFDeshabilitarLibro",
-        idLibro : idLibro
-    };
-
-    return datosGenerales;
-}
-
 function inicializarModalAgregarLibro() {
     inicializarAutores();
     inicializarGeneros();
@@ -528,6 +502,7 @@ function agregarLibro() {
             let modal = document.getElementById("modalLibro");
             modal.style.display = "none";
             document.body.style.overflow = "auto"
+            obtenerLibros();
 
         } else { 
             mensajeError("Fallo al Agregar el Libro");
@@ -618,3 +593,126 @@ function comprobarFloat(numero) {
     let float = parseFloat(numero);
     return !isNaN(float) && isFinite(float);
 }
+
+function abrirModalConfirmarDeshabilitar() {
+    Swal.fire({
+        title: "Estas Seguro?",
+        text: "Confirmar Dehsabilitar Libro",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Deshabilitar"
+    }).then((result) => {
+    if (result.isConfirmed) {
+        inhabilitarLibro();
+    }
+    });
+}
+
+
+function inhabilitarLibro() {
+    let datosGenerales = prepararDatosGeneralesDeshabilitarLibro();
+    if (!datosGenerales) {
+        mensajeError("Libro no Seleccionado");
+        return;
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data) {
+            mensajeFunciono("Libro Deshabilitado Correctamente");
+            obtenerLibros();
+        } else { 
+            mensajeError("Fallo al Deshabilitar Libro");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function prepararDatosGeneralesDeshabilitarLibro() {
+    let seleccionado = $('input[name="opcionLibro"]:checked');
+    if (seleccionado.length <= 0) {
+        return false;
+    }
+
+    let idLibro = $('input[name="opcionLibro"]:checked').attr('idLibro');
+
+    let datosGenerales = {
+        accion : "CONFDeshabilitarLibro",
+        idLibro : idLibro
+    };
+
+    return datosGenerales;
+}
+
+function abrirModalConfirmarHabilitar() {
+    Swal.fire({
+        title: "Estas Seguro?",
+        text: "Confirmar Habilitar Libro",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Habilitar"
+    }).then((result) => {
+    if (result.isConfirmed) {
+        habilitarLibro();
+    }
+    });
+}
+
+
+function habilitarLibro() {
+    let datosGenerales = prepararDatosGeneralesHabilitarLibro();
+    if (!datosGenerales) {
+        mensajeError("Libro no Seleccionado");
+        return;
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data) {
+            mensajeFunciono("Libro Habilitado Correctamente");
+            obtenerLibros();
+        } else { 
+            mensajeError("Fallo Habilitar Libro");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function prepararDatosGeneralesHabilitarLibro() {
+    let seleccionado = $('input[name="opcionLibro"]:checked');
+    if (seleccionado.length <= 0) {
+        return false;
+    }
+
+    let idLibro = $('input[name="opcionLibro"]:checked').attr('idLibro');
+
+    let datosGenerales = {
+        accion : "CONFHabilitarLibro",
+        idLibro : idLibro
+    };
+
+    return datosGenerales;
+}
+

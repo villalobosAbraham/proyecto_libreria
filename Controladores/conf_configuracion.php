@@ -154,6 +154,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo json_encode($resultado);
                 break;
+            case "CONFObtenerAutores":
+                $resultado = CONFObtenerAutores();
+
+                echo json_encode($resultado);
+                break;
             case "CONFObtenerGenerosActivos":
                 $resultado = CONFObtenerGenerosActivos();
 
@@ -172,6 +177,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             case "CONFAgregarLibroCatalogo":
                 $datos->fechahoy = date('Y-m-d');
                 $resultado = CONFAgregarLibroCatalogo($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFDeshabilitarLibro":
+                $resultado = CONFDeshabilitarLibro($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFHabilitarLibro":
+                $resultado = CONFHabilitarLibro($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFDeshabilitarAutor":
+                $resultado = CONFDeshabilitarAutor($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFHabilitarAutor":
+                $resultado = CONFHabilitarAutor($datos);
 
                 echo json_encode($resultado);
                 break;

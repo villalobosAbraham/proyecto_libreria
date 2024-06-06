@@ -1,7 +1,7 @@
 <ul class="barra_sistema">
     <li><a href="/sistema/iniciosistema.php">Inicio <i class="fa-solid fa-home"></i></a></li>
-    <li><a href="/sistema/autores.php">Autores <i class="fa fa-pencil"></i></a></li>
     <li><a href="/sistema/libros.php">Libros <i class="fa fa-book"></i></a></li>
+    <li><a href="/sistema/autores.php">Autores <i class="fa fa-pencil"></i></a></li>
     <li><a href="/sistema/inventario.php">Inventario <i class="fa fa-archive"></i></a></li>
     <li><a href="/sistema/empleados.php">Empleados <i class="fa fa-users"></i></a></li>
     <li><a href="/sistema/usuarios.php">Clientes <i class="fa fa-users"></i></a></li>

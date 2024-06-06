@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost"; 
-        $username_db = "abraham"; 
-        $password_db = "Degea200"; 
+        $username_db = "root"; 
+        $password_db = ""; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
@@ -302,7 +302,8 @@
             LEFT JOIN
                 conf_autores ON cat_librosautores.idautor = conf_autores.idautor
             WHERE
-                ven_carrodecompra.idusuario = '$idUsuario'
+                ven_carrodecompra.idusuario = '$idUsuario' AND
+                ven_carrodecompra.activo = 'S'
             GROUP BY
                 ven_carrodecompra.idlibro;
             ";
@@ -840,5 +841,105 @@
         $resultados = $stmt->get_result();
         $registro = $resultados->fetch_assoc();
         return $registro["idlibro"];
+    }
+
+    function CONFDeshabilitarLibro($datos) {
+        $conexion = conexion();
+
+        $sql = "UPDATE 
+                    cat_libros
+                LEFT JOIN 
+                    inv_inventariolibros ON cat_libros.idlibro = inv_inventariolibros.idlibro
+                LEFT JOIN 
+                    ven_carrodecompra ON cat_libros.idlibro = ven_carrodecompra.idlibro
+                SET
+                    cat_libros.activo = 'N',
+                    inv_inventariolibros.activo = 'N',
+                    ven_carrodecompra.activo = 'N'
+                WHERE
+                    cat_libros.idlibro = '$datos->idLibro'
+                ";
+
+        return $conexion->query($sql);
+    }
+
+    function CONFHabilitarLibro($datos) {
+        $conexion = conexion();
+
+        $sql = "UPDATE 
+                    cat_libros
+                LEFT JOIN 
+                    inv_inventariolibros ON cat_libros.idlibro = inv_inventariolibros.idlibro
+                LEFT JOIN 
+                    ven_carrodecompra ON cat_libros.idlibro = ven_carrodecompra.idlibro
+                SET
+                    cat_libros.activo = 'S',
+                    inv_inventariolibros.activo = 'S',
+                    ven_carrodecompra.activo = 'S'
+                WHERE
+                    cat_libros.idlibro = '$datos->idLibro'
+                ";
+
+        return $conexion->query($sql);
+    }
+
+    function CONFObtenerAutores() {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    conf_autores.idautor, conf_autores.nombre, conf_autores.apellidopaterno, 
+                    conf_autores.apellidomaterno, conf_autores.fechanacimiento, conf_autores.idnacionalidad,
+                    conf_autores.activo,
+
+                    conf_nacionalidad.nacionalidad
+                FROM
+                    conf_autores
+                JOIN 
+                    conf_nacionalidad ON conf_autores.idnacionalidad = conf_nacionalidad.idnacionalidad
+        ";
+
+        $stmt = $conexion->prepare($sql);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC); 
+    }
+
+    function CONFDeshabilitarAutor($datos) {
+        $conexion = conexion();
+
+        $sql = "UPDATE 
+                    conf_autores
+                JOIN 
+                    cat_librosautores ON conf_autores.idautor = cat_librosautores.idautor
+                JOIN 
+                    cat_libros ON cat_librosautores.idlibro = cat_libros.idlibro
+                LEFT JOIN 
+                    inv_inventariolibros ON cat_libros.idlibro = inv_inventariolibros.idlibro
+                LEFT JOIN 
+                    ven_carrodecompra ON cat_libros.idlibro = ven_carrodecompra.idlibro
+                SET
+                    conf_autores.activo = 'N',
+                    cat_libros.activo = 'N',
+                    inv_inventariolibros.activo = 'N',
+                    ven_carrodecompra.activo = 'N'
+                WHERE
+                    conf_autores.idautor = '$datos->idAutor'
+                ";
+
+        return $conexion->query($sql);
+    }
+
+    function CONFHabilitarAutor($datos) {
+        $conexion = conexion();
+
+        $sql = "UPDATE 
+                    conf_autores
+                SET
+                    activo = 'S'
+                WHERE
+                    idautor = '$datos->idAutor'
+                ";
+
+        return $conexion->query($sql);
     }
 ?>

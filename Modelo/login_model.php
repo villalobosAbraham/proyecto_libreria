@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost";
-        $username_db = "abraham"; 
-        $password_db = "Degea200"; 
+        $username_db = "root"; 
+        $password_db = ""; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
@@ -75,7 +75,8 @@
                 FROM
                     ven_carrodecompra
                 WHERE
-                    idusuario = '$idUsuario'
+                    idusuario = '$idUsuario' AND
+                    activo = 'S'
         ";
 
         $resultado = $conexion->query($sql);
