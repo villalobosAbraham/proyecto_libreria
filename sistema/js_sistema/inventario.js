@@ -169,7 +169,10 @@ function prepararDatosGeneralesDatosInventarioLibro() {
 function mostrarDatosLibroInventarioModal(libro) {
     let titulo = libro.titulo;
     let autores = prepararAutores(libro.autores);
-    let cantidad = libro.cantidad;
+    let cantidad = 0;
+    if (libro.cantidad && libro.cantidad != null && libro.cantidad != undefined) {
+        cantidad = libro.cantidad;
+    }
 
     $("#libroModal").val(titulo);
     $("#autorLibroModal").val(autores);

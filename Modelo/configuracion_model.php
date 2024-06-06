@@ -1187,4 +1187,18 @@
 
         return $resultados->fetch_assoc();
     }
+
+    function CONFEntregarVenta($datos) {
+        $conexion = conexion();
+
+        $sql = "UPDATE ven_ventam
+                SET
+                    idvendedor = '$datos->idUsuario',
+                    idestadoentrega = '2'
+                WHERE
+                    idventa = '$datos->idVenta' 
+                ";
+        $stmt = $conexion->prepare($sql);
+        return $stmt->execute();
+    }
 ?>

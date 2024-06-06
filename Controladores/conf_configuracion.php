@@ -246,6 +246,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo json_encode($resultado);
                 break;
+            case "CONFEntregarVenta":
+                $datos->idUsuario = $_SESSION["idUsuario"];
+                $resultado = CONFEntregarVenta($datos);
+
+                echo json_encode($resultado);
+                break;
             default:
                 echo json_encode(array("error" => "Acción no válida"));
         }

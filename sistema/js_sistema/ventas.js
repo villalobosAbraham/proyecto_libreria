@@ -83,7 +83,7 @@ function mostrarVentas(data) {
         }
         let total = registro.total;
         let idPaypal = registro.idordenpaypal;
-        let boton = prepararBotonDetalles(idVenta);
+        let boton = prepararBotonDetalles(idVenta, registro.estado);
 
         tabla.row.add([
             idVenta,
@@ -102,7 +102,7 @@ function cerrarModalDetalles() {
     document.body.style.overflow = "auto";
 }
 
-function prepararBotonDetalles(idVenta) {
+function prepararBotonDetalles(idVenta, estado) {
     let boton = document.createElement("button");
     boton.textContent = "Ver Detalles ";
     boton.addEventListener('click', function() {
@@ -113,6 +113,15 @@ function prepararBotonDetalles(idVenta) {
     let iconoDetalles = document.createElement('i');
     iconoDetalles.classList.add('fa-solid', 'fa-info');
     boton.appendChild(iconoDetalles);
+
+    if (estado = "Recogido") {
+        let botonEntregar = document.createElement("button");
+        botonEntregar.textContent = "Entregar";
+        botonEntregar.addEventListener('click', function() {
+            confirmarEntregarVenta(idVenta);
+        });
+    }
+
     return boton;
 }
 
@@ -188,6 +197,49 @@ function obtenerVenta(idVenta) {
 
 function prepararFecha(fecha) {
     return fecha.split("-").reverse().join("/")
+}
+
+function confirmarEntregarVenta(idVenta) {
+    Swal.fire({
+        title: "Estas Seguro?",
+        text: "Confirmar Entregar Venta",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Entregar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            entregarVenta(idVenta);
+        }
+    });
+}
+
+function entregarVenta(idVenta) {
+    let datosGenerales = {
+        accion : "CONFEntregarVenta",
+        idVenta : idVenta
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data) {
+            mensajeFuncion("Venta Entregada Correctamente");
+            obtenerVentas();
+        } else {
+            mensajeError("Error al Entregar Venta");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function mostrarLibrosVenta(libros) {
