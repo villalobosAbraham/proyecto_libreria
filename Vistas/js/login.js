@@ -126,17 +126,17 @@ function prepararDatosGeneralesRegistro() {
     let regexCorreo = /^(?=.*[A-Za-z])[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     let regexTelefono = /^\d{10}$/;
     let regexFecha = /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
-    let regxNombreApellido = /^(?:[A-Za-z]{3,}\s?[A-Za-z]{3,}){1,2}$/;
+    let regexNombreApellido = /^[A-Za-z]{3,}(?:\s[A-Za-z]{3,})?$/;
 
     if (!regexCorreo.test(correo)) {
         return "Correo Invalido";
     } else if(!regexContraseña.test(contraseña)) {
         return "Contraseña Invalida<br>Obligatorio:<br>1 Mayúscula<br>1 Minúscula<br>1 Número<br>Mínimo 8 Carácteres";
-    } else if(!regxNombreApellido.test(nombre)) {
+    } else if(!regexNombreApellido.test(nombre)) {
         return "Nombre Invalido";
-    } else if(!regxNombreApellido.test(apellidoPaterno)) {
+    } else if(!regexNombreApellido.test(apellidoPaterno)) {
         return "Apellido Paterno Invalido";
-    } else if(apellidoMaterno != "" && !regxNombreApellido.test(apellidoMaterno)) {
+    } else if(apellidoMaterno != "" && !regexNombreApellido.test(apellidoMaterno)) {
         return "Apellido Materno Invalido";
     } else if(!regexTelefono.test(telefono)) {
         return "Telefono Invalido";

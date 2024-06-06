@@ -43,36 +43,29 @@
     </div>
     <div class="bodyModal">
       <div class="row">
-        <label class="label-control" >Titulo del Libro: </label>
-        <input type="text" id="nombreLibro" class="input-control" placeholder="Titulo">
-
-        <label class="label-control">Autor: </label>
-        <select id="autorLibro" class="input-control">
-            <option value="-1">Seleccionar Autor</option>
-        </select>
+        <label class="label-control" >Nombre</label>
+        <input type="text" id="nombreAutor" class="input-control" placeholder="Titulo">
+        <label class="label-control">Apellido Paterno</label>
+        <input type="text" id="apellidoPaternoAutor" class="input-control" placeholder="Titulo">
+        </div>
+        
+        <div class="row">
+        <label class="label-control">Apellido Materno</label>
+        <input type="text" id="apellidoMaternoAutor" class="input-control" placeholder="Titulo">
+        <label class="label-control">Fecha Nacimineto</label>
+        <input type="date" id="fechaAutor" class="input-control">
       </div>
 
       <div class="row">
-        <label class="label-control">Género: </label>
-        <select id="generoLibro" class="input-control">
-            <option value="-1">Seleccionar Género</option>
-        </select>
-        <label class="label-control">Editorial: </label>
-        <select id="editorialLibro" class="input-control">
-            <option value="-1">Seleccionar Editorial</option>
-        </select>
-      </div>
-
-      <div class="row">
-        <label class="label-control">Idioma: </label>
-        <select id="idiomaLibro" class="input-control">
+        <label class="label-control">Nacionalidad</label>
+        <select id="nacionalidadAutor" class="input-control">
             <option value="-1">Seleccionar Idioma</option>
         </select>
       </div>
     </div>
   
     <footer class="footerModal">
-      <button id="cerrarModalUsaurio" class="botonFooterModalUsuario" onclick="cerrarModalLibro()"><i class="fa fa-times-circle"></i> Cerrar</button>
+      <button id="cerrarModalUsaurio" class="botonFooterModalUsuario" onclick="cerrarModalAutor()"><i class="fa fa-times-circle"></i> Cerrar</button>
       <button id="agregarLibro" class="botonFooterModalUsuario" onclick="abrirModalConfirmarAgregar()"><i class="fa fa-plus"></i> Guardar Informacion</button>
     </footer>
   </section>

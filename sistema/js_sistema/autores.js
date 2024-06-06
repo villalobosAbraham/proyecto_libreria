@@ -20,9 +20,7 @@ $('#tablaAutores').DataTable({
 
 $(document).ready(function() {
     obtenerAutores();
-    // inicializarModalAgregarLibro();
-    // comprobarUsuario();
-    // obtenerUsuarioBarra();
+    inicializarNaciones();
 
     let barra = document.querySelector('.barra_sistema');
     let modal = document.querySelector('.modalAutor');
@@ -122,44 +120,24 @@ function abrirModalAgregarAutor() {
     document.body.style.overflow = "hidden";
 }
 
-function cerrarModalLibro() {
-    let uploadedImage = document.getElementById('uploadedImage');
-    let imagenRuta = uploadedImage.getAttribute("urlImagen"); 
-    if (imagenRuta) {
-        borrarImagenSubida();
-    }
+function cerrarModalAutor() {
     let modal = document.getElementById("modalAutor");
     modal.style.display = "none";
     document.body.style.overflow = "auto";
-    limpiarModalLibro();
+    limpiarModalAutor();
 }
 
-function limpiarModalLibro() {
-    let autor = $('<option>').attr('value', '-1').text('Seleccionar Autor'); 
-    let genero = $('<option>').attr('value', '-1').text('Seleccionar Genero'); 
-    let editorial = $('<option>').attr('value', '-1').text('Seleccionar Editorial'); 
-    let idioma = $('<option>').attr('value', '-1').text('Seleccionar Idioma'); 
+function limpiarModalAutor() {
+    let nacionalidad = $('<option>').attr('value', '-1').text('Seleccionar Nacionalidad'); 
+    $("#nacionalidadAutor").empty().append(nacionalidad);
     
-    $("#autorLibro").empty().append(autor);
-    $("#generoLibro").empty().append(genero);
-    $("#editorialLibro").empty().append(editorial);
-    $("#idiomaLibro").empty().append(idioma);
-    
-    $("#nombreLibro").val("").text("");
-    $("#fechaLibro").val("");
-    $("#sinopsis").val("");
-    $("#precioBaseLibro").val("0").trigger("change");
-
-    inicializarAutores();
+    $("#nombreAutor, #apellidoPaternoAutor, #apellidoMaternoAutor, #fechaAutor").val("");
+    inicializarNaciones();
 }
 
-function inicializarModalAgregarLibro() {
-    inicializarAutores();
-}
-
-function inicializarAutores() {
+function inicializarNaciones() {
     let datosGenerales = {
-        accion : "CONFObtenerAutoresActivos"
+        accion : "CONFObtenerNacionesActivas"
     };
 
     fetch(url, {
@@ -172,19 +150,18 @@ function inicializarAutores() {
     .then(response => response.json())
     .then(data => {
         if (data) {
-            let autor = $("<option>").attr("value", "-1").text("Seleccionar Autor");
-            $("#autorLibro").empty().append(autor);
+            let nacion = $("<option>").attr("value", "-1").text("Seleccionar Nación");
+            $("#nacionalidadAutor").empty().append(nacion);
             data.forEach(function(registro) {
-                let idAutor = registro.idautor;
-                let nombreAutor = registro.nombre;
-                let apellidoPaternoAutor = registro.apellidopaterno;
-                let apellidoMaternoAutor = registro.apellidomaterno;
-                let nombreCompleto = nombreAutor + " " + apellidoPaternoAutor + " " + apellidoMaternoAutor;
-                autor = $("<option>").attr("value", idAutor).text(nombreCompleto)
-                $("#autorLibro").append(autor);
+                let idNacionalidad = registro.idnacionalidad;
+                let nacionalidad = registro.nacionalidad;
+                let siglas = registro.siglas;
+                let nacionalidadCompleta = siglas + " | " + nacionalidad;
+                autor = $("<option>").attr("value", idNacionalidad).text(nacionalidadCompleta)
+                $("#nacionalidadAutor").append(autor);
             });
         } else { 
-            mensajeError("Fallo al Obtener Autores, Se Recomienda Recargar");
+            mensajeError("Fallo al Obtener Nacionalidades, Se Recomienda Recargar");
         }
     })
     .catch(error => {
@@ -195,7 +172,7 @@ function inicializarAutores() {
 function abrirModalConfirmarAgregar() {
     Swal.fire({
         title: "Estas Seguro?",
-        text: "Confirmar Agregar Libro",
+        text: "Confirmar Agregar Autor",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -203,9 +180,72 @@ function abrirModalConfirmarAgregar() {
         confirmButtonText: "Agregar"
       }).then((result) => {
         if (result.isConfirmed) {
-            agregarLibro();
+            agregarAutor();
         }
       });
+}
+
+function agregarAutor() {
+    let datosGenerales = prepararDatosGeneralesAgregarAutor();
+    if (typeof datosGenerales === 'string') {
+        mensajeError(datosGenerales);
+        return;
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data) {
+            mensajeFunciono("Autor Agregado Correctamente");
+            obtenerAutores();
+            cerrarModalAutor();
+        } else { 
+            mensajeError("Fallo al Obtener Nacionalidades, Se Recomienda Recargar");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function prepararDatosGeneralesAgregarAutor() {
+    let nombre = $("#nombreAutor").val();
+    let apellidoPaterno = $("#apellidoPaternoAutor").val();
+    let apellidoMaterno = $("#apellidoMaternoAutor").val();
+    let fechaNacimiento = $("#fechaAutor").val(); 
+    let idNacionalidad = $("#nacionalidadAutor").find(":selected").val();
+
+    let regexNombreApellido = /^[A-Za-z]{3,}(?:\s[A-Za-z]{3,})?$/;
+    let regexFecha = /^(18|19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+
+    if(!regexNombreApellido.test(nombre)) {
+        return "Nombre Invalido";
+    } else if(!regexNombreApellido.test(apellidoPaterno)) {
+        return "Apellido Paterno Invalido";
+    } else if(!regexNombreApellido.test(apellidoMaterno)) {
+        return "Apellido Materno Invalido";
+    } else if (!regexFecha.test(fechaNacimiento)) {
+        return "Fecha Invalida";
+    } else if(idNacionalidad == "-1") {
+        return "Nacionalidad Invalida";
+    } 
+
+    let datosGenerales = {
+        accion : "CONFAgregarAutor",
+        nombre : nombre,
+        apellidoPaterno : apellidoPaterno,
+        apellidoMaterno : apellidoMaterno,
+        fechaNacimiento : fechaNacimiento,
+        idNacionalidad : idNacionalidad,
+    }
+
+    return datosGenerales;
 }
 
 function abrirModalConfirmarDeshabilitar() {

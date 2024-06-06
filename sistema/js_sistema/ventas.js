@@ -1,4 +1,4 @@
-let url = '../Controladores/conf_configuracion.php';
+let url = '/Controladores/conf_configuracion.php';
 
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
@@ -8,7 +8,7 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-$('#tablaCompras').DataTable({
+$('#tablaVentas').DataTable({
     paging: true,        // Activa la paginación
     pageLength : 10,
     lengthChange : false,
@@ -24,7 +24,7 @@ $('#tablaCompras').DataTable({
         {"width": "10%", "targets": 5},
     ],
 });
-$('#tablaDetallesCompra').DataTable({
+$('#tablaDetallesVenta').DataTable({
     paging: true,        // Activa la paginación
     pageLength : 10,
     lengthChange : false,
@@ -40,43 +40,16 @@ $('#tablaDetallesCompra').DataTable({
 });
 
 $(document).ready(function() {
-    comprobarUsuario();
-    obtenerCompras();
-    let barra = document.querySelector('.barra');
+    obtenerVentas();
+    let barra = document.querySelector('.barra_sistema');
     let main = document.querySelector('body');
     let barraAltura = barra.offsetHeight; 
     main.style.paddingTop = barraAltura + 'px';
 });
 
-function comprobarUsuario() {
+function obtenerVentas() {
     let datosGenerales = {
-        accion : "CONFComprobarUsuario",
-    }
-
-    fetch(url, {
-        method: 'POST',
-        headers: {  
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(datosGenerales)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (!data) {
-            window.open("/Vistas/login.php", "_self");
-            // return true;
-        } //else {
-        //     return false;;
-        // } 
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-function obtenerCompras() {
-    let datosGenerales = {
-        accion : "CONFObtenerComprasUsuario",
+        accion : "CONFObtenerVentas",
     }
 
     fetch(url, {
@@ -89,7 +62,7 @@ function obtenerCompras() {
     .then(response => response.json())
     .then(data => {
         if (data) {
-            mostrarCompras(data);
+            mostrarVentas(data);
         } 
     })
     .catch(error => {
@@ -97,15 +70,15 @@ function obtenerCompras() {
     });
 }
 
-function mostrarCompras(data) {
-    let tabla = $("#tablaCompras").DataTable();
+function mostrarVentas(data) {
+    let tabla = $("#tablaVentas").DataTable();
     tabla.clear().draw();
 
     data.forEach(function(registro) {
         let idVenta = registro.idventa;
         let fecha = registro.fecha;
-        let empleado = "Sin Entregar";
-        if (registro.idvendedor != 0) {
+        let empleado = "Usuario Eliminado";
+        if (registro.idusuariocompra != 0) {
             empleado = registro.nombre + " " + registro.apellidopaterno + " " + registro.apellidomaterno;
         }
         let total = registro.total;
@@ -116,7 +89,7 @@ function mostrarCompras(data) {
             idVenta,
             fecha,
             empleado,
-            "$" + total + "M.X.N.",
+            total,
             idPaypal,
             boton
         ]).draw();
@@ -133,7 +106,8 @@ function prepararBotonDetalles(idVenta) {
     let boton = document.createElement("button");
     boton.textContent = "Ver Detalles ";
     boton.addEventListener('click', function() {
-        verDetallesLibro(idVenta);
+        obtenerDetallesVenta(idVenta);
+        obtenerVentas(idVenta);
     });
     boton.classList.add("botonDetallesCompra")
     let iconoDetalles = document.createElement('i');
@@ -171,8 +145,37 @@ function verDetallesLibro(idVenta) {
     });
 }
 
+function obtenerVentas(idVenta) {
+    let datosGenerales = {
+        accion : "CONFObtenerVenta",
+        idVenta : idVenta,
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {  
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosGenerales)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.length > 0) {
+            mostrarLibrosVenta(data);
+            let modal = document.getElementById("myModal");
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden";
+        } else {
+            mensajeError("Error al Obtener Los Detalles");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 function mostrarLibrosVenta(libros) {
-    let tabla = $("#tablaDetallesCompra").DataTable();
+    let tabla = $("#tablaDetallesVenta").DataTable();
     tabla.clear().draw();
 
     libros.forEach(function(libro) {

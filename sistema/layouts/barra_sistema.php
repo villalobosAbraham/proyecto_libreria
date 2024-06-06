@@ -19,27 +19,27 @@
     <div class="bodyModal">
       <div class="row">
         <label class="label-modal">Nombre del Empleado </label>
-        <input type="text" id="nombreUsuario" class="input-control input-modal">
+        <input type="text" id="nombreUsuario" class="input-control-barra_sistema input-modal">
       </div>
       <div class="row">
         <label class="label-modal">Apellido Paterno del Empleado </label>
-        <input type="text" id="apellidoPaternoUsuario" class="input-control input-modal">
+        <input type="text" id="apellidoPaternoUsuario" class="input-control-barra_sistema input-modal">
       </div>
       <div class="row">
         <label class="label-modal">Apellido Materno del Empleado </label>
-        <input type="text" id="apellidoMaternoUsuario" class="input-control input-modal">
+        <input type="text" id="apellidoMaternoUsuario" class="input-control-barra_sistema input-modal">
       </div>
       <div class="row">
         <label class="label-modal">Correo Electronico </label>
-        <input type="text" id="correoUsuario" class="input-control input-modal">
+        <input type="text" id="correoUsuario" class="input-control-barra_sistema input-modal">
       </div>
       <div class="row">
         <label class="label-modal">Numero Telefonico </label>
-        <input type="text" id="telefonoUsuario" class="input-control input-modal">
+        <input type="text" id="telefonoUsuario" class="input-control-barra_sistema input-modal">
       </div>
       <div class="row">
         <label class="label-modal">Fecha de Nacimiento </label>
-        <input type="date" id="fechaUsuario" class="input-control input-modal">
+        <input type="date" id="fechaUsuario" class="input-control-barra_sistema input-modal">
       </div>
     </div>
   

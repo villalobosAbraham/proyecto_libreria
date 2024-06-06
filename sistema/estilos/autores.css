@@ -149,6 +149,8 @@ main {
     margin-right: 15px;
     width: 30%;
     max-width: 30%;
+    height: fit-content;
+    max-height: fit-content;
 }
   
 .footerModal {

@@ -200,6 +200,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo json_encode($resultado);
                 break;
+            case "CONFObtenerNacionesActivas":
+                $resultado = CONFObtenerNacionesActivas();
+
+                echo json_encode($resultado);
+                break;
+            case "CONFAgregarAutor":
+                $datos->fechaHoy = date('Y-m-d');
+                $resultado = CONFAgregarAutor($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFObtenerInventarioLibros":
+                $resultado = CONFObtenerInventarioLibros();
+
+                echo json_encode($resultado);
+                break;
+            case "CONFModificarInventarioLibro":
+                $resultado = CONFModificarInventarioLibro($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFObtenerDatosInventarioLibro":
+                $resultado = CONFObtenerDatosInventarioLibro($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFHabilitarInventario":
+                $resultado = CONFHabilitarInventario($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFDeshabilitarInventario":
+                $resultado = CONFDeshabilitarInventario($datos);
+
+                echo json_encode($resultado);
+                break;
+            case "CONFObtenerVentas":
+                $resultado = CONFObtenerVentas();
+
+                echo json_encode($resultado);
+                break;
+            case "CONFObtenerVenta":
+                $resultado = CONFObtenerVenta($datos);
+
+                echo json_encode($resultado);
+                break;
             default:
                 echo json_encode(array("error" => "Acción no válida"));
         }

@@ -909,9 +909,9 @@
 
         $sql = "UPDATE 
                     conf_autores
-                JOIN 
+                LEFT JOIN 
                     cat_librosautores ON conf_autores.idautor = cat_librosautores.idautor
-                JOIN 
+                LEFT JOIN 
                     cat_libros ON cat_librosautores.idlibro = cat_libros.idlibro
                 LEFT JOIN 
                     inv_inventariolibros ON cat_libros.idlibro = inv_inventariolibros.idlibro
@@ -941,5 +941,226 @@
                 ";
 
         return $conexion->query($sql);
+    }
+
+    function CONFObtenerNacionesActivas() {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    idnacionalidad, nacionalidad, siglas
+                FROM
+                    conf_nacionalidad
+                WHERE
+                    activo = 'S'
+        ";
+
+        $stmt = $conexion->prepare($sql);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    function CONFAgregarAutor($datos) {
+        $conexion = conexion();
+
+        $sql = "INSERT INTO conf_autores
+                    (nombre, apellidopaterno, apellidomaterno, fechanacimiento, fecharegistro, idnacionalidad, activo)
+                VALUES
+                    ('$datos->nombre','$datos->apellidoPaterno','$datos->apellidoMaterno','$datos->fechaNacimiento','$datos->fechaHoy','$datos->idNacionalidad','S')
+                ";
+
+        $stmt = $conexion->prepare($sql);
+        return $stmt->execute();
+    }
+
+    function CONFObtenerInventarioLibros() {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    cat_libros.idlibro, cat_libros.titulo, cat_libros.idgeneroprincipal, cat_libros.ididioma, cat_libros.ideditorial,
+
+                    inv_inventariolibros.cantidad, inv_inventariolibros.activo,
+
+                    conf_genero.genero,
+
+                    cat_idioma.idioma,
+
+                    cat_editoriales.editorial
+                FROM
+                    cat_libros
+                LEFT JOIN
+                    inv_inventariolibros ON cat_libros.idlibro = inv_inventariolibros.idlibro
+                LEFT JOIN
+                    conf_genero ON cat_libros.idgeneroprincipal = conf_genero.idgenero
+                LEFT JOIN
+                    cat_idioma ON cat_libros.ididioma = cat_idioma.ididioma
+                LEFT JOIN
+                    cat_editoriales ON cat_libros.ideditorial = cat_editoriales.ideditorial
+                ";
+        $stmt = $conexion->prepare($sql);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC); 
+    }
+
+    function CONFModificarInventarioLibro($datos) {
+        $resultado = comprobarExistenciaInventarioLibro($datos->idLibro);
+
+        if ($resultado) {
+            return actualizarLibroInventario($datos);
+        } else {
+            return insertarLibroInventario($datos);
+        }
+    }
+
+    function comprobarExistenciaInventarioLibro($idLibro) {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    idlibro
+                FROM
+                    inv_inventariolibros
+                WHERE
+                    idlibro = '$idLibro'
+                ";
+        $resultados = $conexion->query($sql);
+
+
+        // Verificar si hay resultados
+        if ($resultados->num_rows > 0) {
+            return true;
+        } 
+
+        return false;
+    }
+
+    function insertarLibroInventario($datos) {
+        $conexion = conexion();
+
+        $sql = "INSERT INTO inv_inventariolibros
+                    (idlibro, cantidad, activo)
+                VALUES
+                    ('$datos->idLibro','$datos->cantidad','N')
+                ";
+        $stmt = $conexion->prepare($sql);
+        return $stmt->execute();
+    }
+
+    function actualizarLibroInventario($datos) {
+        $conexion = conexion();
+
+        $sql = "UPDATE inv_inventariolibros
+                SET
+                    cantidad = '$datos->cantidad'
+                WHERE
+                    idlibro = '$datos->idLibro' 
+                ";
+        $stmt = $conexion->prepare($sql);
+        return $stmt->execute();
+    }
+
+    function CONFObtenerDatosInventarioLibro($datos) {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    MAX(cat_libros.idlibro) AS idlibro, 
+                    MAX(cat_libros.titulo) AS titulo, 
+
+                    MAX(cat_librosautores.idautor) AS idautor,
+
+                    GROUP_CONCAT(CONCAT(conf_autores.nombre, ' ', conf_autores.apellidopaterno, ' ', conf_autores.apellidomaterno) SEPARATOR '  ') AS autores,
+
+                    MAX(inv_inventariolibros.cantidad) AS cantidad
+                FROM
+                    cat_libros
+                LEFT JOIN
+                    cat_librosautores ON cat_libros.idlibro = cat_librosautores.idlibro
+                LEFT JOIN
+                    conf_autores ON cat_librosautores.idautor = conf_autores.idautor
+                LEFT JOIN
+                    inv_inventariolibros ON cat_libros.idlibro = inv_inventariolibros.idlibro
+                WHERE
+                    cat_libros.idlibro = '$datos->idLibro'
+                GROUP BY
+                    cat_libros.idlibro
+                ";
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute();
+        $resultados = $stmt->get_result();
+
+        return $resultados->fetch_assoc();
+    }
+
+    function CONFHabilitarInventario($datos) {
+        $resultado = comprobarExistenciaInventarioLibro($datos->idLibro);
+        if ($resultado) {
+            return habilitarInventarioLibro($datos);
+        } else {
+            return insertarHabilitarInventarioLibro($datos);
+        }
+    }
+
+    function habilitarInventarioLibro($datos) {
+        $conexion = conexion();
+
+        $sql = "UPDATE inv_inventariolibros
+                SET
+                    activo = 'S'
+                WHERE
+                    idlibro = '$datos->idLibro' 
+                ";
+        $stmt = $conexion->prepare($sql);
+        return $stmt->execute();
+    }
+
+    function insertarHabilitarInventarioLibro($datos) {
+        $conexion = conexion();
+
+        $sql = "INSERT INTO inv_inventariolibros
+                    (idlibro, cantidad, activo)
+                VALUES
+                    ('$datos->idLibro','0','S')
+                ";
+        $stmt = $conexion->prepare($sql);
+        return $stmt->execute();
+    }
+
+    function CONFDeshabilitarInventario($datos) {
+        $conexion = conexion();
+
+        $sql = "UPDATE inv_inventariolibros
+                SET
+                    activo = 'N'
+                WHERE
+                    idlibro = '$datos->idLibro' 
+                ";
+        $stmt = $conexion->prepare($sql);
+        return $stmt->execute();
+    }
+
+    function CONFObtenerVentas() {
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    ven_ventam.idventa, ven_ventam.fecha, ven_ventam.total, ven_ventam.idusuariocompra, ven_ventam.idvendedor, ven_ventam.idestadoentrega, ven_ventam.idordenpaypal,
+
+                    log_usuarios.nombre, log_usuarios.apellidopaterno, log_usuarios.apellidomaterno,
+
+                    conf_estadoentrega.estado
+                FROM
+                    ven_ventam
+                LEFT JOIN
+                    log_usuarios ON ven_ventam.idusuariocompra = log_usuarios.idusuario
+                LEFT JOIN
+                    conf_estadoentrega ON ven_ventam.idestadoentrega = conf_estadoentrega.idestadoentrega
+                ";
+        $stmt = $conexion->prepare($sql);
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    function CONFObtenerVenta($datos) {
+        
     }
 ?>

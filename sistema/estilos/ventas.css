@@ -1,0 +1,163 @@
+header {
+    text-align: center;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tablaVentas {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0px;
+    font-size: 18px;
+    text-align: left;
+    /* padding: 10px; */
+    min-width: 100%;
+}
+
+.tablaVentas thead th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 15px;
+}
+
+.tablaVentas tbody td {
+    padding: 12px 15px;
+}
+
+.tablaVentas tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.tablaVentas tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.tablaVentas tbody tr:hover {
+    background-color: #ddd;
+}
+
+.tablaVentas.dataTable thead th,
+.tablaVentas.dataTable tbody td {
+    padding: 12px 15px !important;
+}
+
+.tablaVentas.dataTable thead th {
+    background-color: #4CAF50 !important;
+    color: white !important;
+}
+
+.tablaVentas.dataTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2 !important;
+}
+
+.tablaVentas.dataTable tbody tr:nth-child(odd) {
+    background-color: #ffffff !important;
+}
+
+.tablaVentas.dataTable tbody tr:hover {
+    background-color: #ddd !important;
+}
+
+.dt-end {
+    margin-bottom: 5px;
+    float: right;
+}
+
+.dt-paging-button {
+    background-color: #73ded6;
+    border-radius: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+
+
+.botonDetallesCompra {
+  background-color: #1B4F72;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 15px;
+  cursor: pointer;
+  float: right;
+}
+
+.modal {
+    display: flex;
+    flex-wrap: wrap;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: scroll; /* Oculta la barra de desplazamiento */
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    overflow: auto;
+}
+
+#tituloModal {
+    width: 100%;
+}
+
+#tablaDetallesVenta {
+    width: 100%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+} 
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: center; /* Alinea los elementos verticalmente en el centro */
+}
+
+.column {
+    width: 50%; /* Cada columna ocupa el 50% del ancho de la fila */
+    display: flex;
+    align-items: center; /* Alinea verticalmente el contenido dentro de la columna */
+}
+
+.label-control-modal {
+    margin: 1%;
+    width: 30%; /* Ajusta el ancho del label según sea necesario */
+    overflow: hidden;       /* Oculta el desbordamiento */
+    white-space: normal;     /* Evita el salto de línea */
+    word-wrap: break-word;
+}
+
+.input-text-control-modal {
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #555555;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    outline: none;
+    margin: 1%;
+    width: 65%; /* Ajusta el ancho del input según sea necesario */
+}
