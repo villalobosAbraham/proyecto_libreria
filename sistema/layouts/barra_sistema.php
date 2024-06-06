@@ -3,8 +3,8 @@
     <li><a href="/sistema/libros.php">Libros <i class="fa fa-book"></i></a></li>
     <li><a href="/sistema/autores.php">Autores <i class="fa fa-pencil"></i></a></li>
     <li><a href="/sistema/inventario.php">Inventario <i class="fa fa-archive"></i></a></li>
-    <li><a href="/sistema/empleados.php">Empleados <i class="fa fa-users"></i></a></li>
-    <li><a href="/sistema/usuarios.php">Clientes <i class="fa fa-users"></i></a></li>
+    <!-- <li><a href="/sistema/empleados.php">Empleados <i class="fa fa-users"></i></a></li>
+    <li><a href="/sistema/usuarios.php">Clientes <i class="fa fa-users"></i></a></li> -->
     <li><a href="/sistema/ventas.php">Ventas <i class="fa-solid fa-shopping-cart"></i></a></li>
     <li class="align-right"><a onclick="cerrarSesion();"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
     <li id="barraUsuario" class="align-right"><a onclick="abrirModalUsuario();"><i class="fa fa-user-circle" id="iconoUsuario"></i></a></li>
