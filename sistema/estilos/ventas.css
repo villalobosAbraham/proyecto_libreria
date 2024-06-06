@@ -161,3 +161,10 @@ main {
     margin: 1%;
     width: 65%; /* Ajusta el ancho del input según sea necesario */
 }
+
+.botonContenedor {
+    display: flex;
+    flex-direction: row; /* Alinea los botones en una columna */
+    align-items: center; /* Centra los botones horizontalmente */
+    margin-top: 10px; /* Espacio superior para el contenedor */
+}

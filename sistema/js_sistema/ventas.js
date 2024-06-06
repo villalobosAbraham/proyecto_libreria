@@ -16,12 +16,12 @@ $('#tablaVentas').DataTable({
     ordering: true,      // Activa el ordenamiento de columnas
     info: true,         // Muestra información sobre la tabla
     columnDefs: [
-        {"width": "15%", "targets": 0},
+        {"width": "5%", "targets": 0},
         {"width": "10%", "targets": 1},
         {"width": "30%", "targets": 2},
         {"width": "10%", "targets": 3},
         {"width": "25%", "targets": 4},
-        {"width": "10%", "targets": 5},
+        {"width": "15%", "targets": 5},
     ],
 });
 $('#tablaDetallesVenta').DataTable({
@@ -89,7 +89,7 @@ function mostrarVentas(data) {
             idVenta,
             fecha,
             empleado,
-            total,
+            "$" + total + " M.X.N",
             idPaypal,
             boton
         ]).draw();
@@ -103,26 +103,47 @@ function cerrarModalDetalles() {
 }
 
 function prepararBotonDetalles(idVenta, estado) {
+    // Crear un contenedor para los botones
+    let contenedorBotones = document.createElement("div");
+
+    // Crear el botón de "Ver Detalles"
     let boton = document.createElement("button");
     boton.textContent = "Ver Detalles ";
     boton.addEventListener('click', function() {
         obtenerDetallesVenta(idVenta);
         obtenerVenta(idVenta);
     });
-    boton.classList.add("botonDetallesCompra")
+    boton.classList.add("botonDetallesCompra");
+
+    // Crear el icono para el botón de "Ver Detalles"
     let iconoDetalles = document.createElement('i');
     iconoDetalles.classList.add('fa-solid', 'fa-info');
     boton.appendChild(iconoDetalles);
 
-    if (estado = "Recogido") {
+    // Añadir el botón de "Ver Detalles" al contenedor
+    contenedorBotones.appendChild(boton);
+
+    // Verificar si el estado es "Recogido" y crear el botón de "Entregar"
+    if (estado != "Recogido") {
         let botonEntregar = document.createElement("button");
         botonEntregar.textContent = "Entregar";
         botonEntregar.addEventListener('click', function() {
             confirmarEntregarVenta(idVenta);
         });
-    }
+        botonEntregar.classList.add("botonDetallesCompra");
 
-    return boton;
+        // Crear el icono para el botón de "Entregar"
+        let iconoEntregar = document.createElement('i');
+        iconoEntregar.classList.add('fa-solid', 'fa-info');
+        botonEntregar.appendChild(iconoEntregar);
+
+        // Añadir el botón de "Entregar" al contenedor
+        contenedorBotones.appendChild(botonEntregar);
+    }
+    contenedorBotones.classList.add("botonContenedor");
+
+    // Retornar el contenedor con los botones
+    return contenedorBotones;
 }
 
 function obtenerDetallesVenta(idVenta) {
