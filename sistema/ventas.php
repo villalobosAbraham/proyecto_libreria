@@ -47,7 +47,7 @@
         <div class="row">
             <div class="column">
                 <label class="label-control-modal">Fecha</label>
-                <input type="date" id="fechaModal" class="input-text-control-modal" disabled>
+                <input type="text" id="fechaModal" class="input-text-control-modal" disabled>
             </div>
             <div class="column">
                 <label class="label-control-modal">Estado Entrega</label>
@@ -60,7 +60,7 @@
                 <input type="text" id="compradorModal" class="input-text-control-modal" disabled>
             </div>
             <div class="column">
-                <label class="label-control-modal">Vendedor Entrego</label>
+                <label class="label-control-modal">Empleado Entrego</label>
                 <input type="text" id="vendedorEntregoModal" class="input-text-control-modal" disabled>
             </div>
         </div>

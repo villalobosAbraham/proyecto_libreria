@@ -2,8 +2,8 @@
 
     function conexion() {
         $servername = "localhost"; 
-        $username_db = "root"; 
-        $password_db = ""; 
+        $username_db = "abraham"; 
+        $password_db = "Degea200"; 
         $dbname = "libreria_proyecto"; 
     
         $conn = new mysqli($servername, $username_db, $password_db, $dbname);
@@ -1161,6 +1161,30 @@
     }
 
     function CONFObtenerVenta($datos) {
-        
+        $conexion = conexion();
+
+        $sql = "SELECT
+                    ven_ventam.idventa, ven_ventam.fecha, ven_ventam.total, ven_ventam.idusuariocompra, ven_ventam.idvendedor, ven_ventam.idestadoentrega, ven_ventam.idordenpaypal,
+
+                    comprador.nombre AS nombreComprador, comprador.apellidopaterno AS apellidoPaternoComprador, comprador.apellidomaterno AS apelidoMaternoComprador,
+                    vendedor.nombre AS nombreVendedor, vendedor.apellidopaterno AS apellidoPaternoVendedor, vendedor.apellidomaterno AS apellidoMaternoVendedor,
+
+                    conf_estadoentrega.estado
+                FROM
+                    ven_ventam
+                LEFT JOIN
+                    log_usuarios AS comprador ON ven_ventam.idusuariocompra = comprador.idusuario
+                LEFT JOIN
+                    log_usuarios AS vendedor ON ven_ventam.idusuariocompra = vendedor.idusuario
+                LEFT JOIN
+                    conf_estadoentrega ON ven_ventam.idestadoentrega = conf_estadoentrega.idestadoentrega
+                WHERE
+                    ven_ventam.idventa = '$datos->idVenta'
+                ";
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute();
+        $resultados = $stmt->get_result();
+
+        return $resultados->fetch_assoc();
     }
 ?>

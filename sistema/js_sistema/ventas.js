@@ -107,7 +107,7 @@ function prepararBotonDetalles(idVenta) {
     boton.textContent = "Ver Detalles ";
     boton.addEventListener('click', function() {
         obtenerDetallesVenta(idVenta);
-        obtenerVentas(idVenta);
+        obtenerVenta(idVenta);
     });
     boton.classList.add("botonDetallesCompra")
     let iconoDetalles = document.createElement('i');
@@ -116,7 +116,7 @@ function prepararBotonDetalles(idVenta) {
     return boton;
 }
 
-function verDetallesLibro(idVenta) {
+function obtenerDetallesVenta(idVenta) {
     let datosGenerales = {
         accion : "CONFObtenerDetallesVenta",
         idVenta : idVenta,
@@ -145,7 +145,7 @@ function verDetallesLibro(idVenta) {
     });
 }
 
-function obtenerVentas(idVenta) {
+function obtenerVenta(idVenta) {
     let datosGenerales = {
         accion : "CONFObtenerVenta",
         idVenta : idVenta,
@@ -160,18 +160,34 @@ function obtenerVentas(idVenta) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.length > 0) {
-            mostrarLibrosVenta(data);
-            let modal = document.getElementById("myModal");
-            modal.style.display = "block";
-            document.body.style.overflow = "hidden";
+        if (data) {
+            let idVenta = data.idventa;
+            let idPaypl = data.idordenpaypal;
+            let fecha = prepararFecha(data.fecha);
+            let estadoEntrega = data.estado;
+            let comprador = data.nombreComprador + " " + data.apellidoPaternoComprador + " " + data.apelidoMaternoComprador; 
+            let vendedor = "Sin Entregar";
+            if (data.idvendedor != null && data.idvendedor != undefined && data.idvendedor != 0) {
+                vendedor = data.nombreVendedor + " " + data.apellidoPaternoVendedor + " " + data.apellidoMaternoVendedor; 
+            }
+
+            $("#idVentaModal").val(idVenta);
+            $("#idPagoPaypalModal").val(idPaypl);
+            $("#fechaModal").val(fecha);
+            $("#estadoEntregaModal").val(estadoEntrega);
+            $("#compradorModal").val(comprador);
+            $("#vendedorEntregoModal").val(vendedor);
         } else {
-            mensajeError("Error al Obtener Los Detalles");
+            mensajeError("Error al Obtener la Venta");
         }
     })
     .catch(error => {
         console.error('Error:', error);
     });
+}
+
+function prepararFecha(fecha) {
+    return fecha.split("-").reverse().join("/")
 }
 
 function mostrarLibrosVenta(libros) {
